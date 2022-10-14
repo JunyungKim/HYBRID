@@ -1,7 +1,7 @@
 within NHES.Systems.PrimaryHeatSystem.HTGR.HTGR_Rankine.Examples;
 model Rankine_HTGR_Test_Transient
   extends Modelica.Icons.Example;
-  BalanceOfPlant.Turbine.HTGR_RankineCycles.HTGR_Rankine_Cycle_Transient
+  BalanceOfPlant.Turbine.HTGR_RankineCycles.HTGR_Rankine_Cycle_Transient_JY_v1_step2
     hTGR_Rankine_Cycle(redeclare
       NHES.Systems.BalanceOfPlant.Turbine.ControlSystems.CS_Rankine_Xe100_Based_Secondary_TransientControl
       CS) annotation (Placement(transformation(extent={{-28,-18},{32,42}})));
@@ -24,7 +24,7 @@ equation
     annotation (Line(points={{-41.05,1.43},{-28,0}},
         color={0,127,255}));
   annotation (experiment(
-      StopTime=1004200,
+      StopTime=100420,
       Interval=10,
       __Dymola_Algorithm="Esdirk45a"), Documentation(info="<html>
 <p>This test is effectively the same as the above &quot;Complex&quot; test but split between two models. </p>
