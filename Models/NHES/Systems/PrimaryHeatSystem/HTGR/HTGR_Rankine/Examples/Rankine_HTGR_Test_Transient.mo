@@ -1,7 +1,7 @@
 within NHES.Systems.PrimaryHeatSystem.HTGR.HTGR_Rankine.Examples;
 model Rankine_HTGR_Test_Transient
   extends Modelica.Icons.Example;
-  BalanceOfPlant.Turbine.HTGR_RankineCycles.HTGR_Rankine_Cycle_Transient_JY_v1_step4
+  BalanceOfPlant.Turbine.HTGR_RankineCycles.HTGR_Rankine_Cycle_Transient_JY_v1_step5_comp
     hTGR_Rankine_Cycle(redeclare
       NHES.Systems.BalanceOfPlant.Turbine.ControlSystems.CS_Rankine_Xe100_Based_Secondary_TransientControl
       CS) annotation (Placement(transformation(extent={{-28,-18},{32,42}})));
@@ -21,7 +21,7 @@ equation
                                                                    color={0,127,
           255}));
   connect(hTGR_PebbleBed_Primary_Loop.port_a, hTGR_Rankine_Cycle.port_b)
-    annotation (Line(points={{-41.05,1.43},{-28,0}},
+    annotation (Line(points={{-41.05,1.43},{-28,-5.4}},
         color={0,127,255}));
   annotation (experiment(
       StopTime=100420,
