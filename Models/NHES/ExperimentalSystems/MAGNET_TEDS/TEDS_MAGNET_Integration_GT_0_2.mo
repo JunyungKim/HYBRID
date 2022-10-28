@@ -1,6 +1,6 @@
 within NHES.ExperimentalSystems.MAGNET_TEDS;
-model TEDS_MAGNET_Integration_GT_0_1
-  "Dynamic simulation of the integrated system of MAGNET, TEDS, and Gas turbine with a central control system"
+model TEDS_MAGNET_Integration_GT_0_2
+  "Dynamic simulation of the integrated system of MAGNET, TEDS, and Gas turbine with a central control system_400000 sec. simulations success"
   extends TRANSFORM.Icons.Example;
 
 public
@@ -47,9 +47,9 @@ public
   TRANSFORM.HeatExchangers.Simple_HX hx(
     redeclare package Medium_1 = Medium,
     redeclare package Medium_2 = Medium_cw,
-    nV=10,
-    V_1=1,
-    V_2=1,
+    nV=5,
+    V_1=2,
+    V_2=2,
     UA=data.UA_hx,
     p_a_start_1=data.p_rp_hx,
     p_b_start_1=data.p_hx_co,
@@ -1333,9 +1333,9 @@ equation
   connect(hx.port_a2, sensor_hx_cw.port_a) annotation (Line(points={{82,-258},{
           100,-258},{100,-240},{120,-240}}, color={0,127,255}));
   annotation (experiment(
-      StopTime=50400,
-      Interval=10,
+      StopTime=400000,
+      Interval=100,
       __Dymola_Algorithm="Esdirk45a"),
     Diagram(coordinateSystem(extent={{-260,-360},{580,60}})),
     Icon(coordinateSystem(extent={{-260,-360},{580,60}})));
-end TEDS_MAGNET_Integration_GT_0_1;
+end TEDS_MAGNET_Integration_GT_0_2;
