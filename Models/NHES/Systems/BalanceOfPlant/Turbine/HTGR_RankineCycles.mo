@@ -6073,17 +6073,18 @@ package HTGR_RankineCycles
 </html>"));
   end HTGR_Rankine_Cycle_Transient_JY_v1_step5_comp;
 
-  model HTGR_Rankine_Cycle_Transient_JY_v1_step7
+  model HTGR_Rankine_Cycle_Transient_JY_v1_step7_comp
     "1st extracted steam goes to boundary"
     extends BaseClasses.Partial_SubSystem(
-      redeclare replaceable ControlSystems.CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_temp
-                                                                            CS,
+      redeclare replaceable
+        ControlSystems.CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine
+        CS,
       redeclare replaceable ControlSystems.ED_Dummy ED,
       redeclare Data.IdealTurbine data);
 
     PrimaryHeatSystem.HTGR.HTGR_Rankine.Data.DataInitial_HTGR_Pebble dataInitial(
         P_LP_Comp_Ref=4000000)
-      annotation (Placement(transformation(extent={{78,120},{98,140}})));
+      annotation (Placement(transformation(extent={{198,120},{218,140}})));
 
     TRANSFORM.Fluid.Machines.SteamTurbine HPT(
       nUnits=1,
@@ -6101,7 +6102,9 @@ package HTGR_RankineCycles
       annotation (Placement(transformation(extent={{34,24},{54,44}})));
 
     TRANSFORM.Electrical.PowerConverters.Generator_Basic generator
-      annotation (Placement(transformation(extent={{256,24},{276,44}})));
+      annotation (Placement(transformation(extent={{-10,-10},{10,10}},
+          rotation=90,
+          origin={238,66})));
     Fluid.Vessels.IdealCondenser Condenser(
       p=10000,
       V_total=2500,
@@ -6192,7 +6195,8 @@ package HTGR_RankineCycles
     TRANSFORM.Fluid.Valves.ValveLinear LPT1_Bypass(
       redeclare package Medium = Modelica.Media.Water.StandardWater,
       dp_nominal=100000,
-      m_flow_nominal=5) annotation (Placement(transformation(
+      m_flow_nominal=30)
+                        annotation (Placement(transformation(
           extent={{10,10},{-10,-10}},
           rotation=90,
           origin={94,-16})));
@@ -6232,12 +6236,13 @@ package HTGR_RankineCycles
       annotation (Placement(transformation(extent={{-116,62},{-96,82}})));
     TRANSFORM.Fluid.Interfaces.FluidPort_Flow port_a(redeclare package Medium
         = Modelica.Media.Water.StandardWater)
-      annotation (Placement(transformation(extent={{-110,30},{-90,50}})));
+      annotation (Placement(transformation(extent={{-150,30},{-130,50}})));
     TRANSFORM.Fluid.Interfaces.FluidPort_State port_b(redeclare package Medium
         = Modelica.Media.Water.StandardWater)
-      annotation (Placement(transformation(extent={{-110,-68},{-90,-48}})));
+      annotation (Placement(transformation(extent={{-150,-68},{-130,-48}})));
     TRANSFORM.Electrical.Interfaces.ElectricalPowerPort_Flow port_e
-      annotation (Placement(transformation(extent={{90,-10},{110,10}})));
+      annotation (Placement(transformation(extent={{130,-10},{150,10}}),
+          iconTransformation(extent={{130,-10},{150,10}})));
     TRANSFORM.Fluid.FittingsAndResistances.TeeJunctionVolume tee2(
       redeclare package Medium = Modelica.Media.Water.StandardWater,
       V=5,
@@ -6273,7 +6278,7 @@ package HTGR_RankineCycles
           origin={178,16})));
     Data.DataInitial_HTGR_BoP_3stage dataInitial_HTGR_BoP_3stage(LPT1_T_outlet=
           473.15, LPT2_T_inlet=473.15)
-      annotation (Placement(transformation(extent={{116,120},{136,140}})));
+      annotation (Placement(transformation(extent={{232,120},{252,140}})));
     StagebyStageTurbineSecondary.StagebyStageTurbine.BaseClasses.TRANSFORMMoistureSeparator_MIKK
       Moisture_Separator2(
       redeclare package Medium = Modelica.Media.Water.StandardWater,
@@ -6309,7 +6314,7 @@ package HTGR_RankineCycles
         pattern=LinePattern.Dash,
         thickness=0.5));
     connect(actuatorBus.Feed_Pump_Speed, pump.inputSignal) annotation (Line(
-        points={{30,100},{300,100},{300,-96},{-34,-96},{-34,-65}},
+        points={{30,100},{258,100},{258,-98},{-34,-98},{-34,-65}},
         color={111,216,99},
         pattern=LinePattern.Dash,
         thickness=0.5));
@@ -6376,17 +6381,15 @@ package HTGR_RankineCycles
     connect(volume.port_b, sensor_p.port) annotation (Line(points={{-56,40},{-34,40},
             {-34,62},{-18,62},{-18,66}}, color={0,127,255}));
     connect(port_a, volume.port_a)
-      annotation (Line(points={{-100,40},{-68,40}}, color={0,127,255}));
+      annotation (Line(points={{-140,40},{-68,40}}, color={0,127,255}));
     connect(sensor_T2.port_b, port_b)
-      annotation (Line(points={{-80,-58},{-100,-58}}, color={0,127,255}));
+      annotation (Line(points={{-80,-58},{-140,-58}}, color={0,127,255}));
     connect(TBV.opening, actuatorBus.TBV) annotation (Line(points={{-74,78.4},{-74,
             100},{30,100}},       color={111,216,99},
         pattern=LinePattern.Dash,
         thickness=0.5));
     connect(LPT1.shaft_b, LPT2.shaft_a)
       annotation (Line(points={{138,34},{198,34}}, color={0,0,0}));
-    connect(LPT2.shaft_b, generator.shaft)
-      annotation (Line(points={{218,34},{255.9,33.9}}, color={0,0,0}));
     connect(tee2.port_1, LPT2.portHP) annotation (Line(points={{188,50},{192,50},{
             192,40},{198,40}}, color={0,127,255}));
     connect(LPT2.portLP, sensor_m_flow1.port_a)
@@ -6397,7 +6400,7 @@ package HTGR_RankineCycles
             {178,-82},{40,-82}},color={0,127,255}));
     connect(actuatorBus.Divert_Valve_Position, LPT2_Bypass.opening) annotation (
         Line(
-        points={{30,100},{276,100},{276,16},{186,16}},
+        points={{30,100},{248,100},{248,16},{186,16}},
         color={111,216,99},
         pattern=LinePattern.Dash,
         thickness=0.5));
@@ -6406,7 +6409,7 @@ package HTGR_RankineCycles
     connect(Moisture_Separator2.port_b, tee2.port_2)
       annotation (Line(points={{156,50},{168,50}}, color={0,127,255}));
     connect(Moisture_Separator2.port_Liquid, volume1.port_a) annotation (Line(
-          points={{146,46},{146,-14},{148,-14},{148,-58},{2,-58}}, color={0,127,
+          points={{146,46},{146,-58},{2,-58}},                     color={0,127,
             255}));
     connect(HPT.portLP, tee1.port_2) annotation (Line(points={{54,40},{78,40},{
             78,50},{84,50}}, color={0,127,255}));
@@ -6432,7 +6435,10 @@ package HTGR_RankineCycles
         index=-1,
         extent={{-6,3},{-6,3}},
         horizontalAlignment=TextAlignment.Right));
-    annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
+    connect(generator.shaft, LPT2.shaft_b) annotation (Line(points={{238.1,55.9},
+            {238.1,34},{218,34}}, color={0,0,0}));
+    annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-140,
+              -100},{140,100}}),                                  graphics={
           Rectangle(
             extent={{-2.09756,2},{83.9024,-2}},
             lineColor={0,0,0},
@@ -6583,7 +6589,8 @@ package HTGR_RankineCycles
             pattern=LinePattern.None,
             fillPattern=FillPattern.HorizontalCylinder,
             fillColor={255,255,255})}),                            Diagram(
-          coordinateSystem(preserveAspectRatio=false)),
+          coordinateSystem(preserveAspectRatio=false, extent={{-140,-100},{140,
+              100}})),
       experiment(
         StopTime=86400,
         Interval=30,
@@ -6594,5 +6601,5 @@ package HTGR_RankineCycles
 <p>Separate HTGR models will be developed for different uses. The primary differentiator is whether a combined cycle is going to be integrated or not. The combined cycle thoerized to be used here takes advantage of the relatively hot waste heat that is produced by an HTGR to boil water at low pressure and send that to a turbine. </p>
 <p>No part of this HTGR model should be considered to be optimized. Additionally, thermal mass of the system needs references and then will need to be adjusted (likely through pipes replacing current zero-volume volume nodes) to more appropriately reflect system time constants. </p>
 </html>"));
-  end HTGR_Rankine_Cycle_Transient_JY_v1_step7;
+  end HTGR_Rankine_Cycle_Transient_JY_v1_step7_comp;
 end HTGR_RankineCycles;

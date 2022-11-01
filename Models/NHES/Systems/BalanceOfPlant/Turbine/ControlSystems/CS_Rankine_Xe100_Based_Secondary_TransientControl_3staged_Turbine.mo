@@ -1,5 +1,5 @@
 within NHES.Systems.BalanceOfPlant.Turbine.ControlSystems;
-model CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_temp
+model CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine
 
   extends BaseClasses.Partial_ControlSystem;
 
@@ -130,8 +130,18 @@ model CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_temp
     initType=Modelica.Blocks.Types.Init.InitialState,
     xi_start=0.2)
     annotation (Placement(transformation(extent={{-60,104},{-40,124}})));
-  Modelica.Blocks.Sources.Constant const12(k=1)
-    annotation (Placement(transformation(extent={{-100,104},{-80,124}})));
+  Modelica.Blocks.Sources.Constant const12(k=30)
+    annotation (Placement(transformation(extent={{-148,86},{-132,102}})));
+  Modelica.Blocks.Sources.Trapezoid trapezoid2(
+    amplitude=30,
+    rising=4e5,
+    width=4e5,
+    falling=4e5,
+    period=16e5,
+    nperiod=-1,
+    offset=30,
+    startTime=1e5 + 900)
+    annotation (Placement(transformation(extent={{-148,112},{-132,128}})));
 equation
 
   connect(const4.y, add.u1) annotation (Line(points={{50.4,76},{62,76}},
@@ -251,8 +261,6 @@ equation
           {-96,296},{-96,264},{-88,264}}, color={0,0,127}));
   connect(trapezoid1.y, PID.u_ff) annotation (Line(points={{-129,30},{-78,30},{
           -78,40},{-12,40},{-12,34},{-6,34}}, color={0,0,127}));
-  connect(const12.y, Turb_Divert_Valve1.u_s)
-    annotation (Line(points={{-79,114},{-62,114}}, color={0,0,127}));
   connect(sensorBus.massflow_LPTv, Turb_Divert_Valve1.u_m) annotation (Line(
       points={{-30,-100},{-30,-48},{-32,-48},{-32,-26},{-30,-26},{-30,46},{-84,
           46},{-84,96},{-50,96},{-50,102}},
@@ -272,5 +280,7 @@ equation
       index=-1,
       extent={{6,3},{6,3}},
       horizontalAlignment=TextAlignment.Left));
+  connect(const12.y, Turb_Divert_Valve1.u_s) annotation (Line(points={{-131.2,
+          94},{-86,94},{-86,112},{-68,112},{-68,114},{-62,114}}, color={0,0,127}));
 annotation(defaultComponentName="changeMe_CS", Icon(graphics));
-end CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_temp;
+end CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine;
