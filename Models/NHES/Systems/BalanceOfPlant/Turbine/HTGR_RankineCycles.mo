@@ -6234,11 +6234,11 @@ package HTGR_RankineCycles
       T=573.15,
       nPorts=1)
       annotation (Placement(transformation(extent={{-116,62},{-96,82}})));
-    TRANSFORM.Fluid.Interfaces.FluidPort_Flow port_a(redeclare package Medium
-        = Modelica.Media.Water.StandardWater)
+    TRANSFORM.Fluid.Interfaces.FluidPort_Flow port_a(redeclare package Medium =
+          Modelica.Media.Water.StandardWater)
       annotation (Placement(transformation(extent={{-150,30},{-130,50}})));
-    TRANSFORM.Fluid.Interfaces.FluidPort_State port_b(redeclare package Medium
-        = Modelica.Media.Water.StandardWater)
+    TRANSFORM.Fluid.Interfaces.FluidPort_State port_b(redeclare package Medium =
+          Modelica.Media.Water.StandardWater)
       annotation (Placement(transformation(extent={{-150,-68},{-130,-48}})));
     TRANSFORM.Electrical.Interfaces.ElectricalPowerPort_Flow port_e
       annotation (Placement(transformation(extent={{130,-10},{150,10}}),
@@ -6293,8 +6293,8 @@ package HTGR_RankineCycles
       T=573.15,
       nPorts=1)
       annotation (Placement(transformation(extent={{16,-44},{36,-24}})));
-    TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium
-        = Modelica.Media.Water.StandardWater)            annotation (Placement(
+    TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium =
+          Modelica.Media.Water.StandardWater)            annotation (Placement(
           transformation(
           extent={{-10,-10},{10,10}},
           rotation=180,

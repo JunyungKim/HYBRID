@@ -5,7 +5,7 @@ model Rankine_HTGR_Test_Transient
     hTGR_Rankine_Cycle(redeclare
       NHES.Systems.BalanceOfPlant.Turbine.ControlSystems.CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine
       CS, boundary2(p=500000))
-    annotation (Placement(transformation(extent={{-28,-10},{34,40}})));
+    annotation (Placement(transformation(extent={{-28,-12},{34,38}})));
   TRANSFORM.Electrical.Sources.FrequencySource
                                      sinkElec(f=60)
     annotation (Placement(transformation(extent={{76,6},{58,24}})));
@@ -16,15 +16,16 @@ model Rankine_HTGR_Test_Transient
 equation
   hTGR_PebbleBed_Primary_Loop.input_steam_pressure = hTGR_Rankine_Cycle.sensor_p.p;
   connect(sinkElec.port, hTGR_Rankine_Cycle.port_e)
-    annotation (Line(points={{58,15},{34,15}}, color={255,0,0}));
+    annotation (Line(points={{58,15},{46,15},{46,13},{34,13}},
+                                               color={255,0,0}));
   connect(hTGR_PebbleBed_Primary_Loop.port_b, hTGR_Rankine_Cycle.port_a)
-    annotation (Line(points={{-40.87,25.21},{-28,25}},             color={0,127,
+    annotation (Line(points={{-40.87,25.21},{-28,23}},             color={0,127,
           255}));
   connect(hTGR_PebbleBed_Primary_Loop.port_a, hTGR_Rankine_Cycle.port_b)
-    annotation (Line(points={{-40.87,1.43},{-40.87,0.5},{-28,0.5}},
+    annotation (Line(points={{-40.87,1.43},{-40.87,-1.5},{-28,-1.5}},
         color={0,127,255}));
   annotation (experiment(
-      StopTime=100420,
+      StopTime=400420,
       Interval=100,
       __Dymola_Algorithm="Esdirk45a"), Documentation(info="<html>
 <p>This test is effectively the same as the above &quot;Complex&quot; test but split between two models. </p>
