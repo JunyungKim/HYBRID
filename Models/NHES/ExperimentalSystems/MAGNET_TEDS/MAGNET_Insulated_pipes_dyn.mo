@@ -3,7 +3,7 @@ model MAGNET_Insulated_pipes_dyn
   "MAGNET model with insulated pipes dynamic simulation"
   extends TRANSFORM.Icons.Example;
 
-protected
+public
   TRANSFORM.Fluid.BoundaryConditions.Boundary_pT boundary(
     redeclare package Medium = Medium_cw,
     p=data.p_hx_cw,
@@ -55,7 +55,7 @@ public
     T=data.T_cw_hx,
       nPorts=1)
     annotation (Placement(transformation(extent={{-170,4},{-150,24}})));
-protected
+public
   TRANSFORM.Fluid.Sensors.PressureTemperatureTwoPort sensor_rp_hx_2(
     redeclare package Medium = Medium,
     p_start=data.p_rp_hx,
@@ -104,7 +104,7 @@ public
     R_1=-data.dp_rp_hot/data.m_flow,
     R_2=-data.dp_rp_cold/data.m_flow)
     annotation (Placement(transformation(extent={{-54,58},{-34,78}})));
-protected
+public
   TRANSFORM.Fluid.Sensors.PressureTemperatureTwoPort sensor_co_rp_1(
     redeclare package Medium = Medium,
     p_start=data.p_co_rp,
@@ -174,7 +174,7 @@ protected
     annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
-        origin={-236,60})));
+        origin={-236,56})));
   TRANSFORM.Fluid.FittingsAndResistances.SpecifiedResistance resistance(
       redeclare package Medium = Medium, R=-data.dp_vc/data.m_flow)
                                          annotation (Placement(transformation(
@@ -205,13 +205,13 @@ protected
     T=data.T_ps,
     nPorts=1)
     annotation (Placement(transformation(extent={{-262,-84},{-242,-64}})));
-protected
+public
   inner TRANSFORM.Fluid.SystemTF systemTF(
     showColors=true,
     val_min=data.T_hx_co,
     val_max=data.T_vc_rp)
     annotation (Placement(transformation(extent={{-292,54},{-272,74}})));
-protected
+public
   Modelica.Blocks.Sources.CombiTimeTable combiTimeTable1(table=[0,0; 60.037,4.6;
         120.102,15.5; 180.084,12.5; 240.044,11.2; 300.005,12.3; 360.053,12.3; 420.031,
         12.3; 480.073,12.7; 540.034,12.5; 600.1,12.9; 660.04,13.1; 720.053,13.1;
@@ -315,10 +315,10 @@ public
     initType=Modelica.Blocks.Types.Init.InitialState,
     y_start=data.m_flow)
     annotation (Placement(transformation(extent={{-70,-60},{-54,-44}})));
-protected
+public
   NHES.ExperimentalSystems.MAGNET.Data.Data_base_An data
     annotation (Placement(transformation(extent={{-292,84},{-272,104}})));
-protected
+public
   package Medium = Modelica.Media.IdealGases.SingleGases.N2;//TRANSFORM.Media.ExternalMedia.CoolProp.Nitrogen;
   package Medium_cw = Modelica.Media.Water.StandardWater;
 
@@ -354,7 +354,7 @@ public
     controlType="m_flow",
     use_port=true)
     annotation (Placement(transformation(extent={{-40,-100},{-20,-80}})));
-protected
+public
   TRANSFORM.Fluid.Pipes.GenericPipe_withWallx2 ins_vc_rp(
     redeclare model Geometry =
         TRANSFORM.Fluid.ClosureRelations.Geometry.Models.DistributedVolume_1D.Pipe_Wallx2.StraightPipe
@@ -422,12 +422,12 @@ protected
     T_a_start=data.T_rp_hx,
     m_flow_a_start=data.m_flow)
     annotation (Placement(transformation(extent={{46,-36},{26,-16}})));
-protected
+public
   Modelica.Blocks.Sources.RealExpression Tin_vc(y=sensor_pipe_vc.T)
     annotation (Placement(transformation(extent={{-220,-12},{-200,8}})));
   Modelica.Blocks.Sources.Constant Tin_vc_design(k=data.T_rp_vc)
     annotation (Placement(transformation(extent={{-222,16},{-210,28}})));
-protected
+public
   Modelica.Blocks.Sources.CombiTimeTable combiTimeTable2(table=[0,182.455699;
         60.037,190.247786; 120.102,187.619049; 180.084,187.825319; 240.044,
         187.39156; 300.005,188.465638; 360.053,187.693754; 420.031,184.677147;
@@ -635,18 +635,30 @@ protected
         0.455747342; 36780.083,0.492615053; 36840.049,0.46666096; 36900.094,
         0.496216705], extrapolation=Modelica.Blocks.Types.Extrapolation.HoldLastPoint)
     annotation (Placement(transformation(extent={{158,-28},{178,-8}})));
-protected
+public
   Modelica.Blocks.Math.Gain gain1(k=1/3600)
     annotation (Placement(transformation(extent={{188,-28},{208,-8}})));
-protected
+public
   Modelica.Blocks.Sources.RealExpression Tout_vc(y=sensor_vc_pipe.T)
     annotation (Placement(transformation(extent={{-104,-80},{-84,-60}})));
   Modelica.Blocks.Sources.Constant Tout_vc_design(k=data.T_vc_rp)
     annotation (Placement(transformation(extent={{-106,-58},{-94,-46}})));
-protected
-  Modelica.Blocks.Sources.CombiTimeTable combiTimeTable3(table=[0,1; 50000,1;
-        150000,0.7; 250000,0.7; 350000,1; 400000,1], extrapolation=Modelica.Blocks.Types.Extrapolation.HoldLastPoint)
+public
+  Modelica.Blocks.Sources.CombiTimeTable combiTimeTable3(table=[0,1; 5000,1; 15000,
+        0.7; 25000,0.7; 35000,1; 40000,1],           extrapolation=Modelica.Blocks.Types.Extrapolation.HoldLastPoint)
     annotation (Placement(transformation(extent={{-254,18},{-234,38}})));
+  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_cw_hx_w(
+    redeclare package Medium = Medium,
+    p_start=data.p_co_rp,
+    T_start=data.T_co_rp,
+    precision=2)
+    annotation (Placement(transformation(extent={{-130,4},{-110,24}})));
+  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_hx_co_w(
+    redeclare package Medium = Medium,
+    p_start=data.p_co_rp,
+    T_start=data.T_co_rp,
+    precision=2)
+    annotation (Placement(transformation(extent={{-124,-36},{-104,-16}})));
 equation
   connect(sensor_hx_cw.port_b, boundary.ports[1])
     annotation (Line(points={{-4,12},{36,12}}, color={0,127,255}));
@@ -654,15 +666,10 @@ equation
           -6},{-28,12},{-24,12}}, color={0,127,255}));
   connect(sensor_cw_hx.port_b, hx.port_b2) annotation (Line(points={{-68,14},{-60,
           14},{-60,-6},{-54,-6}}, color={0,127,255}));
-  connect(boundary1.ports[1], sensor_cw_hx.port_a)
-    annotation (Line(points={{-150,14},{-88,14}}, color={0,127,255}));
   connect(sensor_rp_hx_2.port_b, hx.port_b1) annotation (Line(points={{-20,-26},
           {-28,-26},{-28,-14},{-34,-14}}, color={0,127,255}));
   connect(hx.port_a1, sensor_hx_co.port_a) annotation (Line(points={{-54,-14},{
           -60,-14},{-60,-26},{-66,-26}}, color={0,127,255}));
-  connect(sensor_hx_co.port_b, valve_ps.port_b)
-    annotation (Line(points={{-86,-26},{-142,-26},{-142,-74},{-172,-74}},
-                                                    color={0,127,255}));
   connect(opening_valve_tank.y, valve_ps.opening) annotation (Line(points={{-211,
           -54},{-182,-54},{-182,-66}}, color={0,0,127}));
   connect(sensor_co_rp_1.port_b, rp.port_a2) annotation (Line(points={{6,52},{-26,
@@ -674,10 +681,9 @@ equation
   connect(rp.port_b2, sensor_rp_pipe_vc.port_a) annotation (Line(points={{-54,64},
           {-84,64},{-84,50},{-90,50}},     color={0,127,255}));
   connect(sensor_pipe_vc.port_b, vc.port_a)
-    annotation (Line(points={{-184,50},{-236,50},{-236,54}},
-                                                   color={0,127,255}));
+    annotation (Line(points={{-184,50},{-236,50}}, color={0,127,255}));
   connect(vc.port_b, resistance.port_a)
-    annotation (Line(points={{-236,66},{-236,71}}, color={0,127,255}));
+    annotation (Line(points={{-236,62},{-236,71}}, color={0,127,255}));
   connect(sensor_vc_pipe.port_a, resistance.port_b) annotation (Line(points={{-190,90},
           {-237,90},{-237,85},{-236,85}},          color={0,127,255}));
   connect(ps.ports[1], valve_ps.port_a) annotation (Line(points={{-242,-74},{
@@ -721,8 +727,16 @@ equation
           -52},{-30,-52},{-30,-83}}, color={0,0,127}));
   connect(cw_mf_control.y, boundary1.m_flow_in)
     annotation (Line(points={{-185.2,22},{-170,22}}, color={0,0,127}));
+  connect(boundary1.ports[1], sensor_cw_hx_w.port_a)
+    annotation (Line(points={{-150,14},{-130,14}}, color={0,127,255}));
+  connect(sensor_cw_hx_w.port_b, sensor_cw_hx.port_a)
+    annotation (Line(points={{-110,14},{-88,14}}, color={0,127,255}));
+  connect(sensor_hx_co.port_b, sensor_hx_co_w.port_b)
+    annotation (Line(points={{-86,-26},{-104,-26}}, color={0,127,255}));
+  connect(sensor_hx_co_w.port_a, valve_ps.port_b) annotation (Line(points={{
+          -124,-26},{-142,-26},{-142,-74},{-172,-74}}, color={0,127,255}));
   annotation (experiment(
-      StopTime=400000,
+      StopTime=40000,
       Interval=10,
       __Dymola_Algorithm="Esdirk45a"),
     Diagram(coordinateSystem(extent={{-300,-120},{100,120}})),

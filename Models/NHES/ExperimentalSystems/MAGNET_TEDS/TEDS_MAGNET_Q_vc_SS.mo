@@ -387,7 +387,7 @@ public
   Modelica.Blocks.Sources.RealExpression realExpression3(y=
         MAGNET_TEDS_simpleHX.Q_flow)
     annotation (Placement(transformation(extent={{-186,-8},{-166,12}})));
-protected
+public
   TRANSFORM.HeatExchangers.Simple_HX MAGNET_TEDS_simpleHX(
     redeclare package Medium_1 = Medium,
     redeclare package Medium_2 =
@@ -407,7 +407,7 @@ protected
     T_b_start_2=data.T_hot_side,
     m_flow_start_2=0.689)
     annotation (Placement(transformation(extent={{-102,40},{-82,60}})));
-protected
+public
   TRANSFORM.Fluid.BoundaryConditions.Boundary_pT boundary(
     redeclare package Medium = Medium_cw,
     p=data.p_hx_cw,
@@ -555,7 +555,7 @@ public
     redeclare function iconUnit2 =
         TRANSFORM.Units.Conversions.Functions.Temperature_K.to_degC)
     annotation (Placement(transformation(extent={{-490,-30},{-470,-10}})));
-protected
+public
   TRANSFORM.Fluid.Sensors.PressureTemperatureTwoPort pT_pipe_vc(
     redeclare package Medium = Medium,
     p_start=data.p_rp_vc,
@@ -607,7 +607,7 @@ protected
     T=data.T_ps,
     nPorts=1)
     annotation (Placement(transformation(extent={{-510,-146},{-490,-126}})));
-protected
+public
   TRANSFORM.Fluid.Valves.ValveLinear valve_vc_TEDS(
     redeclare package Medium = Medium,
     dp_nominal=3000,
@@ -726,7 +726,7 @@ public
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={-372,4})));
-protected
+public
   TRANSFORM.Fluid.Sensors.MassFlowRate m_flow_vc_TEDS(
     redeclare package Medium = Medium,
     p_start=data.p_vc_rp,

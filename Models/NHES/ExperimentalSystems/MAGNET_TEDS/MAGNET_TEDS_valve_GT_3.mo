@@ -2,7 +2,7 @@ within NHES.ExperimentalSystems.MAGNET_TEDS;
 model MAGNET_TEDS_valve_GT_3
   extends TRANSFORM.Icons.Example;
 
-protected
+public
   inner TRANSFORM.Fluid.SystemTF systemTF(
     showColors=true,
     val_min=data.T_hx_co,
@@ -34,22 +34,22 @@ public
         TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C,
       precision=3)
     annotation (Placement(transformation(extent={{-78,-10},{-58,10}})));
-protected
+public
   inner TRANSFORM.Fluid.System system(
     p_ambient=18000,
     T_ambient=498.15,
     m_flow_start=0.84)
     annotation (Placement(transformation(extent={{-176,-356},{-156,-336}})));
-protected
+public
   NHES.ExperimentalSystems.MAGNET.Data.Data_base_An data
     annotation (Placement(transformation(extent={{-176,-288},{-156,-268}})));
-protected
+public
   package Medium = Modelica.Media.IdealGases.SingleGases.N2;//TRANSFORM.Media.ExternalMedia.CoolProp.Nitrogen;
   package Medium_cw = Modelica.Media.Water.StandardWater;
   package Medium_TEDS =
       TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C;
 
-protected
+public
   TRANSFORM.Fluid.BoundaryConditions.Boundary_pT boundary_TEDS_out(
     redeclare package Medium =
         TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C,
@@ -66,7 +66,7 @@ protected
     T=data.T_cold_side,
     nPorts=1)
     annotation (Placement(transformation(extent={{78,-10},{58,10}})));
-protected
+public
   TRANSFORM.Fluid.BoundaryConditions.Boundary_pT boundary(
     redeclare package Medium = Medium_cw,
     p=data.p_hx_cw,
@@ -84,7 +84,7 @@ public
     redeclare function iconUnit2 =
         TRANSFORM.Units.Conversions.Functions.Temperature_K.to_degC)
     annotation (Placement(transformation(extent={{92,-250},{112,-230}})));
-protected
+public
   TRANSFORM.HeatExchangers.Simple_HX hx(
     redeclare package Medium_1 = Medium,
     redeclare package Medium_2 = Medium_cw,
@@ -114,7 +114,7 @@ public
     redeclare function iconUnit2 =
         TRANSFORM.Units.Conversions.Functions.Temperature_K.to_degC)
     annotation (Placement(transformation(extent={{28,-248},{48,-228}})));
-protected
+public
   TRANSFORM.Fluid.BoundaryConditions.MassFlowSource_T boundary1(
     redeclare package Medium = Medium_cw,
     use_m_flow_in=true,
@@ -142,7 +142,7 @@ public
     redeclare function iconUnit2 =
         TRANSFORM.Units.Conversions.Functions.Temperature_K.to_degC)
     annotation (Placement(transformation(extent={{50,-288},{30,-268}})));
-protected
+public
   TRANSFORM.Fluid.Valves.ValveIncompressible valve_ps(
     redeclare package Medium = Medium,
     dp_nominal(displayUnit="Pa") = 1e4,
@@ -231,7 +231,7 @@ public
     redeclare function iconUnit2 =
         TRANSFORM.Units.Conversions.Functions.Temperature_K.to_degC)
     annotation (Placement(transformation(extent={{-48,-212},{-68,-192}})));
-protected
+public
   TRANSFORM.Fluid.Volumes.SimpleVolume vc(
     redeclare package Medium = Medium,
     p_start=data.p_vc_rp,
@@ -269,7 +269,7 @@ public
     T_start=data.T_co_rp,
     precision=2)
     annotation (Placement(transformation(extent={{116,-352},{136,-332}})));
-protected
+public
   TRANSFORM.Fluid.BoundaryConditions.Boundary_pT ps(
     redeclare package Medium = Medium,
     p=data.p_hx_co,
@@ -378,7 +378,7 @@ public
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=90,
         origin={-64,-54})));
-protected
+public
   TRANSFORM.Fluid.Pipes.GenericPipe_withWallAndInsulation pipe_vc_rp(
     ths_wall=fill(data.th_4in_sch40, pipe_vc_TEDS.geometry.nV),
     ths_insulation=fill(data.th_4in_sch40, pipe_vc_TEDS.geometry.nV),
@@ -403,7 +403,7 @@ protected
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={0,-138})));
-protected
+public
   Modelica.Blocks.Sources.RealExpression Tout_vc(y=pT_vc_pipe.T)
     annotation (Placement(transformation(extent={{-80,72},{-62,90}})));
   Modelica.Blocks.Sources.RealExpression Tin_vc(y=pT_pipe_vc.T)

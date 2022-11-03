@@ -3,7 +3,7 @@ model MAGNET_Insulated_pipes_SS
   "MAGNET model with insulated pipes at steady state"
   extends TRANSFORM.Icons.Example;
 
-protected
+public
   TRANSFORM.Fluid.BoundaryConditions.Boundary_pT boundary(
     redeclare package Medium = Medium_cw,
     p=data.p_hx_cw,
@@ -20,7 +20,7 @@ public
     redeclare function iconUnit2 =
         TRANSFORM.Units.Conversions.Functions.Temperature_K.to_degC)
     annotation (Placement(transformation(extent={{-24,2},{-4,22}})));
-protected
+public
   TRANSFORM.HeatExchangers.Simple_HX hx(
     redeclare package Medium_1 = Medium,
     redeclare package Medium_2 = Medium_cw,
@@ -50,7 +50,7 @@ public
     redeclare function iconUnit2 =
         TRANSFORM.Units.Conversions.Functions.Temperature_K.to_degC)
     annotation (Placement(transformation(extent={{-88,4},{-68,24}})));
-protected
+public
   TRANSFORM.Fluid.BoundaryConditions.MassFlowSource_T boundary1(
     redeclare package Medium = Medium_cw,
     m_flow=data.m_flow_cw,
@@ -77,7 +77,7 @@ public
     redeclare function iconUnit2 =
         TRANSFORM.Units.Conversions.Functions.Temperature_K.to_degC)
     annotation (Placement(transformation(extent={{-66,-36},{-86,-16}})));
-protected
+public
   TRANSFORM.Fluid.Valves.ValveIncompressible valve_ps(
     redeclare package Medium = Medium,
     dp_nominal(displayUnit="Pa") = 1e4,
@@ -167,7 +167,7 @@ public
     redeclare function iconUnit2 =
         TRANSFORM.Units.Conversions.Functions.Temperature_K.to_degC)
     annotation (Placement(transformation(extent={{-164,40},{-184,60}})));
-protected
+public
   TRANSFORM.Fluid.Volumes.SimpleVolume vc(
     redeclare package Medium = Medium,
     p_start=data.p_vc_rp,
@@ -210,13 +210,13 @@ protected
     T=data.T_ps,
     nPorts=1)
     annotation (Placement(transformation(extent={{-238,-36},{-218,-16}})));
-protected
+public
   inner TRANSFORM.Fluid.SystemTF systemTF(
     showColors=true,
     val_min=data.T_hx_co,
     val_max=data.T_vc_rp)
     annotation (Placement(transformation(extent={{-292,36},{-272,56}})));
-protected
+public
   Modelica.Blocks.Sources.CombiTimeTable combiTimeTable1(table=[0,0; 60.037,4.6;
         120.102,15.5; 180.084,12.5; 240.044,11.2; 300.005,12.3; 360.053,12.3; 420.031,
         12.3; 480.073,12.7; 540.034,12.5; 600.1,12.9; 660.04,13.1; 720.053,13.1;
@@ -293,10 +293,10 @@ public
     Q_flows={vc.Q_gen})
     annotation (Placement(transformation(extent={{-292,12},{-272,32}})));
 
-protected
+public
   NHES.ExperimentalSystems.MAGNET.Data.Data_base_An data
     annotation (Placement(transformation(extent={{-290,72},{-270,92}})));
-protected
+public
   package Medium = Modelica.Media.IdealGases.SingleGases.N2;//TRANSFORM.Media.ExternalMedia.CoolProp.Nitrogen;
   package Medium_cw = Modelica.Media.Water.StandardWater;
 
@@ -402,7 +402,7 @@ protected
     m_flow_a_start=data.m_flow,
     T_wall_start=498.15)
     annotation (Placement(transformation(extent={{46,-36},{26,-16}})));
-protected
+public
   Modelica.Blocks.Sources.CombiTimeTable combiTimeTable(table=[0,182.455699;
         60.037,190.247786; 120.102,187.619049; 180.084,187.825319; 240.044,
         187.39156; 300.005,188.465638; 360.053,187.693754; 420.031,
@@ -613,7 +613,7 @@ protected
     annotation (Placement(transformation(extent={{-274,-72},{-254,-52}})));
   Modelica.Blocks.Sources.Constant opening_valve_tank1(k=data.m_flow)
     annotation (Placement(transformation(extent={{-72,-66},{-52,-46}})));
-protected
+public
   Modelica.Blocks.Math.Gain gain(k=1/3600)
     annotation (Placement(transformation(extent={{-226,-72},{-206,-52}})));
 equation
