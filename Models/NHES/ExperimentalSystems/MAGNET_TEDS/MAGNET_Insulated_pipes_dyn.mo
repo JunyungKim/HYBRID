@@ -192,13 +192,13 @@ public
                   annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
-        origin={-64,-90})));
+        origin={-90,-90})));
   TRANSFORM.Fluid.Sensors.MassFlowRate sensor_co_rp_2(
     redeclare package Medium = Medium,
     p_start=data.p_co_rp,
     T_start=data.T_co_rp,
     precision=2)
-    annotation (Placement(transformation(extent={{0,-100},{20,-80}})));
+    annotation (Placement(transformation(extent={{18,-100},{38,-80}})));
   TRANSFORM.Fluid.BoundaryConditions.Boundary_pT ps(
     redeclare package Medium = Medium,
     p=data.p_hx_co,
@@ -330,7 +330,7 @@ public
     redeclare model Geometry =
         TRANSFORM.Fluid.ClosureRelations.Geometry.Models.DistributedVolume_1D.StraightPipe
         (dimension=data.d_hx_co, length=data.length_hx_co))
-    annotation (Placement(transformation(extent={{-118,-100},{-98,-80}})));
+    annotation (Placement(transformation(extent={{-130,-100},{-110,-80}})));
   TRANSFORM.Fluid.Pipes.GenericPipe_MultiTransferSurface pipe_co_rp(
     redeclare package Medium = Medium,
     p_a_start=data.p_co_rp,
@@ -646,7 +646,7 @@ public
 public
   Modelica.Blocks.Sources.CombiTimeTable combiTimeTable3(table=[0,1; 5000,1; 15000,
         0.7; 25000,0.7; 35000,1; 40000,1],           extrapolation=Modelica.Blocks.Types.Extrapolation.HoldLastPoint)
-    annotation (Placement(transformation(extent={{-254,18},{-234,38}})));
+    annotation (Placement(transformation(extent={{-290,-32},{-270,-12}})));
   TRANSFORM.Fluid.Sensors.MassFlowRate sensor_cw_hx_w(
     redeclare package Medium = Medium,
     p_start=data.p_co_rp,
@@ -659,6 +659,24 @@ public
     T_start=data.T_co_rp,
     precision=2)
     annotation (Placement(transformation(extent={{-124,-36},{-104,-16}})));
+  TRANSFORM.Fluid.Sensors.PressureTemperatureTwoPort sensor_co_in(
+    redeclare package Medium = Medium,
+    p_start=data.p_hx_co,
+    T_start=data.T_hx_co,
+    redeclare function iconUnit =
+        TRANSFORM.Units.Conversions.Functions.Pressure_Pa.to_bar,
+    redeclare function iconUnit2 =
+        TRANSFORM.Units.Conversions.Functions.Temperature_K.to_degC)
+    annotation (Placement(transformation(extent={{-66,-100},{-46,-80}})));
+  TRANSFORM.Fluid.Sensors.PressureTemperatureTwoPort sensor_co_out(
+    redeclare package Medium = Medium,
+    p_start=data.p_hx_co,
+    T_start=data.T_hx_co,
+    redeclare function iconUnit =
+        TRANSFORM.Units.Conversions.Functions.Pressure_Pa.to_bar,
+    redeclare function iconUnit2 =
+        TRANSFORM.Units.Conversions.Functions.Temperature_K.to_degC)
+    annotation (Placement(transformation(extent={{-12,-100},{8,-80}})));
 equation
   connect(sensor_hx_cw.port_b, boundary.ports[1])
     annotation (Line(points={{-4,12},{36,12}}, color={0,127,255}));
@@ -689,17 +707,13 @@ equation
   connect(ps.ports[1], valve_ps.port_a) annotation (Line(points={{-242,-74},{
           -192,-74}},                  color={0,127,255}));
   connect(pipe_hx_co.port_b, volume_co.port_a)
-    annotation (Line(points={{-98,-90},{-70,-90}}, color={0,127,255}));
-  connect(pipe_hx_co.port_a, valve_ps.port_b) annotation (Line(points={{-118,
+    annotation (Line(points={{-110,-90},{-96,-90}},color={0,127,255}));
+  connect(pipe_hx_co.port_a, valve_ps.port_b) annotation (Line(points={{-130,
           -90},{-142,-90},{-142,-74},{-172,-74}}, color={0,127,255}));
   connect(sensor_co_rp_2.port_b, pipe_co_rp.port_a)
-    annotation (Line(points={{20,-90},{48,-90}}, color={0,127,255}));
+    annotation (Line(points={{38,-90},{48,-90}}, color={0,127,255}));
   connect(pipe_co_rp.port_b, sensor_co_rp_1.port_a) annotation (Line(points={{
           68,-90},{82,-90},{82,52},{26,52}}, color={0,127,255}));
-  connect(volume_co.port_b, co.port_a)
-    annotation (Line(points={{-58,-90},{-40,-90}}, color={0,127,255}));
-  connect(co.port_b, sensor_co_rp_2.port_a)
-    annotation (Line(points={{-20,-90},{0,-90}}, color={0,127,255}));
   connect(pipe_ins_vc_rp.port_a, sensor_vc_pipe.port_b)
     annotation (Line(points={{-152,90},{-170,90}}, color={0,127,255}));
   connect(sensor_pipe_vc.port_a, pipe_ins_rp_vc.port_b)
@@ -735,6 +749,14 @@ equation
     annotation (Line(points={{-86,-26},{-104,-26}}, color={0,127,255}));
   connect(sensor_hx_co_w.port_a, valve_ps.port_b) annotation (Line(points={{
           -124,-26},{-142,-26},{-142,-74},{-172,-74}}, color={0,127,255}));
+  connect(volume_co.port_b, sensor_co_in.port_a)
+    annotation (Line(points={{-84,-90},{-66,-90}}, color={0,127,255}));
+  connect(sensor_co_in.port_b, co.port_a)
+    annotation (Line(points={{-46,-90},{-40,-90}}, color={0,127,255}));
+  connect(co.port_b, sensor_co_out.port_a)
+    annotation (Line(points={{-20,-90},{-12,-90}}, color={0,127,255}));
+  connect(sensor_co_out.port_b, sensor_co_rp_2.port_a)
+    annotation (Line(points={{8,-90},{18,-90}}, color={0,127,255}));
   annotation (experiment(
       StopTime=40000,
       Interval=10,
