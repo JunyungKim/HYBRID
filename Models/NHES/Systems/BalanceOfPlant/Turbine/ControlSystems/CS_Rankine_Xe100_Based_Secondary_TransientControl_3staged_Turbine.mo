@@ -123,16 +123,16 @@ model CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine
     annotation (Placement(transformation(extent={{-150,20},{-130,40}})));
   TRANSFORM.Controls.LimPID LTV1_Divert_Valve1(
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
-    k=1e-5,
-    Ti=30,
+    k=-1e-8,
+    Ti=300,
     yMax=1 - 1e-6,
     yMin=0,
     initType=Modelica.Blocks.Types.Init.InitialState,
     xi_start=0.2)
     annotation (Placement(transformation(extent={{-56,112},{-40,128}})));
-  Modelica.Blocks.Sources.Constant const12(k=30)
+  Modelica.Blocks.Sources.Constant const_LTV1bypass_power(k=44e6)
     annotation (Placement(transformation(extent={{-148,86},{-132,102}})));
-  Modelica.Blocks.Sources.Trapezoid trapezoid2(
+  Modelica.Blocks.Sources.Trapezoid trap_LTV1bypass_massflow(
     amplitude=30,
     rising=5e4,
     width=5e4,
@@ -141,13 +141,25 @@ model CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine
     nperiod=-1,
     offset=15,
     startTime=1e5 + 900)
-    annotation (Placement(transformation(extent={{-148,112},{-132,128}})));
-  Modelica.Blocks.Sources.Ramp     ramp1(
+    annotation (Placement(transformation(extent={{-202,112},{-186,128}})));
+  Modelica.Blocks.Sources.Ramp ramp_LTV1bypass_massflow(
     height=-15,
     duration=5e4,
     offset=15,
     startTime=1e5 + 900)
-    annotation (Placement(transformation(extent={{-148,62},{-132,78}})));
+    annotation (Placement(transformation(extent={{-202,62},{-186,78}})));
+  Modelica.Blocks.Sources.Constant const_LTV1bypass_massflow(k=30)
+    annotation (Placement(transformation(extent={{-202,86},{-186,102}})));
+  Modelica.Blocks.Sources.Trapezoid trap_LTV1bypass_power(
+    amplitude=-10e6,
+    rising=3600,
+    width=5e4,
+    falling=3600,
+    period=107200,
+    nperiod=-1,
+    offset=44e6,
+    startTime=2e5)
+    annotation (Placement(transformation(extent={{-148,112},{-132,128}})));
 equation
 
   connect(const4.y, add.u1) annotation (Line(points={{50.4,76},{62,76}},
@@ -267,16 +279,6 @@ equation
           {-96,296},{-96,264},{-88,264}}, color={0,0,127}));
   connect(trapezoid1.y, PID.u_ff) annotation (Line(points={{-129,30},{-78,30},{
           -78,40},{-12,40},{-12,34},{-6,34}}, color={0,0,127}));
-  connect(sensorBus.massflow_LPTv,LTV1_Divert_Valve1. u_m) annotation (Line(
-      points={{-30,-100},{-30,-48},{-32,-48},{-32,-26},{-30,-26},{-30,46},{-84,
-          46},{-84,96},{-48,96},{-48,110.4}},
-      color={239,82,82},
-      pattern=LinePattern.Dash,
-      thickness=0.5), Text(
-      string="%first",
-      index=-1,
-      extent={{-3,-6},{-3,-6}},
-      horizontalAlignment=TextAlignment.Right));
   connect(actuatorBus.openingLPTv,LTV1_Divert_Valve1. y) annotation (Line(
       points={{30,-100},{188,-100},{188,120},{-39.2,120}},
       color={111,216,99},
@@ -286,7 +288,16 @@ equation
       index=-1,
       extent={{6,3},{6,3}},
       horizontalAlignment=TextAlignment.Left));
-  connect(const12.y, LTV1_Divert_Valve1.u_s) annotation (Line(points={{-131.2,
-          94},{-86,94},{-86,120},{-57.6,120}}, color={0,0,127}));
+  connect(sensorBus.Power, LTV1_Divert_Valve1.u_m) annotation (Line(
+      points={{-30,-100},{-104,-100},{-104,100},{-48,100},{-48,110.4}},
+      color={239,82,82},
+      pattern=LinePattern.Dash,
+      thickness=0.5), Text(
+      string="%first",
+      index=-1,
+      extent={{-3,-6},{-3,-6}},
+      horizontalAlignment=TextAlignment.Right));
+  connect(trap_LTV1bypass_power.y, LTV1_Divert_Valve1.u_s)
+    annotation (Line(points={{-131.2,120},{-57.6,120}}, color={0,0,127}));
 annotation(defaultComponentName="changeMe_CS", Icon(graphics));
 end CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine;
