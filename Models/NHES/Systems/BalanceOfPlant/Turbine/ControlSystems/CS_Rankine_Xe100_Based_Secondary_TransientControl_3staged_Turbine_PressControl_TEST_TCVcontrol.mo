@@ -4,6 +4,7 @@ model
 
 
 
+
   extends BaseClasses.Partial_ControlSystem;
 
   Modelica.Blocks.Sources.Constant const3(k=data.T_Steam_Ref)
@@ -50,7 +51,7 @@ model
   Modelica.Blocks.Sources.Constant const9(k=data.p_steam_vent)
     annotation (Placement(transformation(extent={{-148,54},{-132,70}})));
   Data.HTGR_Rankine
-                  data(p_steam_vent=12000000, Q_Nom=44e6)
+                  data(p_steam_vent=14000000, Q_Nom=44e6)
     annotation (Placement(transformation(extent={{-98,-4},{-78,16}})));
   Modelica.Blocks.Sources.ContinuousClock clock(offset=0, startTime=0)
     annotation (Placement(transformation(extent={{48,-38},{68,-18}})));
@@ -169,11 +170,11 @@ model
     annotation (Placement(transformation(extent={{-196,-18},{-176,-38}})));
   Modelica.Blocks.Logical.Switch switch_P_setpoint_TCV3
     annotation (Placement(transformation(extent={{-156,-38},{-136,-18}})));
-  Modelica.Blocks.Sources.Constant valvedelay4(k=8.45695e6)
+  Modelica.Blocks.Sources.Constant valvedelay4(k=13e6)
     annotation (Placement(transformation(extent={{-196,-4},{-176,16}})));
   Modelica.Blocks.Math.Add         add1
     annotation (Placement(transformation(extent={{-10,-44},{10,-24}})));
-  Modelica.Blocks.Sources.Constant const7(k=0.6)
+  Modelica.Blocks.Sources.Constant const7(k=1.0)
     annotation (Placement(transformation(extent={{-28,-44},{-20,-36}})));
 equation
 
