@@ -1,9 +1,9 @@
 within NHES.Systems.PrimaryHeatSystem.HTGR.HTGR_Rankine.Examples;
 model Rankine_HTGR_Test_Transient
   extends Modelica.Icons.Example;
-  BalanceOfPlant.Turbine.HTGR_RankineCycles.HTGR_Rankine_Cycle_Transient_JY_v1_step10_TBV_Control
+  BalanceOfPlant.Turbine.HTGR_RankineCycles.HTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control
     hTGR_Rankine_Cycle(redeclare
-      NHES.Systems.BalanceOfPlant.Turbine.ControlSystems.CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TEST_TBVcontrol
+      NHES.Systems.BalanceOfPlant.Turbine.ControlSystems.CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TEST_TCVcontrol
       CS) annotation (Placement(transformation(extent={{-28,-12},{34,38}})));
   TRANSFORM.Electrical.Sources.FrequencySource
                                      sinkElec(f=60)

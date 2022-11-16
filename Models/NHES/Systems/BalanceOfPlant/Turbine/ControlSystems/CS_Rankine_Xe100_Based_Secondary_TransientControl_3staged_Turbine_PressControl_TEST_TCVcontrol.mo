@@ -3,6 +3,7 @@ model
   CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TEST_TCVcontrol
 
 
+
   extends BaseClasses.Partial_ControlSystem;
 
   Modelica.Blocks.Sources.Constant const3(k=data.T_Steam_Ref)
@@ -24,7 +25,7 @@ model
     annotation (Placement(transformation(extent={{-94,-72},{-74,-52}})));
   TRANSFORM.Controls.LimPID TCV_Position(
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
-    k=3e-9,
+    k=-3e-9,
     Ti=360,
     yMax=0,
     yMin=-1,
