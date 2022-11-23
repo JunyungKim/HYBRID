@@ -1317,14 +1317,14 @@ equation
       pattern=LinePattern.Dash,
       thickness=0.5));
   connect(actuatorSubBus1,
-    control_System_Therminol_4_element_all_modes_MAGNET_GT_dyn_0_1_1.actuatorSubBus)
+    control_System_Therminol_4_element_all_modes_MAGNET_GT_dyn_0_1_1.sensorSubBus)
     annotation (Line(
       points={{303,-22},{372.956,-22},{372.956,2.47222}},
       color={111,216,99},
       pattern=LinePattern.Dash,
       thickness=0.5));
   connect(sensorSubBus1,
-    control_System_Therminol_4_element_all_modes_MAGNET_GT_dyn_0_1_1.sensorSubBus)
+    control_System_Therminol_4_element_all_modes_MAGNET_GT_dyn_0_1_1.actuatorSubBus)
     annotation (Line(
       points={{335,-22},{385.611,-22},{385.611,2.47222}},
       color={239,82,82},
