@@ -7826,11 +7826,11 @@ package HTGR_RankineCycles
       T=573.15,
       nPorts=1)
       annotation (Placement(transformation(extent={{-116,62},{-96,82}})));
-    TRANSFORM.Fluid.Interfaces.FluidPort_Flow port_a(redeclare package Medium
-        = Modelica.Media.Water.StandardWater)
+    TRANSFORM.Fluid.Interfaces.FluidPort_Flow port_a(redeclare package Medium =
+          Modelica.Media.Water.StandardWater)
       annotation (Placement(transformation(extent={{-150,30},{-130,50}})));
-    TRANSFORM.Fluid.Interfaces.FluidPort_State port_b(redeclare package Medium
-        = Modelica.Media.Water.StandardWater)
+    TRANSFORM.Fluid.Interfaces.FluidPort_State port_b(redeclare package Medium =
+          Modelica.Media.Water.StandardWater)
       annotation (Placement(transformation(extent={{-150,-68},{-130,-48}})));
     TRANSFORM.Electrical.Interfaces.ElectricalPowerPort_Flow port_e
       annotation (Placement(transformation(extent={{130,-10},{150,10}}),
@@ -7885,8 +7885,8 @@ package HTGR_RankineCycles
       T=573.15,
       nPorts=1)
       annotation (Placement(transformation(extent={{-104,-42},{-84,-22}})));
-    TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium
-        = Modelica.Media.Water.StandardWater)            annotation (Placement(
+    TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium =
+          Modelica.Media.Water.StandardWater)            annotation (Placement(
           transformation(
           extent={{-10,-10},{10,10}},
           rotation=180,
@@ -8807,7 +8807,7 @@ package HTGR_RankineCycles
           rotation=180,
           origin={-4,40})));
     Modelica.Blocks.Sources.RealExpression Electrical_Power(y=generator.power)
-      annotation (Placement(transformation(extent={{-120,102},{-86,116}})));
+      annotation (Placement(transformation(extent={{-106,108},{-86,116}})));
     TRANSFORM.Fluid.Machines.SteamTurbine LPT1(
       nUnits=1,
       eta_mech=0.93,
@@ -8929,8 +8929,8 @@ package HTGR_RankineCycles
           extent={{10,10},{-10,-10}},
           rotation=90,
           origin={178,16})));
-    Data.DataInitial_HTGR_BoP_3stage dataInitial_HTGR_BoP_3stage(HPT_T_inlet=
-          833.15, LPT2_T_inlet=473.15)
+    Data.DataInitial_HTGR_BoP_3stage dataInitial_HTGR_BoP_3stage(LPT1_T_outlet=
+          473.15, LPT2_T_inlet=473.15)
       annotation (Placement(transformation(extent={{90,122},{110,142}})));
     StagebyStageTurbineSecondary.StagebyStageTurbine.BaseClasses.TRANSFORMMoistureSeparator_MIKK
       Moisture_Separator2(
@@ -8981,7 +8981,7 @@ package HTGR_RankineCycles
         color={0,127,255},
         thickness=0.5));
     connect(sensorBus.Power, Electrical_Power.y) annotation (Line(
-        points={{-30,100},{-30,76},{-80,76},{-80,109},{-84.3,109}},
+        points={{-30,100},{-30,76},{-80,76},{-80,112},{-85,112}},
         color={239,82,82},
         pattern=LinePattern.Dash,
         thickness=0.5));
