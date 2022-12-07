@@ -7669,7 +7669,7 @@ package HTGR_RankineCycles
     "Pressure Control done!!!"
     extends BaseClasses.Partial_SubSystem(
       redeclare replaceable
-        ControlSystems.CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TEST_TCVcontrol
+        ControlSystems.CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TCVcontrol
         CS,
       redeclare replaceable ControlSystems.ED_Dummy ED,
       redeclare Data.IdealTurbine data);
@@ -7826,11 +7826,11 @@ package HTGR_RankineCycles
       T=573.15,
       nPorts=1)
       annotation (Placement(transformation(extent={{-116,62},{-96,82}})));
-    TRANSFORM.Fluid.Interfaces.FluidPort_Flow port_a(redeclare package Medium =
-          Modelica.Media.Water.StandardWater)
+    TRANSFORM.Fluid.Interfaces.FluidPort_Flow port_a(redeclare package Medium
+        = Modelica.Media.Water.StandardWater)
       annotation (Placement(transformation(extent={{-150,30},{-130,50}})));
-    TRANSFORM.Fluid.Interfaces.FluidPort_State port_b(redeclare package Medium =
-          Modelica.Media.Water.StandardWater)
+    TRANSFORM.Fluid.Interfaces.FluidPort_State port_b(redeclare package Medium
+        = Modelica.Media.Water.StandardWater)
       annotation (Placement(transformation(extent={{-150,-68},{-130,-48}})));
     TRANSFORM.Electrical.Interfaces.ElectricalPowerPort_Flow port_e
       annotation (Placement(transformation(extent={{130,-10},{150,10}}),
@@ -7885,8 +7885,8 @@ package HTGR_RankineCycles
       T=573.15,
       nPorts=1)
       annotation (Placement(transformation(extent={{-104,-42},{-84,-22}})));
-    TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium =
-          Modelica.Media.Water.StandardWater)            annotation (Placement(
+    TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium
+        = Modelica.Media.Water.StandardWater)            annotation (Placement(
           transformation(
           extent={{-10,-10},{10,10}},
           rotation=180,
@@ -8726,11 +8726,11 @@ package HTGR_RankineCycles
 </html>"));
   end HTGR_Rankine_Cycle_Transient_JY_v1_step10_TBV_Control;
 
-  model HTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_Optimization
+  model HTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_TBV_manualChange
     "Pressure Control done!!!"
     extends BaseClasses.Partial_SubSystem(
       redeclare replaceable
-        ControlSystems.CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TEST_TCVcontrol_Opti
+        ControlSystems.CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TCVcontrol_TBVmanualChange
         CS,
       redeclare replaceable ControlSystems.ED_Dummy ED,
       redeclare Data.IdealTurbine data);
@@ -8952,6 +8952,12 @@ package HTGR_RankineCycles
           extent={{-10,-10},{10,10}},
           rotation=180,
           origin={44,-32})));
+    Modelica.Blocks.Sources.Ramp     TBV_open(
+      height=0.1,
+      duration=1000,
+      offset=0,
+      startTime=100000)
+      annotation (Placement(transformation(extent={{-56,84},{-66,94}})));
   initial equation
 
   equation
@@ -9035,10 +9041,6 @@ package HTGR_RankineCycles
       annotation (Line(points={{-140,40},{-68,40}}, color={0,127,255}));
     connect(sensor_T2.port_b, port_b)
       annotation (Line(points={{-118,-58},{-140,-58}},color={0,127,255}));
-    connect(TBV.opening, actuatorBus.TBV) annotation (Line(points={{-74,78.4},{-74,
-            100},{30,100}},       color={111,216,99},
-        pattern=LinePattern.Dash,
-        thickness=0.5));
     connect(LPT1.shaft_b, LPT2.shaft_a)
       annotation (Line(points={{138,34},{198,34}}, color={0,0,0}));
     connect(tee2.port_1, LPT2.portHP) annotation (Line(points={{188,50},{192,50},{
@@ -9090,6 +9092,8 @@ package HTGR_RankineCycles
             {238.1,34},{218,34}}, color={0,0,0}));
     connect(sensor_T2.port_a, pump.port_b)
       annotation (Line(points={{-98,-58},{-44,-58}}, color={0,127,255}));
+    connect(TBV_open.y, TBV.opening) annotation (Line(points={{-66.5,89},{-74,
+            89},{-74,78.4}}, color={0,0,127}));
     annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-140,
               -100},{140,100}}),                                  graphics={
           Rectangle(
@@ -9254,5 +9258,5 @@ package HTGR_RankineCycles
 <p>Separate HTGR models will be developed for different uses. The primary differentiator is whether a combined cycle is going to be integrated or not. The combined cycle thoerized to be used here takes advantage of the relatively hot waste heat that is produced by an HTGR to boil water at low pressure and send that to a turbine. </p>
 <p>No part of this HTGR model should be considered to be optimized. Additionally, thermal mass of the system needs references and then will need to be adjusted (likely through pipes replacing current zero-volume volume nodes) to more appropriately reflect system time constants. </p>
 </html>"));
-  end HTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_Optimization;
+  end HTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_TBV_manualChange;
 end HTGR_RankineCycles;

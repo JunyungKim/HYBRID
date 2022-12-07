@@ -1,8 +1,6 @@
 within NHES.Systems.BalanceOfPlant.Turbine.ControlSystems;
 model
-  CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TEST_TCVcontrol
-
-
+  CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TCVcontrol_TBVmanualChange
 
 
   extends BaseClasses.Partial_ControlSystem;
@@ -298,8 +296,6 @@ equation
       index=-1,
       extent={{-3,-6},{-3,-6}},
       horizontalAlignment=TextAlignment.Right));
-  connect(trap_LTV1bypass_power.y, LTV1_Divert_Valve1.u_s)
-    annotation (Line(points={{-131.2,120},{-57.6,120}}, color={0,0,127}));
   connect(RPM_TEST.y, add.u1) annotation (Line(points={{50.4,94},{56,94},{56,76},
           {62,76}}, color={0,0,127}));
   connect(sensorBus.Steam_Pressure, TCV_Position.u_m) annotation (Line(
@@ -329,6 +325,8 @@ equation
     annotation (Line(points={{-19.6,-40},{-12,-40}}, color={0,0,127}));
   connect(add1.y, switch_P_setpoint_TCV.u3) annotation (Line(points={{11,-34},{
           44,-34},{44,-54},{118,-54},{118,-26},{126,-26}}, color={0,0,127}));
+  connect(const_LTV1bypass_power.y, LTV1_Divert_Valve1.u_s) annotation (Line(
+        points={{-131.2,94},{-106,94},{-106,120},{-57.6,120}}, color={0,0,127}));
 annotation(defaultComponentName="changeMe_CS", Icon(graphics));
 end
-  CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TEST_TCVcontrol;
+  CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TCVcontrol_TBVmanualChange;
