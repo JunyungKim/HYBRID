@@ -7826,11 +7826,11 @@ package HTGR_RankineCycles
       T=573.15,
       nPorts=1)
       annotation (Placement(transformation(extent={{-116,62},{-96,82}})));
-    TRANSFORM.Fluid.Interfaces.FluidPort_Flow port_a(redeclare package Medium
-        = Modelica.Media.Water.StandardWater)
+    TRANSFORM.Fluid.Interfaces.FluidPort_Flow port_a(redeclare package Medium =
+          Modelica.Media.Water.StandardWater)
       annotation (Placement(transformation(extent={{-150,30},{-130,50}})));
-    TRANSFORM.Fluid.Interfaces.FluidPort_State port_b(redeclare package Medium
-        = Modelica.Media.Water.StandardWater)
+    TRANSFORM.Fluid.Interfaces.FluidPort_State port_b(redeclare package Medium =
+          Modelica.Media.Water.StandardWater)
       annotation (Placement(transformation(extent={{-150,-68},{-130,-48}})));
     TRANSFORM.Electrical.Interfaces.ElectricalPowerPort_Flow port_e
       annotation (Placement(transformation(extent={{130,-10},{150,10}}),
@@ -7885,8 +7885,8 @@ package HTGR_RankineCycles
       T=573.15,
       nPorts=1)
       annotation (Placement(transformation(extent={{-104,-42},{-84,-22}})));
-    TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium
-        = Modelica.Media.Water.StandardWater)            annotation (Placement(
+    TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium =
+          Modelica.Media.Water.StandardWater)            annotation (Placement(
           transformation(
           extent={{-10,-10},{10,10}},
           rotation=180,
@@ -8763,7 +8763,7 @@ package HTGR_RankineCycles
       V_total=2500,
       V_liquid_start=1.2)
       annotation (Placement(transformation(extent={{244,-62},{224,-42}})));
-    TRANSFORM.Fluid.Machines.Pump_Controlled pump(
+    TRANSFORM.Fluid.Machines.Pump_Controlled FWP(
       redeclare package Medium = Modelica.Media.Water.StandardWater,
       N_nominal=1200,
       dp_nominal=15000000,
@@ -8887,11 +8887,11 @@ package HTGR_RankineCycles
       T=573.15,
       nPorts=1)
       annotation (Placement(transformation(extent={{-116,62},{-96,82}})));
-    TRANSFORM.Fluid.Interfaces.FluidPort_Flow port_a(redeclare package Medium
-        = Modelica.Media.Water.StandardWater)
+    TRANSFORM.Fluid.Interfaces.FluidPort_Flow port_a(redeclare package Medium =
+          Modelica.Media.Water.StandardWater)
       annotation (Placement(transformation(extent={{-150,30},{-130,50}})));
-    TRANSFORM.Fluid.Interfaces.FluidPort_State port_b(redeclare package Medium
-        = Modelica.Media.Water.StandardWater)
+    TRANSFORM.Fluid.Interfaces.FluidPort_State port_b(redeclare package Medium =
+          Modelica.Media.Water.StandardWater)
       annotation (Placement(transformation(extent={{-150,-68},{-130,-48}})));
     TRANSFORM.Electrical.Interfaces.ElectricalPowerPort_Flow port_e
       annotation (Placement(transformation(extent={{130,-10},{150,10}}),
@@ -8946,14 +8946,14 @@ package HTGR_RankineCycles
       T=573.15,
       nPorts=1)
       annotation (Placement(transformation(extent={{-104,-42},{-84,-22}})));
-    TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium
-        = Modelica.Media.Water.StandardWater)            annotation (Placement(
+    TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium =
+          Modelica.Media.Water.StandardWater)            annotation (Placement(
           transformation(
           extent={{-10,-10},{10,10}},
           rotation=180,
           origin={44,-32})));
     Modelica.Blocks.Sources.Ramp     TBV_open(
-      height=0.1,
+      height=0,
       duration=1000,
       offset=0,
       startTime=100000)
@@ -8972,7 +8972,7 @@ package HTGR_RankineCycles
         color={239,82,82},
         pattern=LinePattern.Dash,
         thickness=0.5));
-    connect(actuatorBus.Feed_Pump_Speed, pump.inputSignal) annotation (Line(
+    connect(actuatorBus.Feed_Pump_Speed, FWP.inputSignal) annotation (Line(
         points={{30,100},{258,100},{258,-98},{-34,-98},{-34,-65}},
         color={111,216,99},
         pattern=LinePattern.Dash,
@@ -8991,8 +8991,9 @@ package HTGR_RankineCycles
         color={239,82,82},
         pattern=LinePattern.Dash,
         thickness=0.5));
-    connect(volume1.port_b, pump.port_a) annotation (Line(points={{-10,-58},{
-            -24,-58}},                color={0,127,255},
+    connect(volume1.port_b, FWP.port_a) annotation (Line(
+        points={{-10,-58},{-24,-58}},
+        color={0,127,255},
         thickness=0.5));
     connect(LPT1.portHP, tee1.port_1) annotation (Line(
         points={{118,40},{118,50},{104,50}},
@@ -9090,12 +9091,12 @@ package HTGR_RankineCycles
         horizontalAlignment=TextAlignment.Right));
     connect(generator.shaft, LPT2.shaft_b) annotation (Line(points={{238.1,55.9},
             {238.1,34},{218,34}}, color={0,0,0}));
-    connect(sensor_T2.port_a, pump.port_b)
+    connect(sensor_T2.port_a, FWP.port_b)
       annotation (Line(points={{-98,-58},{-44,-58}}, color={0,127,255}));
     connect(TBV_open.y, TBV.opening) annotation (Line(points={{-66.5,89},{-74,
             89},{-74,78.4}}, color={0,0,127}));
     annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-140,
-              -100},{140,100}}),                                  graphics={
+              -100},{260,140}}),                                  graphics={
           Rectangle(
             extent={{-2.09756,2},{83.9024,-2}},
             lineColor={0,0,0},
@@ -9246,8 +9247,8 @@ package HTGR_RankineCycles
             pattern=LinePattern.None,
             fillPattern=FillPattern.HorizontalCylinder,
             fillColor={255,255,255})}),                            Diagram(
-          coordinateSystem(preserveAspectRatio=false, extent={{-140,-100},{140,
-              100}})),
+          coordinateSystem(preserveAspectRatio=false, extent={{-140,-100},{260,
+              140}})),
       experiment(
         StopTime=86400,
         Interval=30,

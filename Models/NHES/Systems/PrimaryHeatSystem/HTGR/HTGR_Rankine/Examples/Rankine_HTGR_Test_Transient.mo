@@ -16,13 +16,13 @@ model Rankine_HTGR_Test_Transient
 equation
   hTGR_PebbleBed_Primary_Loop.input_steam_pressure = hTGR_Rankine_Cycle.sensor_p.p;
   connect(sinkElec.port, hTGR_Rankine_Cycle.port_e)
-    annotation (Line(points={{58,15},{46,15},{46,13},{34,13}},
+    annotation (Line(points={{58,15},{46,15},{46,8.83333},{15.4,8.83333}},
                                                color={255,0,0}));
   connect(hTGR_PebbleBed_Primary_Loop.port_b, hTGR_Rankine_Cycle.port_a)
-    annotation (Line(points={{-40.87,25.21},{-28,23}},             color={0,127,
+    annotation (Line(points={{-40.87,25.21},{-28,17.1667}},        color={0,127,
           255}));
   connect(hTGR_PebbleBed_Primary_Loop.port_a, hTGR_Rankine_Cycle.port_b)
-    annotation (Line(points={{-40.87,1.43},{-40.87,-1.5},{-28,-1.5}},
+    annotation (Line(points={{-40.87,1.43},{-40.87,-3.25},{-28,-3.25}},
         color={0,127,255}));
   annotation (experiment(
       StopTime=400420,
