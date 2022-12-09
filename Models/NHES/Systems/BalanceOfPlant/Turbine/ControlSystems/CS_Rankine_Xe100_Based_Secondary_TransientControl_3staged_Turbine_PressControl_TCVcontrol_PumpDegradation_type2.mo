@@ -1,6 +1,6 @@
 within NHES.Systems.BalanceOfPlant.Turbine.ControlSystems;
 model
-  CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TCVcontrol_TBVmanualChange
+  CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TCVcontrol_PumpDegradation_type2
 
 
   extends BaseClasses.Partial_ControlSystem;
@@ -235,15 +235,6 @@ equation
           142},{-110,142},{-110,160},{-92,160},{-92,164}}, color={0,0,127}));
   connect(const1.y, switch_P_setpoint_TCV1.u1) annotation (Line(points={{-113.6,
           196},{-98,196},{-98,180},{-92,180}}, color={0,0,127}));
-  connect(actuatorBus.Feed_Pump_Speed, add.y) annotation (Line(
-      points={{30,-100},{30,50},{92,50},{92,70},{85,70}},
-      color={111,216,99},
-      pattern=LinePattern.Dash,
-      thickness=0.5), Text(
-      string="%first",
-      index=-1,
-      extent={{6,3},{6,3}},
-      horizontalAlignment=TextAlignment.Left));
   connect(const10.y, PID.upperlim) annotation (Line(points={{-55.6,200},{0,200},
           {0,37}},                                        color={0,0,127}));
   connect(switch_P_setpoint_TCV1.y, PID.lowerlim) annotation (Line(points={{-69,172},
@@ -325,8 +316,17 @@ equation
     annotation (Line(points={{-19.6,-40},{-12,-40}}, color={0,0,127}));
   connect(add1.y, switch_P_setpoint_TCV.u3) annotation (Line(points={{11,-34},{
           44,-34},{44,-54},{118,-54},{118,-26},{126,-26}}, color={0,0,127}));
-  connect(const_LTV1bypass_power.y, LTV1_Divert_Valve1.u_s) annotation (Line(
-        points={{-131.2,94},{-106,94},{-106,120},{-57.6,120}}, color={0,0,127}));
+  connect(actuatorBus.Feed_Pump_Speed, add.y) annotation (Line(
+      points={{30,-100},{188,-100},{188,70},{85,70}},
+      color={111,216,99},
+      pattern=LinePattern.Dash,
+      thickness=0.5), Text(
+      string="%first",
+      index=-1,
+      extent={{-6,3},{-6,3}},
+      horizontalAlignment=TextAlignment.Right));
+  connect(trap_LTV1bypass_power.y, LTV1_Divert_Valve1.u_s)
+    annotation (Line(points={{-131.2,120},{-57.6,120}}, color={0,0,127}));
 annotation(defaultComponentName="changeMe_CS", Icon(graphics));
 end
-  CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TCVcontrol_TBVmanualChange;
+  CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TCVcontrol_PumpDegradation_type2;
