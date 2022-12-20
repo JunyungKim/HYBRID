@@ -4,6 +4,7 @@ model
 
 
 
+
   extends BaseClasses.Partial_ControlSystem;
 
   Modelica.Blocks.Sources.Constant const3(k=data.T_Steam_Ref)
@@ -78,7 +79,7 @@ model
     annotation (Placement(transformation(extent={{-130,182},{-110,162}})));
   Modelica.Blocks.Logical.Switch switch_P_setpoint_TCV1
     annotation (Placement(transformation(extent={{-90,162},{-70,182}})));
-  Modelica.Blocks.Sources.Constant const1(k=-280)
+  Modelica.Blocks.Sources.Constant const1(k=-150)
     annotation (Placement(transformation(extent={{-122,192},{-114,200}})));
   Modelica.Blocks.Sources.Constant const2(k=-150)
     annotation (Placement(transformation(extent={{-124,138},{-116,146}})));
@@ -102,11 +103,8 @@ model
     annotation (Placement(transformation(extent={{-126,266},{-106,246}})));
   Modelica.Blocks.Logical.Switch switch_P_setpoint_TCV2
     annotation (Placement(transformation(extent={{-86,246},{-66,266}})));
-  Modelica.Blocks.Sources.Ramp ramp(
-    height=-0.5e-1,
-    duration=1e5,
-    offset=-1e-1,
-    startTime=8.7e5)
+  Modelica.Blocks.Sources.Constant
+                               const(k=-1e-1)
     annotation (Placement(transformation(extent={{-124,286},{-104,306}})));
   Modelica.Blocks.Sources.Trapezoid trapezoid1(
     amplitude=-280,
@@ -275,8 +273,8 @@ equation
   connect(switch_P_setpoint_TCV2.y, PID.prop_k) annotation (Line(points={{-65,256},
           {14,256},{14,37.4},{13.4,37.4}},                          color={0,0,
           127}));
-  connect(ramp.y, switch_P_setpoint_TCV2.u1) annotation (Line(points={{-103,296},
-          {-96,296},{-96,264},{-88,264}}, color={0,0,127}));
+  connect(const.y, switch_P_setpoint_TCV2.u1) annotation (Line(points={{-103,
+          296},{-96,296},{-96,264},{-88,264}}, color={0,0,127}));
   connect(trapezoid1.y, PID.u_ff) annotation (Line(points={{-129,30},{-78,30},{
           -78,40},{-12,40},{-12,34},{-6,34}}, color={0,0,127}));
   connect(actuatorBus.openingLPTv,LTV1_Divert_Valve1. y) annotation (Line(

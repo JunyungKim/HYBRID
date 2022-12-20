@@ -1,11 +1,10 @@
 within NHES.Systems.PrimaryHeatSystem.HTGR.HTGR_Rankine.Examples;
 model Rankine_HTGR_Test_Transient
   extends Modelica.Icons.Example;
-  BalanceOfPlant.Turbine.HTGR_RankineCycles.HTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_TBV_PumpDegradation_type1
+  BalanceOfPlant.Turbine.HTGR_RankineCycles.HTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_PumpDegradation_type2
     hTGR_Rankine_Cycle(redeclare
-      NHES.Systems.BalanceOfPlant.Turbine.ControlSystems.CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TCVcontrol_PumpDegradation_type1
-      CS, TBV_open(height=0.0))
-    annotation (Placement(transformation(extent={{-20,-6},{48,44}})));
+      NHES.Systems.BalanceOfPlant.Turbine.ControlSystems.CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TCVcontrol_PumpDegradation
+      CS) annotation (Placement(transformation(extent={{-20,-6},{48,42}})));
   TRANSFORM.Electrical.Sources.FrequencySource
                                      sinkElec(f=60)
     annotation (Placement(transformation(extent={{76,6},{58,24}})));
@@ -16,17 +15,17 @@ model Rankine_HTGR_Test_Transient
 equation
   hTGR_PebbleBed_Primary_Loop.input_steam_pressure = hTGR_Rankine_Cycle.sensor_p.p;
   connect(sinkElec.port, hTGR_Rankine_Cycle.port_e)
-    annotation (Line(points={{58,15},{48,15},{48,14.8333}},
+    annotation (Line(points={{58,15},{48,15},{48,18}},
                                                color={255,0,0}));
   connect(hTGR_PebbleBed_Primary_Loop.port_b, hTGR_Rankine_Cycle.port_a)
-    annotation (Line(points={{-40.87,25.21},{-20,23.1667}},        color={0,127,
+    annotation (Line(points={{-40.87,25.21},{-20,27.6}},           color={0,127,
           255}));
   connect(hTGR_PebbleBed_Primary_Loop.port_a, hTGR_Rankine_Cycle.port_b)
-    annotation (Line(points={{-40.87,1.43},{-40.87,2.75},{-20,2.75}},
+    annotation (Line(points={{-40.87,1.43},{-40.87,4.08},{-20,4.08}},
         color={0,127,255}));
   annotation (experiment(
-      StopTime=400420,
-      Interval=100,
+      StopTime=63072000,
+      __Dymola_NumberOfIntervals=20,
       __Dymola_Algorithm="Esdirk45a"), Documentation(info="<html>
 <p>This test is effectively the same as the above &quot;Complex&quot; test but split between two models. </p>
 </html>"),

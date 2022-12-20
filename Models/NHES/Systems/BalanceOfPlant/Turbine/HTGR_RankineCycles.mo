@@ -8727,11 +8727,11 @@ package HTGR_RankineCycles
   end HTGR_Rankine_Cycle_Transient_JY_v1_step10_TBV_Control;
 
   model
-    HTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_TBV_PumpDegradation_type1
+    HTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_PumpDegradation_type1
     "Pressure Control done!!!"
     extends BaseClasses.Partial_SubSystem(
       redeclare replaceable
-        ControlSystems.CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TCVcontrol_PumpDegradation_type1
+        ControlSystems.CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TCVcontrol_PumpDegradation
         CS,
       redeclare replaceable ControlSystems.ED_Dummy ED,
       redeclare Data.IdealTurbine data);
@@ -8868,7 +8868,8 @@ package HTGR_RankineCycles
       p_nominal=5500000,
       allowFlowReversal=false)
       annotation (Placement(transformation(extent={{92,-92},{72,-72}})));
-    TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow1(redeclare package Medium =
+    TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow1(redeclare package
+        Medium =
           Modelica.Media.Water.StandardWater)            annotation (Placement(
           transformation(
           extent={{7,-8},{-7,8}},
@@ -8887,11 +8888,11 @@ package HTGR_RankineCycles
       T=573.15,
       nPorts=1)
       annotation (Placement(transformation(extent={{-116,62},{-96,82}})));
-    TRANSFORM.Fluid.Interfaces.FluidPort_Flow port_a(redeclare package Medium =
-          Modelica.Media.Water.StandardWater)
+    TRANSFORM.Fluid.Interfaces.FluidPort_Flow port_a(redeclare package Medium
+        = Modelica.Media.Water.StandardWater)
       annotation (Placement(transformation(extent={{-150,30},{-130,50}})));
-    TRANSFORM.Fluid.Interfaces.FluidPort_State port_b(redeclare package Medium =
-          Modelica.Media.Water.StandardWater)
+    TRANSFORM.Fluid.Interfaces.FluidPort_State port_b(redeclare package Medium
+        = Modelica.Media.Water.StandardWater)
       annotation (Placement(transformation(extent={{-150,-68},{-130,-48}})));
     TRANSFORM.Electrical.Interfaces.ElectricalPowerPort_Flow port_e
       annotation (Placement(transformation(extent={{250,-10},{270,10}}),
@@ -8946,8 +8947,8 @@ package HTGR_RankineCycles
       T=573.15,
       nPorts=1)
       annotation (Placement(transformation(extent={{-104,-42},{-84,-22}})));
-    TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium =
-          Modelica.Media.Water.StandardWater)            annotation (Placement(
+    TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium
+        = Modelica.Media.Water.StandardWater)            annotation (Placement(
           transformation(
           extent={{-10,-10},{10,10}},
           rotation=180,
@@ -8971,7 +8972,7 @@ package HTGR_RankineCycles
       start_time=2e5,
       r=0.9,
       s_nom=1200,
-      s_min=1000) annotation (Placement(transformation(
+      s_min=600)  annotation (Placement(transformation(
           extent={{-10,-10},{10,10}},
           rotation=90,
           origin={-72,-82})));
@@ -9284,7 +9285,7 @@ package HTGR_RankineCycles
 <p>No part of this HTGR model should be considered to be optimized. Additionally, thermal mass of the system needs references and then will need to be adjusted (likely through pipes replacing current zero-volume volume nodes) to more appropriately reflect system time constants. </p>
 </html>"));
   end
-    HTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_TBV_PumpDegradation_type1;
+    HTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_PumpDegradation_type1;
 
   package Component_Degradation
     model PumpMotor_degradation_type1
@@ -9337,7 +9338,7 @@ Model")}));
       Real tau "Mass flow rate feedback to degradation rate";
 
       parameter Real r "randomness parameter";
-      //   parameter Modelica.Units.SI.MassFlowRate massflow_nom "nominal massflow";
+      parameter Modelica.Units.SI.MassFlowRate massflow_nom "nominal massflow";
 
       parameter Modelica.Units.SI.AngularVelocity s_nom "norminal shaft rotational speed";
       parameter Modelica.Units.SI.AngularVelocity s_min "minimum permissible shaft rotational speed";
@@ -9353,8 +9354,7 @@ Model")}));
     equation
       linear_end_time = 400420;
       sdot_linear = (s_min - s_nom) / (linear_end_time - start_time);
-      // tau = m_flow*r / massflow_nom;
-      tau = r;
+      tau = m_flow*r / massflow_nom;
       sdot = sdot_linear*tau;
 
       if time < start_time then
@@ -9377,11 +9377,11 @@ Model")}));
   end Component_Degradation;
 
   model
-    HTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_TBV_PumpDegradation_type2
+    HTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_PumpDegradation_type2
     "Pressure Control done!!!"
     extends BaseClasses.Partial_SubSystem(
       redeclare replaceable
-        ControlSystems.CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TCVcontrol_PumpDegradation_type2
+        ControlSystems.CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TCVcontrol_PumpDegradation
         CS,
       redeclare replaceable ControlSystems.ED_Dummy ED,
       redeclare Data.IdealTurbine data);
@@ -9414,8 +9414,11 @@ Model")}));
       V_total=2500,
       V_liquid_start=1.2)
       annotation (Placement(transformation(extent={{244,-62},{224,-42}})));
-    TRANSFORM.Fluid.Machines.Pump_Controlled FWP(
+    TRANSFORM.Fluid.Machines.Pump_Controlled pump(
       redeclare package Medium = Modelica.Media.Water.StandardWater,
+      redeclare model EfficiencyChar =
+          TRANSFORM.Fluid.Machines.BaseClasses.PumpCharacteristics.Efficiency.Degradation,
+
       N_nominal=1200,
       dp_nominal=15000000,
       m_flow_nominal=50,
@@ -9545,8 +9548,8 @@ Model")}));
         = Modelica.Media.Water.StandardWater)
       annotation (Placement(transformation(extent={{-150,-68},{-130,-48}})));
     TRANSFORM.Electrical.Interfaces.ElectricalPowerPort_Flow port_e
-      annotation (Placement(transformation(extent={{250,-10},{270,10}}),
-          iconTransformation(extent={{250,-10},{270,10}})));
+      annotation (Placement(transformation(extent={{130,-10},{150,10}}),
+          iconTransformation(extent={{130,-10},{150,10}})));
     TRANSFORM.Fluid.FittingsAndResistances.TeeJunctionVolume tee2(
       redeclare package Medium = Modelica.Media.Water.StandardWater,
       V=5,
@@ -9603,12 +9606,6 @@ Model")}));
           extent={{-10,-10},{10,10}},
           rotation=180,
           origin={44,-32})));
-    Modelica.Blocks.Sources.Ramp     TBV_open(
-      height=0,
-      duration=1000,
-      offset=0,
-      startTime=100000)
-      annotation (Placement(transformation(extent={{-56,84},{-66,94}})));
   initial equation
 
   equation
@@ -9623,7 +9620,7 @@ Model")}));
         color={239,82,82},
         pattern=LinePattern.Dash,
         thickness=0.5));
-    connect(actuatorBus.Feed_Pump_Speed, FWP.inputSignal) annotation (Line(
+    connect(actuatorBus.Feed_Pump_Speed, pump.inputSignal) annotation (Line(
         points={{30,100},{258,100},{258,-98},{-34,-98},{-34,-65}},
         color={111,216,99},
         pattern=LinePattern.Dash,
@@ -9638,11 +9635,11 @@ Model")}));
         color={0,127,255},
         thickness=0.5));
     connect(sensorBus.Power, Electrical_Power.y) annotation (Line(
-        points={{-30,100},{-30,118},{-80,118},{-80,112},{-85,112}},
+        points={{-30,100},{-30,76},{-80,76},{-80,112},{-85,112}},
         color={239,82,82},
         pattern=LinePattern.Dash,
         thickness=0.5));
-    connect(volume1.port_b, FWP.port_a) annotation (Line(
+    connect(volume1.port_b, pump.port_a) annotation (Line(
         points={{-10,-58},{-24,-58}},
         color={0,127,255},
         thickness=0.5));
@@ -9655,7 +9652,7 @@ Model")}));
         color={0,127,255},
         thickness=0.5));
     connect(sensorBus.Feedwater_Temp, sensor_T2.T) annotation (Line(
-        points={{-30,100},{-162,100},{-162,-74},{-108,-74},{-108,-61.6}},
+        points={{-30,100},{-30,-44},{-56,-44},{-56,-74},{-108,-74},{-108,-61.6}},
         color={239,82,82},
         pattern=LinePattern.Dash,
         thickness=0.5));
@@ -9693,6 +9690,10 @@ Model")}));
       annotation (Line(points={{-140,40},{-68,40}}, color={0,127,255}));
     connect(sensor_T2.port_b, port_b)
       annotation (Line(points={{-118,-58},{-140,-58}},color={0,127,255}));
+    connect(TBV.opening, actuatorBus.TBV) annotation (Line(points={{-74,78.4},{-74,
+            100},{30,100}},       color={111,216,99},
+        pattern=LinePattern.Dash,
+        thickness=0.5));
     connect(LPT1.shaft_b, LPT2.shaft_a)
       annotation (Line(points={{138,34},{198,34}}, color={0,0,0}));
     connect(tee2.port_1, LPT2.portHP) annotation (Line(points={{188,50},{192,50},{
@@ -9723,7 +9724,7 @@ Model")}));
     connect(sensor_m_flow.port_b, boundary2.ports[1])
       annotation (Line(points={{34,-32},{-84,-32}},color={0,127,255}));
     connect(sensorBus.massflow_LPTv, sensor_m_flow.m_flow) annotation (Line(
-        points={{-30,100},{-162,100},{-162,-46},{44,-46},{44,-35.6}},
+        points={{-30,100},{-30,-42},{44,-42},{44,-35.6}},
         color={239,82,82},
         pattern=LinePattern.Dash,
         thickness=0.5), Text(
@@ -9742,23 +9743,21 @@ Model")}));
         horizontalAlignment=TextAlignment.Right));
     connect(generator.shaft, LPT2.shaft_b) annotation (Line(points={{238.1,55.9},
             {238.1,34},{218,34}}, color={0,0,0}));
-    connect(TBV_open.y, TBV.opening) annotation (Line(points={{-66.5,89},{-74,
-            89},{-74,78.4}}, color={0,0,127}));
-    connect(FWP.port_b, sensor_T2.port_a)
-      annotation (Line(points={{-44,-58},{-98,-58}}, color={0,127,255}));
+    connect(sensor_T2.port_a, pump.port_b)
+      annotation (Line(points={{-98,-58},{-44,-58}}, color={0,127,255}));
     annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-140,
-              -100},{260,140}}),                                  graphics={
+              -100},{140,100}}),                                  graphics={
           Rectangle(
             extent={{-2.09756,2},{83.9024,-2}},
             lineColor={0,0,0},
-            origin={-47.9024,-60},
+            origin={-45.9024,-64},
             rotation=360,
             fillColor={0,0,255},
             fillPattern=FillPattern.HorizontalCylinder),
           Rectangle(
             extent={{-1.81329,5},{66.1867,-5}},
             lineColor={0,0,0},
-            origin={-70.1867,-37},
+            origin={-68.1867,-41},
             rotation=0,
             fillColor={0,0,255},
             fillPattern=FillPattern.HorizontalCylinder),
@@ -9767,139 +9766,139 @@ Model")}));
             lineColor={0,0,0},
             fillColor={66,200,200},
             fillPattern=FillPattern.HorizontalCylinder,
-            origin={2,34},
+            origin={4,30},
             rotation=-90),
           Rectangle(
             extent={{-1.81332,3},{66.1869,-3}},
             lineColor={0,0,0},
-            origin={-20.1867,1},
+            origin={-18.1867,-3},
             rotation=0,
             fillColor={135,135,135},
             fillPattern=FillPattern.HorizontalCylinder),
           Rectangle(
-            extent={{-72,50},{-24,38}},
+            extent={{-70,46},{-22,34}},
             lineColor={0,0,0},
             fillColor={66,200,200},
             fillPattern=FillPattern.HorizontalCylinder),
           Polygon(
-            points={{-2,20},{-2,-10},{28,-28},{28,40},{-2,20}},
+            points={{0,16},{0,-14},{30,-32},{30,36},{0,16}},
             lineColor={0,0,0},
             fillColor={0,114,208},
             fillPattern=FillPattern.Solid),
           Text(
-            extent={{9,-4},{19,10}},
+            extent={{11,-8},{21,6}},
             lineColor={0,0,0},
             fillColor={255,255,255},
             fillPattern=FillPattern.Solid,
             textString="T"),
           Ellipse(
-            extent={{44,16},{72,-10}},
+            extent={{46,12},{74,-14}},
             lineColor={0,0,0},
             fillColor={255,255,255},
             fillPattern=FillPattern.Solid),
           Rectangle(
             extent={{-0.4,3},{15.5,-3}},
             lineColor={0,0,0},
-            origin={28.4272,-25},
+            origin={30.4272,-29},
             rotation=0,
             fillColor={0,128,255},
             fillPattern=FillPattern.HorizontalCylinder),
           Rectangle(
             extent={{-0.43805,2.7864},{15.9886,-2.7864}},
             lineColor={0,0,0},
-            origin={43.2136,-37.989},
+            origin={45.2136,-41.989},
             rotation=90,
             fillColor={0,128,255},
             fillPattern=FillPattern.HorizontalCylinder),
           Ellipse(
-            extent={{30,-38},{58,-64}},
+            extent={{32,-42},{60,-68}},
             lineColor={0,0,0},
             fillColor={255,255,255},
             fillPattern=FillPattern.Solid),
           Rectangle(
             extent={{-0.373344,2},{13.6267,-2}},
             lineColor={0,0,0},
-            origin={16.3733,-52},
+            origin={18.3733,-56},
             rotation=0,
             fillColor={0,0,255},
             fillPattern=FillPattern.HorizontalCylinder),
           Rectangle(
             extent={{-0.487802,2},{19.5122,-2}},
             lineColor={0,0,0},
-            origin={18,-34.488},
+            origin={20,-38.488},
             rotation=-90,
             fillColor={0,0,255},
             fillPattern=FillPattern.HorizontalCylinder),
           Rectangle(
             extent={{-0.243902,2},{9.7562,-2}},
             lineColor={0,0,0},
-            origin={-48,-58.244},
+            origin={-46,-62.244},
             rotation=-90,
             fillColor={0,0,255},
             fillPattern=FillPattern.HorizontalCylinder),
           Rectangle(
             extent={{-0.578156,2.1722},{23.1262,-2.1722}},
             lineColor={0,0,0},
-            origin={19.4218,-35.828},
+            origin={21.4218,-39.828},
             rotation=180,
             fillColor={0,0,255},
             fillPattern=FillPattern.HorizontalCylinder),
           Ellipse(
-            extent={{-6,-30},{6,-42}},
+            extent={{-4,-34},{8,-46}},
             lineColor={0,0,0},
             fillPattern=FillPattern.Sphere,
             fillColor={0,100,199}),
           Polygon(
-            points={{-4,-40},{-8,-44},{8,-44},{4,-40},{-4,-40}},
+            points={{-2,-44},{-6,-48},{10,-48},{6,-44},{-2,-44}},
             lineColor={0,0,255},
             pattern=LinePattern.None,
             fillColor={0,0,0},
             fillPattern=FillPattern.VerticalCylinder),
           Rectangle(
-            extent={{-22,50},{4,38}},
+            extent={{-20,46},{6,34}},
             lineColor={0,0,0},
             fillColor={66,200,200},
             fillPattern=FillPattern.HorizontalCylinder),
           Ellipse(
-            extent={{-32,53},{-14,35}},
+            extent={{-30,49},{-12,31}},
             lineColor={95,95,95},
             fillColor={175,175,175},
             fillPattern=FillPattern.Sphere),
           Rectangle(
-            extent={{-22,53},{-24,65}},
+            extent={{-20,49},{-22,61}},
             lineColor={0,0,0},
             fillColor={95,95,95},
             fillPattern=FillPattern.VerticalCylinder),
           Rectangle(
-            extent={{-32,67},{-14,65}},
+            extent={{-30,63},{-12,61}},
             lineColor={0,0,0},
             fillColor={181,0,0},
             fillPattern=FillPattern.HorizontalCylinder),
           Ellipse(
-            extent={{-21,53},{-25,35}},
+            extent={{-19,49},{-23,31}},
             lineColor={0,0,0},
             fillPattern=FillPattern.VerticalCylinder,
             fillColor={162,162,0}),
           Text(
-            extent={{53,-6},{63,8}},
+            extent={{55,-10},{65,4}},
             lineColor={0,0,0},
             fillColor={255,255,255},
             fillPattern=FillPattern.Solid,
             textString="G"),
           Text(
-            extent={{39,-58},{49,-44}},
+            extent={{41,-62},{51,-48}},
             lineColor={0,0,0},
             fillColor={255,255,255},
             fillPattern=FillPattern.Solid,
             textString="C"),
           Polygon(
-            points={{1,-33},{1,-39},{-3,-36},{1,-33}},
+            points={{3,-37},{3,-43},{-1,-40},{3,-37}},
             lineColor={0,0,0},
             pattern=LinePattern.None,
             fillPattern=FillPattern.HorizontalCylinder,
             fillColor={255,255,255})}),                            Diagram(
-          coordinateSystem(preserveAspectRatio=false, extent={{-140,-100},{260,
-              140}})),
+          coordinateSystem(preserveAspectRatio=false, extent={{-140,-100},{140,
+              100}})),
       experiment(
         StopTime=86400,
         Interval=30,
@@ -9911,5 +9910,5 @@ Model")}));
 <p>No part of this HTGR model should be considered to be optimized. Additionally, thermal mass of the system needs references and then will need to be adjusted (likely through pipes replacing current zero-volume volume nodes) to more appropriately reflect system time constants. </p>
 </html>"));
   end
-    HTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_TBV_PumpDegradation_type2;
+    HTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_PumpDegradation_type2;
 end HTGR_RankineCycles;
