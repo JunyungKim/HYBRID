@@ -5,6 +5,7 @@ model
 
 
 
+
   extends BaseClasses.Partial_ControlSystem;
 
   Modelica.Blocks.Sources.Constant const3(k=data.T_Steam_Ref)
@@ -114,7 +115,7 @@ model
     period=3600,
     nperiod=1,
     offset=0,
-    startTime=1e6 + 900)
+    startTime=1e10 + 900)
     annotation (Placement(transformation(extent={{-150,20},{-130,40}})));
   TRANSFORM.Controls.LimPID LTV1_Divert_Valve1(
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
@@ -146,14 +147,14 @@ model
   Modelica.Blocks.Sources.Constant const_LTV1bypass_massflow(k=30)
     annotation (Placement(transformation(extent={{-202,86},{-186,102}})));
   Modelica.Blocks.Sources.Trapezoid trap_LTV1bypass_power(
-    amplitude=-10e6,
+    amplitude=-16e6,
     rising=3600,
     width=5e4,
     falling=3600,
     period=107200,
     nperiod=-1,
     offset=44e6,
-    startTime=2e5)
+    startTime=1e5)
     annotation (Placement(transformation(extent={{-148,112},{-132,128}})));
   Modelica.Blocks.Sources.Constant RPM_TEST(k=1000)
     annotation (Placement(transformation(extent={{42,90},{50,98}})));
@@ -167,7 +168,7 @@ model
     annotation (Placement(transformation(extent={{-196,-18},{-176,-38}})));
   Modelica.Blocks.Logical.Switch switch_P_setpoint_TCV3
     annotation (Placement(transformation(extent={{-156,-38},{-136,-18}})));
-  Modelica.Blocks.Sources.Constant valvedelay4(k=13e6)
+  Modelica.Blocks.Sources.Constant valvedelay4(k=14e6)
     annotation (Placement(transformation(extent={{-196,-4},{-176,16}})));
   Modelica.Blocks.Math.Add         add1
     annotation (Placement(transformation(extent={{-10,-44},{10,-24}})));
@@ -295,8 +296,6 @@ equation
       index=-1,
       extent={{-3,-6},{-3,-6}},
       horizontalAlignment=TextAlignment.Right));
-  connect(RPM_TEST.y, add.u1) annotation (Line(points={{50.4,94},{56,94},{56,76},
-          {62,76}}, color={0,0,127}));
   connect(sensorBus.Steam_Pressure, TCV_Position.u_m) annotation (Line(
       points={{-30,-100},{-104,-100},{-104,-10},{-46,-10},{-46,-16}},
       color={239,82,82},
@@ -324,8 +323,10 @@ equation
     annotation (Line(points={{-19.6,-40},{-12,-40}}, color={0,0,127}));
   connect(add1.y, switch_P_setpoint_TCV.u3) annotation (Line(points={{11,-34},{
           44,-34},{44,-54},{118,-54},{118,-26},{126,-26}}, color={0,0,127}));
-  connect(const_LTV1bypass_power.y, LTV1_Divert_Valve1.u_s) annotation (Line(
-        points={{-131.2,94},{-106,94},{-106,120},{-57.6,120}}, color={0,0,127}));
+  connect(const4.y, add.u1)
+    annotation (Line(points={{50.4,76},{62,76}}, color={0,0,127}));
+  connect(trap_LTV1bypass_power.y, LTV1_Divert_Valve1.u_s)
+    annotation (Line(points={{-131.2,120},{-57.6,120}}, color={0,0,127}));
 annotation(defaultComponentName="changeMe_CS", Icon(graphics));
 end
   CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TCVcontrol;

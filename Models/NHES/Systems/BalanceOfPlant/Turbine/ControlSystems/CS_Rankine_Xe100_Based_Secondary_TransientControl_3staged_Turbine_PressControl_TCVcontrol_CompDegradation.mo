@@ -1,6 +1,6 @@
 within NHES.Systems.BalanceOfPlant.Turbine.ControlSystems;
 model
-  CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TCVcontrol_PumpDegradation
+  CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TCVcontrol_CompDegradation
 
 
   extends BaseClasses.Partial_ControlSystem;
@@ -50,7 +50,7 @@ model
     annotation (Placement(transformation(extent={{-148,54},{-132,70}})));
   Data.HTGR_Rankine
                   data(p_steam_vent=14000000, Q_Nom=44e6)
-    annotation (Placement(transformation(extent={{-98,-4},{-78,16}})));
+    annotation (Placement(transformation(extent={{-96,78},{-76,98}})));
   Modelica.Blocks.Sources.ContinuousClock clock(offset=0, startTime=0)
     annotation (Placement(transformation(extent={{48,-38},{68,-18}})));
   Modelica.Blocks.Sources.Constant valvedelay(k=1e10)
@@ -124,25 +124,7 @@ model
     xi_start=0.2)
     annotation (Placement(transformation(extent={{-56,112},{-40,128}})));
   Modelica.Blocks.Sources.Constant const_LTV1bypass_power(k=44e6)
-    annotation (Placement(transformation(extent={{-148,86},{-132,102}})));
-  Modelica.Blocks.Sources.Trapezoid trap_LTV1bypass_massflow(
-    amplitude=30,
-    rising=5e4,
-    width=5e4,
-    falling=5e4,
-    period=20e4,
-    nperiod=-1,
-    offset=15,
-    startTime=1e5 + 900)
-    annotation (Placement(transformation(extent={{-202,112},{-186,128}})));
-  Modelica.Blocks.Sources.Ramp ramp_LTV1bypass_massflow(
-    height=-15,
-    duration=5e4,
-    offset=15,
-    startTime=1e5 + 900)
-    annotation (Placement(transformation(extent={{-202,62},{-186,78}})));
-  Modelica.Blocks.Sources.Constant const_LTV1bypass_massflow(k=30)
-    annotation (Placement(transformation(extent={{-202,86},{-186,102}})));
+    annotation (Placement(transformation(extent={{-226,142},{-206,162}})));
   Modelica.Blocks.Sources.Trapezoid trap_LTV1bypass_power(
     amplitude=-10e6,
     rising=3600,
@@ -152,7 +134,7 @@ model
     nperiod=-1,
     offset=44e6,
     startTime=2e5)
-    annotation (Placement(transformation(extent={{-148,112},{-132,128}})));
+    annotation (Placement(transformation(extent={{-226,74},{-206,94}})));
   Modelica.Blocks.Sources.Constant RPM_TEST(k=1000)
     annotation (Placement(transformation(extent={{42,90},{50,98}})));
   Modelica.Blocks.Sources.Constant const12(k=data.p_steam_vent)
@@ -165,12 +147,23 @@ model
     annotation (Placement(transformation(extent={{-196,-18},{-176,-38}})));
   Modelica.Blocks.Logical.Switch switch_P_setpoint_TCV3
     annotation (Placement(transformation(extent={{-156,-38},{-136,-18}})));
-  Modelica.Blocks.Sources.Constant valvedelay4(k=13e6)
+  Modelica.Blocks.Sources.Constant valvedelay4(k=data.p_steam_vent)
     annotation (Placement(transformation(extent={{-196,-4},{-176,16}})));
   Modelica.Blocks.Math.Add         add1
     annotation (Placement(transformation(extent={{-10,-44},{10,-24}})));
   Modelica.Blocks.Sources.Constant const7(k=1.0)
     annotation (Placement(transformation(extent={{-28,-44},{-20,-36}})));
+  Modelica.Blocks.Logical.Switch switch_P_setpoint_TCV4
+    annotation (Placement(transformation(extent={{-186,110},{-166,130}})));
+  Modelica.Blocks.Logical.Greater greater4
+    annotation (Placement(transformation(extent={{-226,130},{-206,110}})));
+  Modelica.Blocks.Sources.ContinuousClock clock4(offset=0, startTime=0)
+    annotation (Placement(transformation(extent={{-266,90},{-246,110}})));
+  Modelica.Blocks.Sources.Constant valvedelay6(k=5e5)
+    annotation (Placement(transformation(extent={{-266,130},{-246,150}})));
+  Data.DataInitial_HTGR_BoP_3stage dataInitial_HTGR_BoP_3stage(LPT1_T_outlet=
+        473.15, LPT2_T_inlet=473.15)
+    annotation (Placement(transformation(extent={{-70,78},{-50,98}})));
 equation
 
   connect(const5.y,LTV2_Divert_Valve. u_s)
@@ -313,8 +306,6 @@ equation
     annotation (Line(points={{-19.6,-40},{-12,-40}}, color={0,0,127}));
   connect(add1.y, switch_P_setpoint_TCV.u3) annotation (Line(points={{11,-34},{
           44,-34},{44,-54},{118,-54},{118,-26},{126,-26}}, color={0,0,127}));
-  connect(const_LTV1bypass_power.y, LTV1_Divert_Valve1.u_s) annotation (Line(
-        points={{-131.2,94},{-106,94},{-106,120},{-57.6,120}}, color={0,0,127}));
   connect(actuatorBus.Feed_Pump_Speed, add.y) annotation (Line(
       points={{30,-100},{188,-100},{188,70},{85,70}},
       color={111,216,99},
@@ -324,6 +315,18 @@ equation
       index=-1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
+  connect(greater4.y, switch_P_setpoint_TCV4.u2)
+    annotation (Line(points={{-205,120},{-188,120}}, color={255,0,255}));
+  connect(valvedelay6.y, greater4.u2) annotation (Line(points={{-245,140},{-236,
+          140},{-236,128},{-228,128}}, color={0,0,127}));
+  connect(clock4.y, greater4.u1) annotation (Line(points={{-245,100},{-236,100},
+          {-236,120},{-228,120}}, color={0,0,127}));
+  connect(const_LTV1bypass_power.y, switch_P_setpoint_TCV4.u1) annotation (Line(
+        points={{-205,152},{-198,152},{-198,128},{-188,128}}, color={0,0,127}));
+  connect(trap_LTV1bypass_power.y, switch_P_setpoint_TCV4.u3) annotation (Line(
+        points={{-205,84},{-198,84},{-198,112},{-188,112}}, color={0,0,127}));
+  connect(switch_P_setpoint_TCV4.y, LTV1_Divert_Valve1.u_s)
+    annotation (Line(points={{-165,120},{-57.6,120}}, color={0,0,127}));
 annotation(defaultComponentName="changeMe_CS", Icon(graphics));
 end
-  CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TCVcontrol_PumpDegradation;
+  CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TCVcontrol_CompDegradation;

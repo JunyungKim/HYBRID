@@ -1,30 +1,57 @@
 within NHES.Systems.PrimaryHeatSystem.HTGR.HTGR_Rankine.Examples;
 model Rankine_HTGR_Test_Transient
   extends Modelica.Icons.Example;
-  BalanceOfPlant.Turbine.HTGR_RankineCycles.HTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_PumpDegradation_type2
-    hTGR_Rankine_Cycle(redeclare
-      NHES.Systems.BalanceOfPlant.Turbine.ControlSystems.CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TCVcontrol_PumpDegradation
-      CS) annotation (Placement(transformation(extent={{-20,-6},{48,42}})));
+  BalanceOfPlant.Turbine.HTGR_RankineCycles.HTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_PumpDegradation_type5
+    hTGR_Rankine_Cycle(
+    redeclare
+      NHES.Systems.BalanceOfPlant.Turbine.ControlSystems.CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TCVcontrol_CompDegradation
+      CS(valvedelay6(k=hTGR_Rankine_Cycle.componentDegradation.Strategy_Change_Time)),
+
+    componentDegradation(
+      Strategy_Change_Time=5e5,
+      TCV_random_coeff=8e+12,
+      LPTBV1_random_coeff=8e+12,
+      LPTBV2_random_coeff=8e+12,
+      HPT_start_coeff=1,
+      LPT1_start_eff=0.9,
+      LPT2_start_eff=0.8),
+    CumulHazardFunction(startTime=1e5))
+    annotation (Placement(transformation(extent={{-6,-10},{62,38}})));
   TRANSFORM.Electrical.Sources.FrequencySource
                                      sinkElec(f=60)
-    annotation (Placement(transformation(extent={{76,6},{58,24}})));
+    annotation (Placement(transformation(extent={{98,6},{84,22}})));
   Components.HTGR_PebbleBed_Primary_Loop_STHX hTGR_PebbleBed_Primary_Loop(
       redeclare
-      NHES.Systems.PrimaryHeatSystem.HTGR.HTGR_Rankine.ControlSystems.CS_Rankine_Primary_TransientControl
+      NHES.Systems.PrimaryHeatSystem.HTGR.HTGR_Rankine.ControlSystems.CS_Rankine_Primary_SS
       CS) annotation (Placement(transformation(extent={{-98,-18},{-40,40}})));
+  Fluid.Sensors.stateSensor stateSensor1(redeclare package Medium =
+        Modelica.Media.Water.StandardWater)
+    annotation (Placement(transformation(extent={{-30,16},{-14,36}})));
+  Fluid.Sensors.stateSensor stateSensor2(redeclare package Medium =
+        Modelica.Media.Water.StandardWater)
+    annotation (Placement(transformation(extent={{-14,-10},{-30,10}})));
+  Fluid.Sensors.stateDisplay stateDisplay2
+    annotation (Placement(transformation(extent={{-42,34},{-2,64}})));
+  Fluid.Sensors.stateDisplay stateDisplay1
+    annotation (Placement(transformation(extent={{-42,-10},{-2,-40}})));
 equation
   hTGR_PebbleBed_Primary_Loop.input_steam_pressure = hTGR_Rankine_Cycle.sensor_p.p;
   connect(sinkElec.port, hTGR_Rankine_Cycle.port_e)
-    annotation (Line(points={{58,15},{48,15},{48,18}},
-                                               color={255,0,0}));
-  connect(hTGR_PebbleBed_Primary_Loop.port_b, hTGR_Rankine_Cycle.port_a)
-    annotation (Line(points={{-40.87,25.21},{-20,27.6}},           color={0,127,
-          255}));
-  connect(hTGR_PebbleBed_Primary_Loop.port_a, hTGR_Rankine_Cycle.port_b)
-    annotation (Line(points={{-40.87,1.43},{-40.87,4.08},{-20,4.08}},
-        color={0,127,255}));
+    annotation (Line(points={{84,14},{62,14}}, color={255,0,0}));
+  connect(hTGR_PebbleBed_Primary_Loop.port_b, stateSensor1.port_a) annotation (
+      Line(points={{-40.87,25.21},{-40.87,26},{-30,26}}, color={0,127,255}));
+  connect(stateSensor1.port_b, hTGR_Rankine_Cycle.port_a)
+    annotation (Line(points={{-14,26},{-6,26},{-6,25.52}}, color={0,127,255}));
+  connect(stateSensor2.port_a, hTGR_Rankine_Cycle.port_b)
+    annotation (Line(points={{-14,0},{-6,0.08}}, color={0,127,255}));
+  connect(hTGR_PebbleBed_Primary_Loop.port_a, stateSensor2.port_b) annotation (
+      Line(points={{-40.87,1.43},{-40.87,0},{-30,0}}, color={0,127,255}));
+  connect(stateSensor1.statePort, stateDisplay2.statePort) annotation (Line(
+        points={{-21.96,26.05},{-22,26.05},{-22,45.1}}, color={0,0,0}));
+  connect(stateSensor2.statePort, stateDisplay1.statePort)
+    annotation (Line(points={{-22.04,0.05},{-22,-21.1}}, color={0,0,0}));
   annotation (experiment(
-      StopTime=63072000,
+      StopTime=1000000,
       __Dymola_NumberOfIntervals=20,
       __Dymola_Algorithm="Esdirk45a"), Documentation(info="<html>
 <p>This test is effectively the same as the above &quot;Complex&quot; test but split between two models. </p>
