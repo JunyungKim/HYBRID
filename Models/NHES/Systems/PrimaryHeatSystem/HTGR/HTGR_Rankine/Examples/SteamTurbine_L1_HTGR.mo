@@ -1,5 +1,5 @@
-within NHES.Systems.BalanceOfPlant.Turbine.Examples;
-model SteamTurbine_L1_boundaries_Test_a
+within NHES.Systems.PrimaryHeatSystem.HTGR.HTGR_Rankine.Examples;
+model SteamTurbine_L1_HTGR
   import NHES;
   extends Modelica.Icons.Example;
   NHES.Systems.BalanceOfPlant.Turbine.SteamTurbine_L1_boundaries BOP(
@@ -56,7 +56,7 @@ model SteamTurbine_L1_boundaries_Test_a
     annotation (Placement(transformation(extent={{-70,70},{-50,90}})));
   Modelica.Blocks.Sources.Pulse pulse(
     period=100,
-    startTime=500,
+    startTime=10,
     offset=BOP.port_a_nominal.p,
     amplitude=0.5*BOP.port_a_nominal.p)
     annotation (Placement(transformation(extent={{-120,10},{-100,30}})));
@@ -81,4 +81,4 @@ equation
   connect(BOP.portElec_b, sinkElec.port)
     annotation (Line(points={{30,0},{70,0}}, color={255,0,0}));
   annotation (experiment(StopTime=500));
-end SteamTurbine_L1_boundaries_Test_a;
+end SteamTurbine_L1_HTGR;

@@ -3,6 +3,11 @@ model
   CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TCVcontrol_simplified
 
 
+
+
+
+
+
   extends BaseClasses.Partial_ControlSystem;
 
   Modelica.Blocks.Sources.Constant const3(k=data.T_Steam_Ref)
@@ -126,7 +131,7 @@ model
     nperiod=-1,
     offset=44e6,
     startTime=1e5)
-    annotation (Placement(transformation(extent={{-148,112},{-132,128}})));
+    annotation (Placement(transformation(extent={{-150,112},{-134,128}})));
   Modelica.Blocks.Sources.Constant RPM_TEST(k=1000)
     annotation (Placement(transformation(extent={{42,90},{50,98}})));
   Modelica.Blocks.Sources.Constant const12(k=data.p_steam_vent)
@@ -278,7 +283,7 @@ equation
   connect(const4.y, add.u1)
     annotation (Line(points={{50.4,76},{62,76}}, color={0,0,127}));
   connect(trap_LTV1bypass_power.y, LTV1_Divert_Valve1.u_s)
-    annotation (Line(points={{-131.2,120},{-57.6,120}}, color={0,0,127}));
+    annotation (Line(points={{-133.2,120},{-57.6,120}}, color={0,0,127}));
   connect(actuatorBus.opening_TCV, add1.y) annotation (Line(
       points={{30.1,-99.9},{30.1,-34},{11,-34}},
       color={111,216,99},

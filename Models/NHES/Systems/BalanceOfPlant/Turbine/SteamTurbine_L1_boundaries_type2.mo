@@ -1,9 +1,9 @@
 within NHES.Systems.BalanceOfPlant.Turbine;
-model SteamTurbine_L1_boundaries
+model SteamTurbine_L1_boundaries_type2
 
   extends BaseClasses.Partial_SubSystem_B(
     redeclare replaceable
-      ControlSystems.CS_PressureAndPowerControl_HTGRcoupled_v1 CS,
+      ControlSystems.CS_PressureAndPowerControl_HTGRcoupled_v4 CS,
     redeclare replaceable ControlSystems.ED_Dummy ED,
     redeclare Data.IdealTurbine data);
 
@@ -81,7 +81,7 @@ model SteamTurbine_L1_boundaries
     k_s=1/port_b_nominal.T,
     k_m=1/port_b_nominal.T)
     annotation (Placement(transformation(extent={{-108,-96},{-100,-104}})));
-  Modelica.Blocks.Sources.RealExpression realExpression(y=port_b_nominal.T)
+  Modelica.Blocks.Sources.RealExpression realExpression(y=208 + 273)
     annotation (Placement(transformation(extent={{-124,-106},{-114,-94}})));
   TRANSFORM.Fluid.Sensors.Temperature temperature(redeclare package Medium =
         Medium)
@@ -98,7 +98,9 @@ model SteamTurbine_L1_boundaries
         rotation=180,
         origin={-130,-80})));
   TRANSFORM.Fluid.Sensors.Pressure pressure(redeclare package Medium = Medium)
-    annotation (Placement(transformation(extent={{-110,50},{-90,70}})));
+    annotation (Placement(transformation(extent={{-10,-10},{10,10}},
+        rotation=90,
+        origin={-110,60})));
   TRANSFORM.Fluid.Valves.ValveCompressible valve_BV(
     rho_nominal=Medium.density_ph(port_a_nominal.p, port_a_nominal.h),
     p_nominal=port_a_nominal.p,
@@ -121,9 +123,8 @@ model SteamTurbine_L1_boundaries
     annotation (Placement(transformation(extent={{10,-10},{-10,10}},
         rotation=90,
         origin={0,-10})));
-  Modelica.Blocks.Sources.RealExpression W_balance1
-    "Electricity loss/gain not accounted for in connections (e.g., heating/cooling, pumps, etc.) [W]"
-    annotation (Placement(transformation(extent={{-96,118},{-84,130}})));
+  Modelica.Blocks.Sources.RealExpression SteamTemperature(y=port_a_nominal.T)
+    annotation (Placement(transformation(extent={{-96,108},{-84,120}})));
   TRANSFORM.Fluid.Valves.ValveCompressible valve_TCV(
     rho_nominal=Medium.density_ph(port_a_nominal.p, port_a_nominal.h),
     p_nominal=port_a_nominal.p,
@@ -236,7 +237,7 @@ end for;
           {87,-100},{20,-100},{20,-68},{-2,-68},{-2,-76}}, color={0,127,255}));
   connect(sensorBus.p_inlet_steamTurbine, pressure.p)
     annotation (Line(
-      points={{-29.9,100.1},{-94,100.1},{-94,60}},
+      points={{-29.9,100.1},{-110,100.1},{-110,66}},
       color={239,82,82},
       pattern=LinePattern.Dash,
       thickness=0.5));
@@ -276,7 +277,7 @@ end for;
     annotation (Line(points={{90,0},{100,0}}, color={0,0,0}));
   connect(valve_TCV.port_b, steamTurbine.portHP)
     annotation (Line(points={{-60,40},{40,40},{40,6}}, color={0,127,255}));
-  connect(pressure.port, header.port_b[3]) annotation (Line(points={{-100,50},{
+  connect(pressure.port, header.port_b[3]) annotation (Line(points={{-100,60},{
           -100,40},{-104,40},{-104,40.6667}},     color={0,127,255}));
   connect(actuatorBus.opening_TCV,valve_TCV. opening)
     annotation (Line(
@@ -309,6 +310,15 @@ end for;
           -40},{-38,-52},{-28,-52}}, color={0,0,127}));
   connect(boundary2.ports[1], multiPort.ports_b[2])
     annotation (Line(points={{-8,-60},{2,-60},{2,-76}}, color={0,127,255}));
+  connect(sensorBus.Steam_Temperature, SteamTemperature.y) annotation (Line(
+      points={{-30,100},{-80,100},{-80,114},{-83.4,114}},
+      color={239,82,82},
+      pattern=LinePattern.Dash,
+      thickness=0.5), Text(
+      string="%first",
+      index=-1,
+      extent={{6,3},{6,3}},
+      horizontalAlignment=TextAlignment.Left));
   annotation (defaultComponentName="BOP", Icon(coordinateSystem(extent={{-100,-100},
             {100,100}}),                       graphics={
         Rectangle(
@@ -471,4 +481,4 @@ end for;
           fillPattern=FillPattern.HorizontalCylinder)}),
     Diagram(coordinateSystem(extent={{-160,-160},{160,140}})),
     experiment(StopTime=1000));
-end SteamTurbine_L1_boundaries;
+end SteamTurbine_L1_boundaries_type2;

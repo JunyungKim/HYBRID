@@ -13,7 +13,7 @@ model CS_PressureAndPowerControl
   input SI.Power W_totalSetpoint "Total setpoint power from BOP" annotation(Dialog(group="Inputs"));
 
   Modelica.Blocks.Sources.Constant TCV_openingNominal(k=TCV_opening_nominal)
-    annotation (Placement(transformation(extent={{-180,150},{-160,170}})));
+    annotation (Placement(transformation(extent={{40,164},{60,184}})));
   Modelica.Blocks.Logical.Switch switch_BV
     annotation (Placement(transformation(extent={{40,12},{60,32}})));
   Modelica.Blocks.Sources.Constant BV_openingNominal(k=BV_opening_nominal)
@@ -83,9 +83,8 @@ equation
         color={255,0,255}));
   connect(switch_TCV_setpoint.y,TCV_opening. u1) annotation (Line(points={{61,222},
           {70,222},{70,186},{78,186}},  color={0,0,127}));
-  connect(TCV_openingNominal.y,TCV_opening. u2) annotation (Line(points={{-159,160},
-          {20,160},{20,174},{78,174}},
-                                    color={0,0,127}));
+  connect(TCV_openingNominal.y,TCV_opening. u2) annotation (Line(points={{61,174},
+          {78,174}},                color={0,0,127}));
   connect(actuatorBus.opening_TCV, TCV_opening.y)
     annotation (Line(
       points={{30.1,-99.9},{160,-99.9},{160,180},{101,180}},
