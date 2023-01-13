@@ -60,15 +60,6 @@ equation
   connect(W_totalSetpoint_BOP.y, PID_BV_opening.u_s)
     annotation (Line(points={{-69,-38},{-62,-38}},
                                                  color={0,0,127}));
-  connect(sensorBus.p_inlet_steamTurbine, PID_TCV_opening.u_m) annotation (Line(
-      points={{-29.9,-99.9},{-29.9,-56},{-30,-56},{-30,-14},{-50,-14},{-50,-6}},
-      color={239,82,82},
-      pattern=LinePattern.Dash,
-      thickness=0.5), Text(
-      string="%first",
-      index=-1,
-      extent={{6,3},{6,3}},
-      horizontalAlignment=TextAlignment.Left));
   connect(sensorBus.W_total, PID_BV_opening.u_m) annotation (Line(
       points={{-29.9,-99.9},{-29.9,-60},{-50,-60},{-50,-50}},
       color={239,82,82},
@@ -91,9 +82,19 @@ equation
       index=-1,
       extent={{6,3},{6,3}},
       horizontalAlignment=TextAlignment.Left));
-  connect(actuatorBus.opening_BV, PID_TCV_opening1.y) annotation (Line(
-      points={{30,-100},{30,60},{-39,60}},
+  connect(actuatorBus.opening_BV, PID_BV_opening.y) annotation (Line(
+      points={{30.1,-99.9},{30.1,-58},{-32,-58},{-32,-38},{-39,-38}},
       color={111,216,99},
+      pattern=LinePattern.Dash,
+      thickness=0.5), Text(
+      string="%first",
+      index=-1,
+      extent={{6,3},{6,3}},
+      horizontalAlignment=TextAlignment.Left));
+  connect(sensorBus.p_inlet_steamTurbine, PID_TCV_opening.u_m) annotation (Line(
+      points={{-30,-100},{-30,-62},{-28,-62},{-28,-56},{-30,-56},{-30,-16},{-50,
+          -16},{-50,-6}},
+      color={239,82,82},
       pattern=LinePattern.Dash,
       thickness=0.5), Text(
       string="%first",

@@ -1,5 +1,5 @@
 within NHES.Systems.PrimaryHeatSystem.HTGR.HTGR_Rankine.Examples;
-model SteamTurbine_L1_HTGR_v5
+model SteamTurbine_L1_HTGR_v5_20sec
   import NHES;
   extends Modelica.Icons.Example;
   NHES.Systems.BalanceOfPlant.Turbine.SteamTurbine_L1_boundaries_type2 BOP(
@@ -83,4 +83,4 @@ equation
   connect(pump.in_m_flow, const.y)
     annotation (Line(points={{-50,-19.3},{-50,-27.4}}, color={0,0,127}));
   annotation (experiment(StopTime=20, __Dymola_Algorithm="Dassl"));
-end SteamTurbine_L1_HTGR_v5;
+end SteamTurbine_L1_HTGR_v5_20sec;
