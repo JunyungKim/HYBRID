@@ -1,5 +1,5 @@
 within NHES.Systems.PrimaryHeatSystem.HTGR.HTGR_Rankine.Examples;
-model SteamTurbine_L1_HTGR_v13
+model SteamTurbine_HTGR_oneStageTurbine_Transient
   import NHES;
   extends Modelica.Icons.Example;
   NHES.Systems.BalanceOfPlant.Turbine.SteamTurbine_L1_boundaries_type1 BOP(
@@ -140,4 +140,4 @@ equation
       StopTime=1000000,
       __Dymola_NumberOfIntervals=200,
       __Dymola_Algorithm="Esdirk34a"));
-end SteamTurbine_L1_HTGR_v13;
+end SteamTurbine_HTGR_oneStageTurbine_Transient;
