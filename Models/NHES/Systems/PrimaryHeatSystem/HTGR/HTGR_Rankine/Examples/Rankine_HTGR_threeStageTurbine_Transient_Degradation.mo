@@ -4,8 +4,8 @@ model Rankine_HTGR_threeStageTurbine_Transient_Degradation
 
   Real Thermal_Power_Norm;
   BalanceOfPlant.Turbine.HTGR_RankineCycles.HTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_PumpDegradation_type6
-    hTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_PumpDegradation_type6_1
-    (redeclare
+    hTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_PumpDegradation_type6_1(
+     redeclare
       NHES.Systems.BalanceOfPlant.Turbine.ControlSystems.CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TCVcontrol_CompDegradation_type5
       CS) annotation (Placement(transformation(extent={{-6,-10},{62,38}})));
   TRANSFORM.Electrical.Sources.FrequencySource

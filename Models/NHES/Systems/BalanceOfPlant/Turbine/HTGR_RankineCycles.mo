@@ -7669,7 +7669,7 @@ package HTGR_RankineCycles
     "Pressure Control done!!!"
     extends BaseClasses.Partial_SubSystem(
       redeclare replaceable
-        ControlSystems.CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TCVcontrol_CompDegradation_type3
+        ControlSystems.CS_threeStagedTurbine_HTGR
         CS,
       redeclare replaceable ControlSystems.ED_Dummy ED,
       redeclare Data.IdealTurbine data);
@@ -13238,11 +13238,11 @@ Model")}),     Diagram(coordinateSystem(preserveAspectRatio=false)));
       T=573.15,
       nPorts=1)
       annotation (Placement(transformation(extent={{-116,62},{-96,82}})));
-    TRANSFORM.Fluid.Interfaces.FluidPort_Flow port_a(redeclare package Medium
-        = Modelica.Media.Water.StandardWater)
+    TRANSFORM.Fluid.Interfaces.FluidPort_Flow port_a(redeclare package Medium =
+          Modelica.Media.Water.StandardWater)
       annotation (Placement(transformation(extent={{-150,38},{-130,58}})));
-    TRANSFORM.Fluid.Interfaces.FluidPort_State port_b(redeclare package Medium
-        = Modelica.Media.Water.StandardWater)
+    TRANSFORM.Fluid.Interfaces.FluidPort_State port_b(redeclare package Medium =
+          Modelica.Media.Water.StandardWater)
       annotation (Placement(transformation(extent={{-150,-68},{-130,-48}})));
     TRANSFORM.Electrical.Interfaces.ElectricalPowerPort_Flow port_e
       annotation (Placement(transformation(extent={{130,-10},{150,10}}),
@@ -13296,8 +13296,8 @@ Model")}),     Diagram(coordinateSystem(preserveAspectRatio=false)));
       T=573.15,
       nPorts=1)
       annotation (Placement(transformation(extent={{-104,-42},{-84,-22}})));
-    TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium
-        = Modelica.Media.Water.StandardWater)            annotation (Placement(
+    TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium =
+          Modelica.Media.Water.StandardWater)            annotation (Placement(
           transformation(
           extent={{-10,-10},{10,10}},
           rotation=180,
@@ -13737,7 +13737,6 @@ Model")}),     Diagram(coordinateSystem(preserveAspectRatio=false)));
       eta_mech=0.93,
       redeclare model Eta_wetSteam =
           TRANSFORM.Fluid.Machines.BaseClasses.WetSteamEfficiency.eta_Constant,
-
       p_a_start=3000000,
       p_b_start=1500000,
       T_a_start=573.15,
@@ -13811,11 +13810,11 @@ Model")}),     Diagram(coordinateSystem(preserveAspectRatio=false)));
       T=573.15,
       nPorts=1)
       annotation (Placement(transformation(extent={{-116,62},{-96,82}})));
-    TRANSFORM.Fluid.Interfaces.FluidPort_Flow port_a(redeclare package Medium
-        = Modelica.Media.Water.StandardWater)
+    TRANSFORM.Fluid.Interfaces.FluidPort_Flow port_a(redeclare package Medium =
+          Modelica.Media.Water.StandardWater)
       annotation (Placement(transformation(extent={{-150,38},{-130,58}})));
-    TRANSFORM.Fluid.Interfaces.FluidPort_State port_b(redeclare package Medium
-        = Modelica.Media.Water.StandardWater)
+    TRANSFORM.Fluid.Interfaces.FluidPort_State port_b(redeclare package Medium =
+          Modelica.Media.Water.StandardWater)
       annotation (Placement(transformation(extent={{-150,-68},{-130,-48}})));
     TRANSFORM.Electrical.Interfaces.ElectricalPowerPort_Flow port_e
       annotation (Placement(transformation(extent={{130,-10},{150,10}}),
@@ -13833,7 +13832,6 @@ Model")}),     Diagram(coordinateSystem(preserveAspectRatio=false)));
       eta_mech=0.93,
       redeclare model Eta_wetSteam =
           TRANSFORM.Fluid.Machines.BaseClasses.WetSteamEfficiency.eta_Constant,
-
       p_a_start=1500000,
       p_b_start=8000,
       T_a_start=523.15,
@@ -13870,8 +13868,8 @@ Model")}),     Diagram(coordinateSystem(preserveAspectRatio=false)));
       T=573.15,
       nPorts=1)
       annotation (Placement(transformation(extent={{-104,-42},{-84,-22}})));
-    TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium
-        = Modelica.Media.Water.StandardWater)            annotation (Placement(
+    TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium =
+          Modelica.Media.Water.StandardWater)            annotation (Placement(
           transformation(
           extent={{-10,-10},{10,10}},
           rotation=180,

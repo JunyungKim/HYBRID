@@ -275,8 +275,6 @@ equation
     annotation (Line(points={{-19.6,-40},{-12,-40}}, color={0,0,127}));
   connect(const4.y, add.u1)
     annotation (Line(points={{50.4,76},{62,76}}, color={0,0,127}));
-  connect(trap_LTV1bypass_power.y, LTV1_Divert_Valve1.u_s)
-    annotation (Line(points={{-133.2,120},{-57.6,120}}, color={0,0,127}));
   connect(actuatorBus.opening_TCV, add1.y) annotation (Line(
       points={{30.1,-99.9},{30.1,-34},{11,-34}},
       color={111,216,99},
@@ -288,5 +286,7 @@ equation
       horizontalAlignment=TextAlignment.Left));
   connect(constant_0.y, PID.u_ff) annotation (Line(points={{-127.2,32},{-76,32},
           {-76,40},{-14,40},{-14,34},{-6,34}}, color={0,0,127}));
+  connect(const_LTV1bypass_power.y, LTV1_Divert_Valve1.u_s) annotation (Line(
+        points={{-131.2,94},{-106,94},{-106,120},{-57.6,120}}, color={0,0,127}));
 annotation(defaultComponentName="changeMe_CS", Icon(graphics));
 end CS_threeStagedTurbine_HTGR;

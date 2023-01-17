@@ -1,10 +1,9 @@
 within NHES.Systems.BalanceOfPlant.Turbine;
-model SteamTurbine_L1_boundaries_type2
+model SteamTurbine_L1_boundaries_type4
 
   extends BaseClasses.Partial_SubSystem_B(
     redeclare replaceable
-      ControlSystems.CS_PressureAndPowerControl                CS(p_nominal=
-          14000000),
+      ControlSystems.CS_PressureAndPowerControl_HTGRcoupled_v4 CS(p_nominal=14000000),
     redeclare replaceable ControlSystems.ED_Dummy ED,
     redeclare Data.IdealTurbine data);
 
@@ -97,7 +96,7 @@ model SteamTurbine_L1_boundaries_type2
       redeclare package Medium = Medium, R=1)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=180,
-        origin={-130,-80})));
+        origin={-114,-80})));
   TRANSFORM.Fluid.Sensors.Pressure pressure(redeclare package Medium = Medium)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=90,
@@ -124,7 +123,7 @@ model SteamTurbine_L1_boundaries_type2
     annotation (Placement(transformation(extent={{10,-10},{-10,10}},
         rotation=90,
         origin={0,-10})));
-  Modelica.Blocks.Sources.RealExpression SteamTemperature(y=port_a_nominal.T)
+  Modelica.Blocks.Sources.RealExpression SteamPressure(y=pressure.p)
     annotation (Placement(transformation(extent={{-96,108},{-84,120}})));
   TRANSFORM.Fluid.Valves.ValveCompressible valve_TCV(
     rho_nominal=Medium.density_ph(port_a_nominal.p, port_a_nominal.h),
@@ -198,6 +197,20 @@ model SteamTurbine_L1_boundaries_type2
     T=298.15,
     nPorts=1)
     annotation (Placement(transformation(extent={{-28,-70},{-8,-50}})));
+  TRANSFORM.Fluid.Machines.Pump_Controlled feedWaterpump(
+    redeclare package Medium = Modelica.Media.Water.StandardWater,
+    redeclare model EfficiencyChar =
+        TRANSFORM.Fluid.Machines.BaseClasses.PumpCharacteristics.Efficiency.Constant,
+    N_nominal=1200,
+    dp_nominal=15000000,
+    m_flow_nominal=50,
+    d_nominal=1000,
+    controlType="RPM",
+    use_port=true)
+    annotation (Placement(transformation(extent={{-10,10},{10,-10}},
+        rotation=90,
+        origin={-142,-60})));
+
 equation
 
 for i in 1:nPorts_a3 loop
@@ -261,9 +274,7 @@ end for;
   connect(resistance4.port_b, header.port_a[1])
     annotation (Line(points={{-123,40},{-116,40}}, color={0,127,255}));
   connect(resistance1.port_a, feedWaterHeater.port_b)
-    annotation (Line(points={{-123,-80},{-86,-80}}, color={0,127,255}));
-  connect(resistance1.port_b, port_b) annotation (Line(points={{-137,-80},{-140,
-          -80},{-140,-40},{-160,-40}}, color={0,127,255}));
+    annotation (Line(points={{-107,-80},{-86,-80}}, color={0,127,255}));
   connect(massFlowRate.m_flow, boundary_m_flow_a3.m_flow_in) annotation (Line(
         points={{-20,-136.4},{-20,-124},{62,-124},{62,-132},{72,-132}},
                                                                       color={0,0,
@@ -311,9 +322,24 @@ end for;
           -40},{-38,-52},{-28,-52}}, color={0,0,127}));
   connect(boundary2.ports[1], multiPort.ports_b[2])
     annotation (Line(points={{-8,-60},{2,-60},{2,-76}}, color={0,127,255}));
-  connect(sensorBus.Steam_Temperature, SteamTemperature.y) annotation (Line(
+  connect(resistance1.port_b, feedWaterpump.port_a) annotation (Line(points={{-121,
+          -80},{-142,-80},{-142,-70}}, color={0,127,255}));
+  connect(feedWaterpump.port_b, port_b) annotation (Line(points={{-142,-50},{-142,
+          -40},{-160,-40}}, color={0,127,255}));
+  connect(sensorBus.Steam_Pressure, SteamPressure.y) annotation (Line(
       points={{-30,100},{-80,100},{-80,114},{-83.4,114}},
       color={239,82,82},
+      pattern=LinePattern.Dash,
+      thickness=0.5), Text(
+      string="%first",
+      index=-1,
+      extent={{6,3},{6,3}},
+      horizontalAlignment=TextAlignment.Left));
+  connect(actuatorBus.Feed_Pump_Speed, feedWaterpump.inputSignal) annotation (
+      Line(
+      points={{30,100},{30,-26},{-70,-26},{-70,-18},{-128,-18},{-128,-60},{-135,
+          -60}},
+      color={111,216,99},
       pattern=LinePattern.Dash,
       thickness=0.5), Text(
       string="%first",
@@ -482,4 +508,4 @@ end for;
           fillPattern=FillPattern.HorizontalCylinder)}),
     Diagram(coordinateSystem(extent={{-160,-160},{160,140}})),
     experiment(StopTime=1000));
-end SteamTurbine_L1_boundaries_type2;
+end SteamTurbine_L1_boundaries_type4;
