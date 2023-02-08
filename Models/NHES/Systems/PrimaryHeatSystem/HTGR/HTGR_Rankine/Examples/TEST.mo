@@ -3,8 +3,8 @@ model TEST
   extends Modelica.Icons.Example;
 
   Real Thermal_Power_Norm;
-  BalanceOfPlant.Turbine.SteamTurbine_L3_HTGR_v1_1_Suc BOP(redeclare
-      NHES.Systems.BalanceOfPlant.Turbine.ControlSystems.CS_threeStagedTurbine_HTGR_v1
+  BalanceOfPlant.Turbine.SteamTurbine_L3_HTGR_v1_3     BOP(redeclare
+      NHES.Systems.BalanceOfPlant.Turbine.ControlSystems.CS_threeStagedTurbine_HTGR_v2
       CS) annotation (Placement(transformation(extent={{-6,-10},{62,38}})));
   TRANSFORM.Electrical.Sources.FrequencySource
                                      sinkElec(f=60)
@@ -41,7 +41,7 @@ equation
   connect(stateSensor2.statePort, stateDisplay1.statePort)
     annotation (Line(points={{-22.04,0.05},{-22,-21.1}}, color={0,0,0}));
   annotation (experiment(
-      StopTime=1070000,
+      StopTime=600000,
       Interval=1000,
       __Dymola_Algorithm="Esdirk45a"), Documentation(info="<html>
 <p>Test of Pebble_Bed_Three-Stage_Rankine. The simulation should experience transient where external electricity demand is oscilating and control valves are opening and closing corresponding to the required power demand. </p>

@@ -1,5 +1,5 @@
 within NHES.Systems.BalanceOfPlant.Turbine;
-model SteamTurbine_L3_HTGR_v1_1_Suc
+model SteamTurbine_L3_HTGR_v1_2
   extends BaseClasses.Partial_SubSystem(
     redeclare replaceable
       ControlSystems.CS_threeStagedTurbine_HTGR_v1
@@ -37,7 +37,7 @@ model SteamTurbine_L3_HTGR_v1_1_Suc
     p=10000,
     V_total=2500,
     V_liquid_start=1.2)
-    annotation (Placement(transformation(extent={{244,-62},{224,-42}})));
+    annotation (Placement(transformation(extent={{244,-68},{224,-48}})));
   TRANSFORM.Fluid.Machines.Pump_Controlled FWCP(
     redeclare package Medium = Modelica.Media.Water.StandardWater,
     N_nominal=1200,
@@ -111,7 +111,7 @@ model SteamTurbine_L3_HTGR_v1_1_Suc
     use_TraceMassPort=false)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=180,
-        origin={78,-58})));
+        origin={172,-58})));
   TRANSFORM.Fluid.FittingsAndResistances.TeeJunctionVolume tee1(
     redeclare package Medium = Modelica.Media.Water.StandardWater,
     V=5,
@@ -141,9 +141,9 @@ model SteamTurbine_L3_HTGR_v1_1_Suc
     use_input=false,
     p_nominal=5500000,
     allowFlowReversal=false)
-    annotation (Placement(transformation(extent={{160,-92},{140,-72}})));
-  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow1(redeclare package Medium =
-        Modelica.Media.Water.StandardWater)            annotation (Placement(
+    annotation (Placement(transformation(extent={{216,-92},{196,-72}})));
+  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow1(redeclare package Medium
+      = Modelica.Media.Water.StandardWater)            annotation (Placement(
         transformation(
         extent={{7,-8},{-7,8}},
         rotation=90,
@@ -198,11 +198,12 @@ model SteamTurbine_L3_HTGR_v1_1_Suc
 
   TRANSFORM.Fluid.Valves.ValveLinear LPT2_Bypass(
     redeclare package Medium = Modelica.Media.Water.StandardWater,
-    dp_nominal=100000,
-    m_flow_nominal=5) annotation (Placement(transformation(
-        extent={{10,10},{-10,-10}},
-        rotation=90,
-        origin={178,16})));
+    dp_nominal=10000,
+    m_flow_nominal=30)
+                      annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=270,
+        origin={176,-10})));
   Data.DataInitial_HTGR_BoP_3stage dataInitial_HTGR_BoP_3stage(LPT1_T_outlet=
         473.15, LPT2_T_inlet=473.15)
     annotation (Placement(transformation(extent={{90,122},{110,142}})));
@@ -220,8 +221,8 @@ model SteamTurbine_L3_HTGR_v1_1_Suc
     T=573.15,
     nPorts=1)
     annotation (Placement(transformation(extent={{-152,-10},{-132,10}})));
-  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium =
-        Modelica.Media.Water.StandardWater)            annotation (Placement(
+  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium
+      = Modelica.Media.Water.StandardWater)            annotation (Placement(
         transformation(
         extent={{-10,10},{10,-10}},
         rotation=180,
@@ -275,16 +276,15 @@ model SteamTurbine_L3_HTGR_v1_1_Suc
         TRANSFORM.Fluid.ClosureRelations.HeatTransfer.Models.DistributedPipe_1D_MultiTransferSurface.Nus_SinglePhase_2Region_modelBased,
     redeclare package Medium_shell = Modelica.Media.Water.StandardWater)
     annotation (Placement(transformation(
-        extent={{-12,11},{12,-11}},
+        extent={{-17,20},{17,-20}},
         rotation=180,
-        origin={23,-58})));
+        origin={25,-58})));
 
-  TRANSFORM.Fluid.BoundaryConditions.Boundary_pT boundary3(
-    redeclare package Medium = Modelica.Media.Water.StandardWater,
-    p=10000,
-    T=473.15,
-    nPorts=1)
-    annotation (Placement(transformation(extent={{130,-46},{110,-26}})));
+  TRANSFORM.Fluid.FittingsAndResistances.SpecifiedResistance R_feedwater(R=1.55E4,
+      redeclare package Medium = Modelica.Media.Water.StandardWater)
+    annotation (Placement(transformation(extent={{10,-10},{-10,10}},
+        rotation=180,
+        origin={152,-48})));
 initial equation
 
 equation
@@ -334,19 +334,19 @@ equation
       color={239,82,82},
       pattern=LinePattern.Dash,
       thickness=0.5));
-  connect(Condenser.port_b, pump1.port_a) annotation (Line(points={{234,-62},{
-          234,-82},{160,-82}},                                      color={0,127,
+  connect(Condenser.port_b, pump1.port_a) annotation (Line(points={{234,-68},{
+          234,-82},{216,-82}},                                      color={0,127,
           255},
       thickness=0.5));
-  connect(pump1.port_b, volume1.port_a) annotation (Line(points={{140,-82},{122,
-          -82},{122,-58},{84,-58}},                  color={0,127,255},
+  connect(pump1.port_b, volume1.port_a) annotation (Line(points={{196,-82},{178,
+          -82},{178,-58}},                           color={0,127,255},
       thickness=0.5));
   connect(HPT.shaft_b, LPT1.shaft_a) annotation (Line(
       points={{54,34},{118,34}},
       color={0,0,0},
       pattern=LinePattern.Dash));
   connect(sensor_m_flow1.port_b,Condenser. port_a)
-    annotation (Line(points={{242,-26},{242,-42},{241,-42}},
+    annotation (Line(points={{242,-26},{242,-48},{241,-48}},
                                                      color={0,127,255},
       thickness=0.5));
 
@@ -378,11 +378,9 @@ equation
           192,40},{198,40}}, color={0,127,255}));
   connect(LPT2.portLP, sensor_m_flow1.port_a)
     annotation (Line(points={{218,40},{242,40},{242,-12}}, color={0,127,255}));
-  connect(tee2.port_3, LPT2_Bypass.port_a)
-    annotation (Line(points={{178,40},{178,26}},color={0,127,255}));
   connect(actuatorBus.Divert_Valve_Position, LPT2_Bypass.opening) annotation (
       Line(
-      points={{30,100},{248,100},{248,16},{186,16}},
+      points={{30,100},{258,100},{258,-10},{184,-10}},
       color={111,216,99},
       pattern=LinePattern.Dash,
       thickness=0.5));
@@ -391,7 +389,7 @@ equation
   connect(Moisture_Separator2.port_b, tee2.port_2)
     annotation (Line(points={{156,50},{168,50}}, color={0,127,255}));
   connect(Moisture_Separator2.port_Liquid, volume1.port_a) annotation (Line(
-        points={{146,46},{146,-58},{84,-58}},                    color={0,127,
+        points={{146,46},{146,12},{188,12},{188,-58},{178,-58}}, color={0,127,
           255}));
   connect(HPT.portLP, tee1.port_2) annotation (Line(points={{54,40},{78,40},{
           78,50},{84,50}}, color={0,127,255}));
@@ -430,13 +428,18 @@ equation
   connect(port_a, volume.port_a)
     annotation (Line(points={{-140,48},{-68,48}}, color={0,127,255}));
   connect(volume1.port_b, STHX.port_a_tube)
-    annotation (Line(points={{72,-58},{35,-58}}, color={0,127,255}));
-  connect(STHX.port_b_tube, FWCP.port_a)
-    annotation (Line(points={{11,-58},{-24,-58}}, color={0,127,255}));
-  connect(LPT2_Bypass.port_b, STHX.port_a_shell) annotation (Line(points={{178,
-          6},{178,-18},{2,-18},{2,-52.94},{11,-52.94}}, color={0,127,255}));
-  connect(STHX.port_b_shell, boundary3.ports[1]) annotation (Line(points={{35,
-          -52.94},{62,-52.94},{62,-36},{110,-36}}, color={0,127,255}));
+    annotation (Line(points={{166,-58},{42,-58}},color={0,127,255}));
+  connect(FWCP.port_a, STHX.port_b_tube)
+    annotation (Line(points={{-24,-58},{8,-58}}, color={0,127,255}));
+  connect(R_feedwater.port_b, Condenser.port_a)
+    annotation (Line(points={{159,-48},{241,-48}}, color={0,127,255}));
+  connect(tee2.port_3, LPT2_Bypass.port_a)
+    annotation (Line(points={{178,40},{176,40},{176,0}}, color={0,127,255}));
+  connect(LPT2_Bypass.port_b, STHX.port_a_shell) annotation (Line(points={{176,
+          -20},{174,-20},{174,-32},{0,-32},{0,-48.8},{8,-48.8}}, color={0,127,
+          255}));
+  connect(STHX.port_b_shell, R_feedwater.port_a)
+    annotation (Line(points={{42,-48.8},{145,-48}}, color={0,127,255}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-140,
             -100},{140,100}}),                                  graphics={
         Rectangle(
@@ -599,4 +602,4 @@ equation
 <p>A three-stage turbine rankine cycle with feedwater heating internal to the system</p>
 <p>Three bypass ways exist using TBV (Turbine bypass valve), LPTBV1 (Low-Pressure Turbine bypass valve-1), and LPTBV2 (Low-Pressure Turbine bypass valve-2).</p>
 </html>"));
-end SteamTurbine_L3_HTGR_v1_1_Suc;
+end SteamTurbine_L3_HTGR_v1_2;

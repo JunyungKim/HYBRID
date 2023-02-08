@@ -1,5 +1,5 @@
 within NHES.Systems.BalanceOfPlant.Turbine.ControlSystems;
-model CS_threeStagedTurbine_HTGR_v1
+model CS_threeStagedTurbine_HTGR_v2
 
   extends BaseClasses.Partial_ControlSystem;
 
@@ -66,12 +66,8 @@ model CS_threeStagedTurbine_HTGR_v1
     annotation (Placement(transformation(extent={{-124,138},{-116,146}})));
   Modelica.Blocks.Sources.Constant const10(k=5000)
     annotation (Placement(transformation(extent={{-64,196},{-56,204}})));
-  PrimaryHeatSystem.HTGR.VarLimVarK_PID PID(
-    use_k_in=true,
-    use_lowlim_in=true,
-    use_uplim_in=true,
+  Modelica.Blocks.Continuous.LimPID     PID(
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
-    with_FF=true,
     k=-5e-1,
     Ti=30) annotation (Placement(transformation(extent={{-4,16},{16,36}})));
   Modelica.Blocks.Sources.Constant const11(k=-1e-1)
@@ -144,8 +140,8 @@ model CS_threeStagedTurbine_HTGR_v1
     annotation (Placement(transformation(extent={{-10,-44},{10,-24}})));
   Modelica.Blocks.Sources.Constant const7(k=1.0)
     annotation (Placement(transformation(extent={{-28,-44},{-20,-36}})));
-  Modelica.Blocks.Sources.Constant constant_0(k=0)
-    annotation (Placement(transformation(extent={{-144,24},{-128,40}})));
+  StagebyStageTurbineSecondary.Control_and_Distribution.Delay delay1
+    annotation (Placement(transformation(extent={{-18,-4},{-4,10}})));
 equation
 
   connect(const5.y,LTV2_Divert_Valve. u_s)
@@ -199,20 +195,6 @@ equation
       index=-1,
       extent={{6,3},{6,3}},
       horizontalAlignment=TextAlignment.Left));
-  connect(const10.y, PID.upperlim) annotation (Line(points={{-55.6,200},{0,200},
-          {0,37}},                                        color={0,0,127}));
-  connect(switch_P_setpoint_TCV1.y, PID.lowerlim) annotation (Line(points={{-69,172},
-          {6,172},{6,37}},
-        color={0,0,127}));
-  connect(sensorBus.Steam_Temperature, PID.u_m) annotation (Line(
-      points={{-30,-100},{-104,-100},{-104,-8},{6,-8},{6,14}},
-      color={239,82,82},
-      pattern=LinePattern.Dash,
-      thickness=0.5), Text(
-      string="%first",
-      index=-1,
-      extent={{-3,-6},{-3,-6}},
-      horizontalAlignment=TextAlignment.Right));
   connect(const3.y, PID.u_s)
     annotation (Line(points={{-51,26},{-6,26}}, color={0,0,127}));
   connect(PID.y, add.u2) annotation (Line(points={{17,26},{34,26},{34,34},{48,
@@ -226,9 +208,6 @@ equation
   connect(const11.y, switch_P_setpoint_TCV2.u3) annotation (Line(points={{-111.6,
           228},{-104,228},{-104,230},{-98,230},{-98,248},{-88,248}},
         color={0,0,127}));
-  connect(switch_P_setpoint_TCV2.y, PID.prop_k) annotation (Line(points={{-65,256},
-          {14,256},{14,37.4},{13.4,37.4}},                          color={0,0,
-          127}));
   connect(const.y, switch_P_setpoint_TCV2.u1) annotation (Line(points={{-103,
           296},{-96,296},{-96,264},{-88,264}}, color={0,0,127}));
   connect(actuatorBus.openingLPTv,LTV1_Divert_Valve1. y) annotation (Line(
@@ -285,9 +264,19 @@ equation
       index=-1,
       extent={{6,3},{6,3}},
       horizontalAlignment=TextAlignment.Left));
-  connect(constant_0.y, PID.u_ff) annotation (Line(points={{-127.2,32},{-76,32},
-          {-76,40},{-14,40},{-14,34},{-6,34}}, color={0,0,127}));
   connect(const_LTV1bypass_power.y, LTV1_Divert_Valve1.u_s) annotation (Line(
         points={{-133.2,94},{-106,94},{-106,120},{-57.6,120}}, color={0,0,127}));
+  connect(sensorBus.Steam_Temperature, delay1.u) annotation (Line(
+      points={{-30,-100},{-30,-48},{-32,-48},{-32,-26},{-24,-26},{-24,3},{-19.4,
+          3}},
+      color={239,82,82},
+      pattern=LinePattern.Dash,
+      thickness=0.5), Text(
+      string="%first",
+      index=-1,
+      extent={{-6,3},{-6,3}},
+      horizontalAlignment=TextAlignment.Right));
+  connect(delay1.y, PID.u_m)
+    annotation (Line(points={{-3.02,3},{6,3},{6,14}}, color={0,0,127}));
 annotation(defaultComponentName="changeMe_CS", Icon(graphics));
-end CS_threeStagedTurbine_HTGR_v1;
+end CS_threeStagedTurbine_HTGR_v2;
