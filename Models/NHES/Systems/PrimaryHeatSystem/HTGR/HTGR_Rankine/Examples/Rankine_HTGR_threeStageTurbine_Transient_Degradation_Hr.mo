@@ -1,12 +1,12 @@
 within NHES.Systems.PrimaryHeatSystem.HTGR.HTGR_Rankine.Examples;
-model Rankine_HTGR_threeStageTurbine_Transient_Degradation
+model Rankine_HTGR_threeStageTurbine_Transient_Degradation_Hr
   extends Modelica.Icons.Example;
 
   Real Thermal_Power_Norm;
-  BalanceOfPlant.Turbine.HTGR_RankineCycles.HTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_PumpDegradation_type6
+  BalanceOfPlant.Turbine.HTGR_RankineCycles.hTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_PumpDegradation_type6
     hTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_PumpDegradation_type6_1(
      redeclare
-      NHES.Systems.BalanceOfPlant.Turbine.ControlSystems.CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TCVcontrol_CompDegradation_type5
+      NHES.Systems.BalanceOfPlant.Turbine.ControlSystems.CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TCVcontrol_CompDegradation_type5_Sec
       CS) annotation (Placement(transformation(extent={{-6,-10},{62,38}})));
   TRANSFORM.Electrical.Sources.FrequencySource
                                      sinkElec(f=60)
@@ -47,7 +47,7 @@ equation
   connect(stateSensor2.statePort, stateDisplay1.statePort)
     annotation (Line(points={{-22.04,0.05},{-22,-21.1}}, color={0,0,0}));
   annotation (experiment(
-      StopTime=1070000,
+      StopTime=1000000,
       Interval=1000,
       __Dymola_Algorithm="Esdirk45a"), Documentation(info="<html>
 <p>This test is effectively the same as the above &quot;Complex&quot; test but split between two models. </p>
@@ -75,4 +75,4 @@ equation
             method="Esdirk45a",
             tolerance=0.0001,
             fixedStepSize=0)))));
-end Rankine_HTGR_threeStageTurbine_Transient_Degradation;
+end Rankine_HTGR_threeStageTurbine_Transient_Degradation_Hr;

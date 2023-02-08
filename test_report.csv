@@ -1,0 +1,2 @@
+name,passed,group,time
+tests\dymola_tests\BOP_L1_HTGR_Transient_Test\,True,Success,40.37928628921509

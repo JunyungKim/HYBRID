@@ -3121,7 +3121,7 @@ package HTGR_RankineCycles
 </html>"));
   end HTGR_Rankine_Cycle;
 
-  model HTGR_Rankine_Cycle_Transient_JY_v1_step1_comp
+  model HTGR_Rankine_Cycle_Transient_step1_comp
     extends BaseClasses.Partial_SubSystem(
       redeclare replaceable ControlSystems.CS_Rankine_Xe100_Based_Secondary CS,
       redeclare replaceable ControlSystems.ED_Dummy ED,
@@ -3570,7 +3570,7 @@ package HTGR_RankineCycles
 <p>Separate HTGR models will be developed for different uses. The primary differentiator is whether a combined cycle is going to be integrated or not. The combined cycle thoerized to be used here takes advantage of the relatively hot waste heat that is produced by an HTGR to boil water at low pressure and send that to a turbine. </p>
 <p>No part of this HTGR model should be considered to be optimized. Additionally, thermal mass of the system needs references and then will need to be adjusted (likely through pipes replacing current zero-volume volume nodes) to more appropriately reflect system time constants. </p>
 </html>"));
-  end HTGR_Rankine_Cycle_Transient_JY_v1_step1_comp;
+  end HTGR_Rankine_Cycle_Transient_step1_comp;
 
   model HTGR_Rankine_Cycle_Transient_JY_v1_step3_comp
     extends BaseClasses.Partial_SubSystem(
@@ -7665,7 +7665,7 @@ package HTGR_RankineCycles
 </html>"));
   end HTGR_Rankine_Cycle_Transient_JY_v1_step9;
 
-  model HTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_comp
+  model HTGR_Rankine_Cycle_Transient_TCV_Control_comp
     "Pressure Control done!!!"
     extends BaseClasses.Partial_SubSystem(
       redeclare replaceable
@@ -8210,10 +8210,9 @@ package HTGR_RankineCycles
 <p>Separate HTGR models will be developed for different uses. The primary differentiator is whether a combined cycle is going to be integrated or not. The combined cycle thoerized to be used here takes advantage of the relatively hot waste heat that is produced by an HTGR to boil water at low pressure and send that to a turbine. </p>
 <p>No part of this HTGR model should be considered to be optimized. Additionally, thermal mass of the system needs references and then will need to be adjusted (likely through pipes replacing current zero-volume volume nodes) to more appropriately reflect system time constants. </p>
 </html>"));
-  end HTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_comp;
+  end HTGR_Rankine_Cycle_Transient_TCV_Control_comp;
 
-  model HTGR_Rankine_Cycle_Transient_JY_v1_step10_TBV_Control
-    "Pressure Control Trial"
+  model HTGR_Rankine_Cycle_Transient_TBV_Control "Pressure Control Trial"
     extends BaseClasses.Partial_SubSystem(
       redeclare replaceable
         ControlSystems.CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TEST_TBVcontrol
@@ -8741,10 +8740,9 @@ package HTGR_RankineCycles
 <p>Separate HTGR models will be developed for different uses. The primary differentiator is whether a combined cycle is going to be integrated or not. The combined cycle thoerized to be used here takes advantage of the relatively hot waste heat that is produced by an HTGR to boil water at low pressure and send that to a turbine. </p>
 <p>No part of this HTGR model should be considered to be optimized. Additionally, thermal mass of the system needs references and then will need to be adjusted (likely through pipes replacing current zero-volume volume nodes) to more appropriately reflect system time constants. </p>
 </html>"));
-  end HTGR_Rankine_Cycle_Transient_JY_v1_step10_TBV_Control;
+  end HTGR_Rankine_Cycle_Transient_TBV_Control;
 
-  model
-    HTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_PumpDegradation_type1
+  model HTGR_Rankine_Cycle_Transient_TCV_Control_PumpDegradation_type1
     "Pressure Control done!!!"
     extends BaseClasses.Partial_SubSystem(
       redeclare replaceable
@@ -9301,8 +9299,7 @@ package HTGR_RankineCycles
 <p>Separate HTGR models will be developed for different uses. The primary differentiator is whether a combined cycle is going to be integrated or not. The combined cycle thoerized to be used here takes advantage of the relatively hot waste heat that is produced by an HTGR to boil water at low pressure and send that to a turbine. </p>
 <p>No part of this HTGR model should be considered to be optimized. Additionally, thermal mass of the system needs references and then will need to be adjusted (likely through pipes replacing current zero-volume volume nodes) to more appropriately reflect system time constants. </p>
 </html>"));
-  end
-    HTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_PumpDegradation_type1;
+  end HTGR_Rankine_Cycle_Transient_TCV_Control_PumpDegradation_type1;
 
   package Component_Degradation
     model PumpMotor_degradation_type1
@@ -9392,17 +9389,17 @@ Model")}));
 Model")}));
     end PumpMotor_degradation_type2;
 
-    model valve_degradation
+    model valve_degradation_Sec
       Modelica.Blocks.Interfaces.RealOutput open_out annotation (Placement(
             transformation(extent={{80,-10},{100,10}}), iconTransformation(extent={{
                 80,-10},{100,10}})));
       Modelica.Blocks.Interfaces.RealInput open_in annotation (Placement(
             transformation(extent={{-100,-12},{-76,12}}), iconTransformation(extent={{-100,
                 -12},{-76,12}})));
-      HazardFunctionTable hazardFunctionTable
+      HazardFunctionTable_Sec hazardFunctionTable
         annotation (Placement(transformation(extent={{-96,78},{-76,98}})));
     equation
-      open_out = (1- hazardFunctionTable.CumulHazardFunction.y[2])*open_in
+      open_out = (1 - hazardFunctionTable.CumulHazardFunction_Sec.y[2])*open_in
       annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
             coordinateSystem(preserveAspectRatio=false)));
 
@@ -9412,8 +9409,9 @@ Model")}));
               textColor={0,0,0},
               textStyle={TextStyle.Bold},
               textString="%Aging
-Model")}));
-    end valve_degradation;
+Model
+Sec")}));
+    end valve_degradation_Sec;
 
     model valveFail
       Modelica.Blocks.Interfaces.RealOutput failureIndex annotation (Placement(
@@ -9453,7 +9451,7 @@ Model")}));
     end valveFail;
 
     model valveFail_Index
-      HazardFunctionTable hazardFunctionTable
+      HazardFunctionTable_Sec hazardFunctionTable
         annotation (Placement(transformation(extent={{-72,30},{-54,48}})));
       Modelica.Blocks.Noise.UniformNoise uniformNoise(
         samplePeriod=1000,
@@ -9508,83 +9506,83 @@ Model")}));
 Failure")}), Diagram(coordinateSystem(preserveAspectRatio=false)));
     end valveFail_Index;
 
-    model HazardFunctionTable
-      Modelica.Blocks.Sources.CombiTimeTable CumulHazardFunction(table=[3600,
-            1.76124e-05,1.76124e-05; 2595600,0.000855354,0.000872967; 5187600,
-            0.000443919,0.001316885; 7779600,0.000358389,0.001675274; 10371600,
-            0.000312179,0.001987453; 12963600,0.000281804,0.002269257; 15555600,
-            0.000259763,0.00252902; 18147600,0.000242772,0.002771792; 20739600,
-            0.000229126,0.003000918; 23331600,0.000217835,0.003218753; 25923600,
-            0.000208279,0.003427032; 28515600,0.000200046,0.003627078; 31107600,
-            0.000192851,0.003819929; 33699600,0.000186489,0.004006418; 36291600,
-            0.000180807,0.004187225; 38883600,0.00017569,0.004362915; 41475600,
-            0.000171047,0.004533962; 44067600,0.000166809,0.004700771; 46659600,
-            0.000162919,0.00486369; 49251600,0.00015933,0.005023019; 51843600,
-            0.000156004,0.005179023; 54435600,0.000152911,0.005331935; 57027600,
-            0.000150024,0.005481958; 59619600,0.00014732,0.005629278; 62211600,
-            0.00014478,0.005774059; 64803600,0.000142389,0.005916447; 67395600,
-            0.000140131,0.006056579; 69987600,0.000137995,0.006194574; 72579600,
-            0.00013597,0.006330544; 75171600,0.000134046,0.00646459; 77763600,
-            0.000132215,0.006596804; 80355600,0.000130469,0.006727274; 82947600,
-            0.000128803,0.006856077; 85539600,0.000127209,0.006983286; 88131600,
-            0.000125683,0.007108969; 90723600,0.00012422,0.00723319; 93315600,
-            0.000122816,0.007356006; 95907600,0.000121467,0.007477473; 98499600,
-            0.000120168,0.007597641; 101091600,0.000118918,0.007716559;
-            103683600,0.000117713,0.007834271; 106275600,0.00011655,0.007950821;
-            108867600,0.000115426,0.008066247; 111459600,0.000114341,
-            0.008180588; 114051600,0.000113291,0.008293879; 116643600,
-            0.000112274,0.008406153; 119235600,0.000111289,0.008517442;
-            121827600,0.000110334,0.008627776; 124419600,0.000109408,
-            0.008737184; 127011600,0.000108509,0.008845692; 129603600,
-            0.000107635,0.008953328; 132195600,0.000106787,0.009060115;
-            134787600,0.000105961,0.009166076; 137379600,0.000105158,
-            0.009271234; 139971600,0.000104377,0.009375611; 142563600,
-            0.000103615,0.009479226; 145155600,0.000102873,0.009582099;
-            147747600,0.00010215,0.009684249; 150339600,0.000101445,0.009785694;
-            152931600,0.000100756,0.00988645; 155523600,0.000100084,0.009986534;
-            158115600,9.94283e-05,0.010085963; 160707600,9.87873e-05,0.01018475;
-            163299600,9.81609e-05,0.010282911; 165891600,9.75485e-05,
-            0.010380459; 168483600,9.69495e-05,0.010477409; 171075600,
-            9.63636e-05,0.010573772; 173667600,9.57901e-05,0.010669562;
-            176259600,9.52287e-05,0.010764791; 178851600,9.46789e-05,0.01085947;
-            181443600,9.41403e-05,0.01095361; 184035600,9.36126e-05,0.011047223;
-            186627600,9.30953e-05,0.011140318; 189219600,9.25882e-05,
-            0.011232906; 191811600,9.20908e-05,0.011324997; 194403600,
-            9.16029e-05,0.0114166; 196995600,9.11242e-05,0.011507724; 199587600,
-            9.06544e-05,0.011598379; 202179600,9.01931e-05,0.011688572;
-            204771600,8.97402e-05,0.011778312; 207363600,8.92954e-05,
-            0.011867607; 209955600,8.88584e-05,0.011956466; 212547600,
-            8.8429e-05,0.012044895; 215139600,8.8007e-05,0.012132902; 217731600,
-            8.75922e-05,0.012220494; 220323600,8.71843e-05,0.012307678;
-            222915600,8.67832e-05,0.012394462; 225507600,8.63886e-05,0.01248085;
-            228099600,8.60005e-05,0.012566851; 230691600,8.56186e-05,
-            0.012652469; 233283600,8.52427e-05,0.012737712; 235875600,
-            8.48727e-05,0.012822585; 238467600,8.45085e-05,0.012907093;
-            241059600,8.41498e-05,0.012991243; 243651600,8.37966e-05,0.01307504;
-            246243600,8.34487e-05,0.013158488; 248835600,8.31059e-05,
-            0.013241594; 251427600,8.27682e-05,0.013324363; 254019600,
-            8.24354e-05,0.013406798; 256611600,8.21074e-05,0.013488905;
-            259203600,8.17841e-05,0.013570689; 261795600,8.14653e-05,
-            0.013652155; 264387600,8.1151e-05,0.013733306; 266979600,8.0841e-05,
-            0.013814147; 269571600,8.05353e-05,0.013894682; 272163600,
-            8.02337e-05,0.013974916; 274755600,7.99362e-05,0.014054852;
-            277347600,7.96426e-05,0.014134494; 279939600,7.93529e-05,
-            0.014213847; 282531600,7.9067e-05,0.014292914; 285123600,
-            7.87848e-05,0.014371699; 287715600,7.85062e-05,0.014450205;
-            290307600,7.82312e-05,0.014528436; 292899600,7.79596e-05,
-            0.014606396; 295491600,7.76914e-05,0.014684087; 298083600,
-            7.74266e-05,0.014761514; 300675600,7.7165e-05,0.014838679;
-            303267600,7.69065e-05,0.014915586; 305859600,7.66512e-05,
-            0.014992237; 308451600,7.6399e-05,0.015068636; 311043600,
-            7.61497e-05,0.015144785; 313635600,7.59034e-05,0.015220689;
-            316227600,7.566e-05,0.015296349])
-        annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
+    model HazardFunctionTable_Sec
+      Modelica.Blocks.Sources.CombiTimeTable CumulHazardFunction_Sec(table=[1,0,
+            0; 86400,3.50207e-09,3.50207e-09; 2592000,3.14065e-06,3.14415e-06;
+            5184000,9.40069e-06,1.25448e-05; 7776000,1.561e-05,2.81548e-05;
+            10368000,2.17726e-05,4.99275e-05; 12960000,2.78891e-05,7.78166e-05;
+            15552000,3.39599e-05,0.000111776; 18144000,3.99856e-05,0.000151762;
+            20736000,4.59666e-05,0.000197729; 23328000,5.19035e-05,0.000249632;
+            25920000,5.77967e-05,0.000307429; 28512000,6.36467e-05,0.000371075;
+            31104000,6.9454e-05,0.000440529; 33696000,7.52191e-05,0.000515749;
+            36288000,8.09425e-05,0.000596691; 38880000,8.66244e-05,0.000683316;
+            41472000,9.22655e-05,0.000775581; 44064000,9.78662e-05,0.000873447;
+            46656000,0.000103427,0.000976874; 49248000,0.000108948,0.001085822;
+            51840000,0.00011443,0.001200252; 54432000,0.000119873,0.001320125;
+            57024000,0.000125278,0.001445403; 59616000,0.000130645,0.001576047;
+            62208000,0.000135974,0.001712021; 64800000,0.000141266,0.001853288;
+            67392000,0.000146522,0.001999809; 69984000,0.000151741,0.00215155;
+            72576000,0.000156924,0.002308474; 75168000,0.000162071,0.002470545;
+            77760000,0.000167184,0.002637729; 80352000,0.000172261,0.00280999;
+            82944000,0.000177304,0.002987293; 85536000,0.000182312,0.003169605;
+            88128000,0.000187287,0.003356892; 90720000,0.000192228,0.00354912;
+            93312000,0.000197136,0.003746256; 95904000,0.000202011,0.003948268;
+            98496000,0.000206854,0.004155122; 101088000,0.000211665,0.004366786;
+            103680000,0.000216443,0.004583229; 106272000,0.00022119,0.00480442;
+            108864000,0.000225906,0.005030326; 111456000,0.000230591,
+            0.005260917; 114048000,0.000235246,0.005496163; 116640000,
+            0.00023987,0.005736032; 119232000,0.000244464,0.005980496;
+            121824000,0.000249028,0.006229523; 124416000,0.000253563,
+            0.006483086; 127008000,0.000258068,0.006741154; 129600000,
+            0.000262545,0.007003699; 132192000,0.000266993,0.007270692;
+            134784000,0.000271413,0.007542105; 137376000,0.000275805,
+            0.007817909; 139968000,0.000280168,0.008098078; 142560000,
+            0.000284505,0.008382583; 145152000,0.000288814,0.008671397;
+            147744000,0.000293096,0.008964493; 150336000,0.000297351,
+            0.009261844; 152928000,0.00030158,0.009563425; 155520000,
+            0.000305783,0.009869208; 158112000,0.000309959,0.010179167;
+            160704000,0.00031411,0.010493277; 163296000,0.000318235,0.010811512;
+            165888000,0.000322335,0.011133848; 168480000,0.00032641,0.011460258;
+            171072000,0.00033046,0.011790717; 173664000,0.000334485,0.012125203;
+            176256000,0.000338486,0.012463689; 178848000,0.000342463,
+            0.012806152; 181440000,0.000346416,0.013152568; 184032000,
+            0.000350345,0.013502913; 186624000,0.00035425,0.013857163;
+            189216000,0.000358133,0.014215296; 191808000,0.000361992,
+            0.014577287; 194400000,0.000365828,0.014943115; 196992000,
+            0.000369641,0.015312757; 199584000,0.000373432,0.015686189;
+            202176000,0.000377201,0.01606339; 204768000,0.000380948,0.016444338;
+            207360000,0.000384672,0.01682901; 209952000,0.000388375,0.017217385;
+            212544000,0.000392057,0.017609442; 215136000,0.000395717,
+            0.018005159; 217728000,0.000399356,0.018404515; 220320000,
+            0.000402974,0.018807488; 222912000,0.000406571,0.019214059;
+            225504000,0.000410147,0.019624206; 228096000,0.000413703,0.02003791;
+            230688000,0.000417239,0.020455149; 233280000,0.000420755,
+            0.020875904; 235872000,0.000424251,0.021300155; 238464000,
+            0.000427727,0.021727882; 241056000,0.000431183,0.022159065;
+            243648000,0.00043462,0.022593685; 246240000,0.000438038,0.023031724;
+            248832000,0.000441437,0.023473161; 251424000,0.000444817,
+            0.023917977; 254016000,0.000448178,0.024366155; 256608000,
+            0.00045152,0.024817675; 259200000,0.000454844,0.025272519;
+            261792000,0.00045815,0.025730669; 264384000,0.000461437,0.026192106;
+            266976000,0.000464706,0.026656812; 269568000,0.000467958,0.02712477;
+            272160000,0.000471192,0.027595962; 274752000,0.000474408,0.02807037;
+            277344000,0.000477607,0.028547976; 279936000,0.000480788,
+            0.029028765; 282528000,0.000483953,0.029512717; 285120000,0.0004871,
+            0.029999817; 287712000,0.00049023,0.030490048; 290304000,
+            0.000493344,0.030983392; 292896000,0.000496441,0.031479833;
+            295488000,0.000499522,0.031979355; 298080000,0.000502586,
+            0.032481942; 300672000,0.000505634,0.032987576; 303264000,
+            0.000508666,0.033496242; 305856000,0.000511682,0.034007925;
+            308448000,0.000514683,0.034522607; 311040000,0.000517667,
+            0.035040275; 313632000,0.000520636,0.035560911; 316224000,
+            0.000523589,0.0360845])
+        annotation (Placement(transformation(extent={{-12,-10},{8,10}})));
       Modelica.Blocks.Interfaces.RealOutput HazardValue annotation (Placement(
             transformation(extent={{80,-10},{100,10}}), iconTransformation(
               extent={{80,-10},{100,10}})));
     equation
-      connect(CumulHazardFunction.y[1], HazardValue)
-        annotation (Line(points={{11,0},{90,0}},  color={0,0,127}));
+      connect(CumulHazardFunction_Sec.y[1], HazardValue)
+        annotation (Line(points={{9,0},{90,0}},  color={0,0,127}));
       annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
               Rectangle(
               extent={{-100,100},{80,-100}},
@@ -9592,8 +9590,10 @@ Failure")}), Diagram(coordinateSystem(preserveAspectRatio=false)));
               extent={{-62,40},{46,-40}},
               textColor={0,0,0},
               textString="%Hazard
-Table")}), Diagram(coordinateSystem(preserveAspectRatio=false)));
-    end HazardFunctionTable;
+Table
+Sec.",        textStyle={TextStyle.Bold})}),
+           Diagram(coordinateSystem(preserveAspectRatio=false)));
+    end HazardFunctionTable_Sec;
 
     model systemFail_Index
       valveFail_Index valveFail_Index1
@@ -9707,7 +9707,7 @@ to Boolean")}));
               textString="Failure")}));
     end valveFailProto;
 
-    model MOV_failToOperate_Model "Separate_System_Failure_Modeling"
+    model MOV_failToOperate_Model_Sec "Separate_System_Failure_Modeling"
       parameter Integer randomSeed = 1234 "random Seed";
       parameter SI.Time strategyChangeTime "strategy Change Timing";
       parameter SI.Time samplePeriod = 2592000 "2592000 sec = 720 hours";
@@ -9749,60 +9749,274 @@ to Boolean")}));
             0; 300675600,0; 303267600,0; 305859600,0; 308451600,0; 311043600,0; 313635600,
             0; 316227600,0])
                   annotation (Placement(transformation(extent={{-28,38},{-8,58}})));
-      Modelica.Blocks.Sources.CombiTimeTable CumulHazardFunction_1(table=[3600,1.76124e-05,
-            1.76124e-05; 2595600,0.000855354,0.000872967; 5187600,0.000443919,0.001316885;
-            7779600,0.000358389,0.001675274; 10371600,0.000312179,0.001987453; 12963600,
-            0.000281804,0.002269257; 15555600,0.000259763,0.00252902; 18147600,0.000242772,
-            0.002771792; 20739600,0.000229126,0.003000918; 23331600,0.000217835,0.003218753;
-            25923600,0.000208279,0.003427032; 28515600,0.000200046,0.003627078; 31107600,
-            0.000192851,0.003819929; 33699600,0.000186489,0.004006418; 36291600,0.000180807,
-            0.004187225; 38883600,0.00017569,0.004362915; 41475600,0.000171047,0.004533962;
-            44067600,0.000166809,0.004700771; 46659600,0.000162919,0.00486369; 49251600,
-            0.00015933,0.005023019; 51843600,0.000156004,0.005179023; 54435600,0.000152911,
-            0.005331935; 57027600,0.000150024,0.005481958; 59619600,0.00014732,0.005629278;
-            62211600,0.00014478,0.005774059; 64803600,0.000142389,0.005916447; 67395600,
-            0.000140131,0.006056579; 69987600,0.000137995,0.006194574; 72579600,0.00013597,
-            0.006330544; 75171600,0.000134046,0.00646459; 77763600,0.000132215,0.006596804;
-            80355600,0.000130469,0.006727274; 82947600,0.000128803,0.006856077; 85539600,
-            0.000127209,0.006983286; 88131600,0.000125683,0.007108969; 90723600,0.00012422,
-            0.00723319; 93315600,0.000122816,0.007356006; 95907600,0.000121467,0.007477473;
-            98499600,0.000120168,0.007597641; 101091600,0.000118918,0.007716559; 103683600,
-            0.000117713,0.007834271; 106275600,0.00011655,0.007950821; 108867600,0.000115426,
-            0.008066247; 111459600,0.000114341,0.008180588; 114051600,0.000113291,0.008293879;
-            116643600,0.000112274,0.008406153; 119235600,0.000111289,0.008517442; 121827600,
-            0.000110334,0.008627776; 124419600,0.000109408,0.008737184; 127011600,0.000108509,
-            0.008845692; 129603600,0.000107635,0.008953328; 132195600,0.000106787,0.009060115;
-            134787600,0.000105961,0.009166076; 137379600,0.000105158,0.009271234; 139971600,
-            0.000104377,0.009375611; 142563600,0.000103615,0.009479226; 145155600,0.000102873,
-            0.009582099; 147747600,0.00010215,0.009684249; 150339600,0.000101445,0.009785694;
-            152931600,0.000100756,0.00988645; 155523600,0.000100084,0.009986534; 158115600,
-            9.94283e-05,0.010085963; 160707600,9.87873e-05,0.01018475; 163299600,9.81609e-05,
-            0.010282911; 165891600,9.75485e-05,0.010380459; 168483600,9.69495e-05,0.010477409;
-            171075600,9.63636e-05,0.010573772; 173667600,9.57901e-05,0.010669562; 176259600,
-            9.52287e-05,0.010764791; 178851600,9.46789e-05,0.01085947; 181443600,9.41403e-05,
-            0.01095361; 184035600,9.36126e-05,0.011047223; 186627600,9.30953e-05,0.011140318;
-            189219600,9.25882e-05,0.011232906; 191811600,9.20908e-05,0.011324997; 194403600,
-            9.16029e-05,0.0114166; 196995600,9.11242e-05,0.011507724; 199587600,9.06544e-05,
-            0.011598379; 202179600,9.01931e-05,0.011688572; 204771600,8.97402e-05,0.011778312;
-            207363600,8.92954e-05,0.011867607; 209955600,8.88584e-05,0.011956466; 212547600,
-            8.8429e-05,0.012044895; 215139600,8.8007e-05,0.012132902; 217731600,8.75922e-05,
-            0.012220494; 220323600,8.71843e-05,0.012307678; 222915600,8.67832e-05,0.012394462;
-            225507600,8.63886e-05,0.01248085; 228099600,8.60005e-05,0.012566851; 230691600,
-            8.56186e-05,0.012652469; 233283600,8.52427e-05,0.012737712; 235875600,8.48727e-05,
-            0.012822585; 238467600,8.45085e-05,0.012907093; 241059600,8.41498e-05,0.012991243;
-            243651600,8.37966e-05,0.01307504; 246243600,8.34487e-05,0.013158488; 248835600,
-            8.31059e-05,0.013241594; 251427600,8.27682e-05,0.013324363; 254019600,8.24354e-05,
-            0.013406798; 256611600,8.21074e-05,0.013488905; 259203600,8.17841e-05,0.013570689;
-            261795600,8.14653e-05,0.013652155; 264387600,8.1151e-05,0.013733306; 266979600,
-            8.0841e-05,0.013814147; 269571600,8.05353e-05,0.013894682; 272163600,8.02337e-05,
-            0.013974916; 274755600,7.99362e-05,0.014054852; 277347600,7.96426e-05,0.014134494;
-            279939600,7.93529e-05,0.014213847; 282531600,7.9067e-05,0.014292914; 285123600,
-            7.87848e-05,0.014371699; 287715600,7.85062e-05,0.014450205; 290307600,7.82312e-05,
-            0.014528436; 292899600,7.79596e-05,0.014606396; 295491600,7.76914e-05,0.014684087;
-            298083600,7.74266e-05,0.014761514; 300675600,7.7165e-05,0.014838679; 303267600,
-            7.69065e-05,0.014915586; 305859600,7.66512e-05,0.014992237; 308451600,7.6399e-05,
-            0.015068636; 311043600,7.61497e-05,0.015144785; 313635600,7.59034e-05,0.015220689;
-            316227600,7.566e-05,0.015296349])
+      inner Modelica.Blocks.Noise.GlobalSeed globalSeed(fixedSeed=randomSeed)
+        annotation (Placement(transformation(extent={{-98,74},{-78,94}})));
+      Modelica.Blocks.Interfaces.BooleanOutput failreBooleanIndex
+        annotation (Placement(transformation(extent={{90,-10},{110,10}})));
+      HazardFunctionTable_Sec hazardFunctionTable_Sec
+        annotation (Placement(transformation(extent={{-28,-26},{-6,-6}})));
+    equation
+      connect(uniformNoise.y, system_failure.random) annotation (Line(points={{33,-44},
+              {43,-44},{43,-2.2},{51.2,-2.2}}, color={0,0,127}));
+      connect(greater1.y, degradationModeswitch.u2)
+        annotation (Line(points={{-7,20},{10,20}}, color={255,0,255}));
+      connect(valvedelay6.y, greater1.u2) annotation (Line(points={{-49,40},{-38,40},
+              {-38,28},{-30,28}}, color={0,0,127}));
+      connect(clock4.y, greater1.u1) annotation (Line(points={{-49,10},{-38,10},{-38,
+              20},{-30,20}}, color={0,0,127}));
+      connect(NoHazardFunction.y[1], degradationModeswitch.u1)
+        annotation (Line(points={{-7,48},{10,48},{10,28}}, color={0,0,127}));
+      connect(degradationModeswitch.y, system_failure.hazard) annotation (Line(
+            points={{33,20},{42,20},{42,6.6},{51.2,6.6}}, color={0,0,127}));
+      connect(failreBooleanIndex, failreBooleanIndex)
+        annotation (Line(points={{100,0},{100,0}}, color={255,0,255}));
+      connect(system_failure.failreBooleanIndex, failreBooleanIndex)
+        annotation (Line(points={{69,0},{100,0}}, color={255,0,255}));
+      connect(degradationModeswitch.u3, hazardFunctionTable_Sec.HazardValue)
+        annotation (Line(points={{10,12},{0,12},{0,-16},{-7.1,-16}}, color={0,0,
+              127}));
+      annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
+              Rectangle(extent={{-100,100},{100,-100}}, lineColor={0,0,0}), Text(
+              extent={{-60,42},{62,-46}},
+              textColor={0,0,0},
+              textString="%MOV
+FailToOperate
+Model",       textStyle={TextStyle.Bold})}),
+               Diagram(coordinateSystem(preserveAspectRatio=false)));
+    end MOV_failToOperate_Model_Sec;
+
+    model systemDegradation_Model_Sec
+      MOV_failToOperate_Model_Sec valveDegradation_Model1(randomSeed=
+            dataValveDegradationModel.TCV_randomSeed_failToOperate,
+          strategyChangeTime=dataValveDegradationModel.strategyChangeTime)
+        annotation (Placement(transformation(extent={{-94,66},{-74,86}})));
+      MOV_failToOperate_Model_Sec valveDegradation_Model2(randomSeed=
+            dataValveDegradationModel.LPTBV1_randomSeed_failToOperate,
+          strategyChangeTime=dataValveDegradationModel.strategyChangeTime)
+        annotation (Placement(transformation(extent={{-94,40},{-74,60}})));
+      MOV_failToOperate_Model_Sec valveDegradation_Model3(randomSeed=
+            dataValveDegradationModel.LPTBV2_randomSeed_failToOperate,
+          strategyChangeTime=dataValveDegradationModel.strategyChangeTime)
+        annotation (Placement(transformation(extent={{-94,14},{-74,34}})));
+      Data.dataValveDegradationModel dataValveDegradationModel
+        annotation (Placement(transformation(extent={{60,64},{80,84}})));
+      Modelica.Blocks.Logical.Or or1
+        annotation (Placement(transformation(extent={{-42,58},{-22,78}})));
+      Modelica.Blocks.Logical.Or or2
+        annotation (Placement(transformation(extent={{6,34},{26,54}})));
+      Modelica.Blocks.Interfaces.BooleanOutput y
+        annotation (Placement(transformation(extent={{90,-10},{110,10}})));
+      MOV_failToRemainOpen_Model_Sec mOV_failToRemainOpen_Model(randomSeed=
+            dataValveDegradationModel.TCV_randomSeed_failToRemainOpen)
+        annotation (Placement(transformation(extent={{-94,-12},{-74,8}})));
+      MOV_failToRemainOpen_Model_Sec mOV_failToRemainOpen_Model1(randomSeed=
+            dataValveDegradationModel.LPTBV1_randomSeed_failToRemainOpen)
+        annotation (Placement(transformation(extent={{-94,-40},{-74,-20}})));
+      MOV_failToRemainOpen_Model_Sec mOV_failToRemainOpen_Model2(randomSeed=
+            dataValveDegradationModel.LPTBV2_randomSeed_failToRemainOpen)
+        annotation (Placement(transformation(extent={{-94,-68},{-74,-48}})));
+      Modelica.Blocks.Logical.Or or3
+        annotation (Placement(transformation(extent={{-42,-20},{-22,0}})));
+      Modelica.Blocks.Logical.Or or4
+        annotation (Placement(transformation(extent={{6,-44},{26,-24}})));
+      Modelica.Blocks.Logical.Or or5
+        annotation (Placement(transformation(extent={{48,-10},{68,10}})));
+    equation
+      connect(valveDegradation_Model1.failreBooleanIndex, or1.u1) annotation (
+          Line(points={{-74,76},{-50,76},{-50,68},{-44,68}}, color={255,0,255}));
+      connect(valveDegradation_Model2.failreBooleanIndex, or1.u2) annotation (
+          Line(points={{-74,50},{-50,50},{-50,60},{-44,60}}, color={255,0,255}));
+      connect(or2.u1, or1.y) annotation (Line(points={{4,44},{-14,44},{-14,68},
+              {-21,68}}, color={255,0,255}));
+      connect(or2.u2, valveDegradation_Model3.failreBooleanIndex) annotation (
+          Line(points={{4,36},{-14,36},{-14,24},{-74,24}}, color={255,0,255}));
+      connect(or5.y, y)
+        annotation (Line(points={{69,0},{100,0}}, color={255,0,255}));
+      connect(or2.y, or5.u1) annotation (Line(points={{27,44},{40,44},{40,0},{
+              46,0}}, color={255,0,255}));
+      connect(or4.y, or5.u2) annotation (Line(points={{27,-34},{40,-34},{40,-8},
+              {46,-8}}, color={255,0,255}));
+      connect(or3.y, or4.u1) annotation (Line(points={{-21,-10},{-2,-10},{-2,
+              -34},{4,-34}}, color={255,0,255}));
+      connect(mOV_failToRemainOpen_Model2.failToRemainOpenIndex, or4.u2)
+        annotation (Line(points={{-74,-58},{-2,-58},{-2,-42},{4,-42}}, color={
+              255,0,255}));
+      connect(mOV_failToRemainOpen_Model1.failToRemainOpenIndex, or3.u2)
+        annotation (Line(points={{-74,-30},{-50,-30},{-50,-18},{-44,-18}},
+            color={255,0,255}));
+      connect(mOV_failToRemainOpen_Model.failToRemainOpenIndex, or3.u1)
+        annotation (Line(points={{-74,-2},{-52,-2},{-52,-10},{-44,-10}},
+            color={255,0,255}));
+      annotation (
+        Icon(coordinateSystem(preserveAspectRatio=false), graphics={Rectangle(
+                extent={{-100,100},{100,-100}}, lineColor={0,0,0})}),
+        Diagram(coordinateSystem(preserveAspectRatio=false)),
+        experiment(StopTime=316227600, __Dymola_Algorithm="Dassl"));
+    end systemDegradation_Model_Sec;
+
+    model MOV_failToRemainOpen_Model_Sec "Separate_System_Failure_Modeling"
+      parameter Integer randomSeed = 1234 "random Seed";
+      parameter SI.Time samplePeriod = 2592000 "2592000 sec = 720 hours";
+      Modelica.Blocks.Noise.UniformNoise uniformNoise(
+        samplePeriod=samplePeriod,
+        y_min=0,
+        y_max=1)
+        annotation (Placement(transformation(extent={{-28,-30},{-8,-10}})));
+      valveFailProto                  system_failure
+        annotation (Placement(transformation(extent={{18,-12},{38,8}})));
+      Modelica.Blocks.Sources.CombiTimeTable HazardFunction_failToRemainOpen(table=[
+            3600,0; 2595600,0; 5187600,0; 7779600,0; 10371600,0; 12963600,0;
+            15555600,0; 18147600,0; 20739600,0; 23331600,0; 25923600,0;
+            28515600,0; 31107600,0; 33699600,0; 36291600,0; 38883600,0;
+            41475600,0; 44067600,0; 46659600,0; 49251600,0; 51843600,0;
+            54435600,0; 57027600,0; 59619600,0; 62211600,0; 64803600,0;
+            67395600,0; 69987600,0; 72579600,0; 75171600,0; 77763600,0;
+            80355600,0; 82947600,0; 85539600,0; 88131600,0; 90723600,0;
+            93315600,0; 95907600,0; 98499600,0; 101091600,0; 103683600,0;
+            106275600,0; 108867600,0; 111459600,0; 114051600,0; 116643600,0;
+            119235600,0; 121827600,0; 124419600,0; 127011600,0; 129603600,0;
+            132195600,0; 134787600,0; 137379600,0; 139971600,0; 142563600,0;
+            145155600,0; 147747600,0; 150339600,0; 152931600,0; 155523600,0;
+            158115600,0; 160707600,0; 163299600,0; 165891600,0; 168483600,0;
+            171075600,0; 173667600,0; 176259600,0; 178851600,0; 181443600,0;
+            184035600,0; 186627600,0; 189219600,0; 191811600,0; 194403600,0;
+            196995600,0; 199587600,0; 202179600,0; 204771600,0; 207363600,0;
+            209955600,0; 212547600,0; 215139600,0; 217731600,0; 220323600,0;
+            222915600,0; 225507600,0; 228099600,0; 230691600,0; 233283600,0;
+            235875600,0; 238467600,0; 241059600,0; 243651600,0; 246243600,0;
+            248835600,0; 251427600,0; 254019600,0; 256611600,0; 259203600,0;
+            261795600,0; 264387600,0; 266979600,0; 269571600,0; 272163600,0;
+            274755600,0; 277347600,0; 279939600,0; 282531600,0; 285123600,0;
+            287715600,0; 290307600,0; 292899600,0; 295491600,0; 298083600,0;
+            300675600,0; 303267600,0; 305859600,0; 308451600,0; 311043600,0;
+            313635600,0; 316227600,0])
+        annotation (Placement(transformation(extent={{-28,10},{-8,30}})));
+      inner Modelica.Blocks.Noise.GlobalSeed globalSeed(fixedSeed=randomSeed)
+        annotation (Placement(transformation(extent={{-98,74},{-78,94}})));
+      Modelica.Blocks.Interfaces.BooleanOutput failToRemainOpenIndex
+        annotation (Placement(transformation(extent={{90,-10},{110,10}})));
+    equation
+      connect(uniformNoise.y, system_failure.random) annotation (Line(points={{-7,-20},
+              {14,-20},{14,-6.2},{19.2,-6.2}}, color={0,0,127}));
+      connect(failToRemainOpenIndex, failToRemainOpenIndex)
+        annotation (Line(points={{100,0},{100,0}}, color={255,0,255}));
+      connect(system_failure.failreBooleanIndex, failToRemainOpenIndex) annotation (
+         Line(points={{37,-4},{68,-4},{68,0},{100,0}}, color={255,0,255}));
+      connect(HazardFunction_failToRemainOpen.y[1], system_failure.hazard)
+        annotation (Line(points={{-7,20},{14,20},{14,2.6},{19.2,2.6}}, color={0,
+              0,127}));
+      annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
+              Rectangle(extent={{-100,100},{100,-100}}, lineColor={0,0,0}), Text(
+              extent={{-60,42},{62,-46}},
+              textColor={0,0,0},
+              textString="%MOV
+Fail To Remain
+Open
+Model",       textStyle={TextStyle.Bold})}),
+               Diagram(coordinateSystem(preserveAspectRatio=false)));
+    end MOV_failToRemainOpen_Model_Sec;
+
+    model MOV_failToOperate_Model_Hr "Separate_System_Failure_Modeling"
+      parameter Integer randomSeed = 1234 "random Seed";
+      parameter SI.Time strategyChangeTime "strategy Change Timing";
+      parameter SI.Time samplePeriod = 2592000 "2592000 sec = 720 hours";
+      Modelica.Blocks.Sources.Constant valvedelay6(k=strategyChangeTime)
+        annotation (Placement(transformation(extent={{-70,30},{-50,50}})));
+      Modelica.Blocks.Sources.ContinuousClock clock4(offset=0, startTime=0)
+        annotation (Placement(transformation(extent={{-70,0},{-50,20}})));
+      Modelica.Blocks.Noise.UniformNoise uniformNoise(
+        samplePeriod=samplePeriod,
+        y_min=0,
+        y_max=1)
+        annotation (Placement(transformation(extent={{12,-54},{32,-34}})));
+      valveFailProto                  system_failure
+        annotation (Placement(transformation(extent={{50,-8},{70,12}})));
+      Modelica.Blocks.Logical.Greater greater1
+        annotation (Placement(transformation(extent={{-28,30},{-8,10}})));
+      Modelica.Blocks.Logical.Switch degradationModeswitch
+        annotation (Placement(transformation(extent={{12,10},{32,30}})));
+      Modelica.Blocks.Sources.CombiTimeTable NoHazardFunction(table=[1,0; 721,0;
+            1441,0; 2161,0; 2881,0; 3601,0; 4321,0; 5041,0; 5761,0; 6481,0;
+            7201,0; 7921,0; 8641,0; 9361,0; 10081,0; 10801,0; 11521,0; 12241,0;
+            12961,0; 13681,0; 14401,0; 15121,0; 15841,0; 16561,0; 17281,0;
+            18001,0; 18721,0; 19441,0; 20161,0; 20881,0; 21601,0; 22321,0;
+            23041,0; 23761,0; 24481,0; 25201,0; 25921,0; 26641,0; 27361,0;
+            28081,0; 28801,0; 29521,0; 30241,0; 30961,0; 31681,0; 32401,0;
+            33121,0; 33841,0; 34561,0; 35281,0; 36001,0; 36721,0; 37441,0;
+            38161,0; 38881,0; 39601,0; 40321,0; 41041,0; 41761,0; 42481,0;
+            43201,0; 43921,0; 44641,0; 45361,0; 46081,0; 46801,0; 47521,0;
+            48241,0; 48961,0; 49681,0; 50401,0; 51121,0; 51841,0; 52561,0;
+            53281,0; 54001,0; 54721,0; 55441,0; 56161,0; 56881,0; 57601,0;
+            58321,0; 59041,0; 59761,0; 60481,0; 61201,0; 61921,0; 62641,0;
+            63361,0; 64081,0; 64801,0; 65521,0; 66241,0; 66961,0; 67681,0;
+            68401,0; 69121,0; 69841,0; 70561,0; 71281,0; 72001,0; 72721,0;
+            73441,0; 74161,0; 74881,0; 75601,0; 76321,0; 77041,0; 77761,0;
+            78481,0; 79201,0; 79921,0; 80641,0; 81361,0; 82081,0; 82801,0;
+            83521,0; 84241,0; 84961,0; 85681,0; 86401,0; 87121,0; 87841,0])
+                  annotation (Placement(transformation(extent={{-28,38},{-8,58}})));
+      Modelica.Blocks.Sources.CombiTimeTable CumulHazardFunction_1(table=[1,
+            1.76124e-05,1.76124e-05; 721,0.000855354,0.000872967; 1441,
+            0.000443919,0.001316885; 2161,0.000358389,0.001675274; 2881,
+            0.000312179,0.001987453; 3601,0.000281804,0.002269257; 4321,
+            0.000259763,0.00252902; 5041,0.000242772,0.002771792; 5761,
+            0.000229126,0.003000918; 6481,0.000217835,0.003218753; 7201,
+            0.000208279,0.003427032; 7921,0.000200046,0.003627078; 8641,
+            0.000192851,0.003819929; 9361,0.000186489,0.004006418; 10081,
+            0.000180807,0.004187225; 10801,0.00017569,0.004362915; 11521,
+            0.000171047,0.004533962; 12241,0.000166809,0.004700771; 12961,
+            0.000162919,0.00486369; 13681,0.00015933,0.005023019; 14401,
+            0.000156004,0.005179023; 15121,0.000152911,0.005331935; 15841,
+            0.000150024,0.005481958; 16561,0.00014732,0.005629278; 17281,
+            0.00014478,0.005774059; 18001,0.000142389,0.005916447; 18721,
+            0.000140131,0.006056579; 19441,0.000137995,0.006194574; 20161,
+            0.00013597,0.006330544; 20881,0.000134046,0.00646459; 21601,
+            0.000132215,0.006596804; 22321,0.000130469,0.006727274; 23041,
+            0.000128803,0.006856077; 23761,0.000127209,0.006983286; 24481,
+            0.000125683,0.007108969; 25201,0.00012422,0.00723319; 25921,
+            0.000122816,0.007356006; 26641,0.000121467,0.007477473; 27361,
+            0.000120168,0.007597641; 28081,0.000118918,0.007716559; 28801,
+            0.000117713,0.007834271; 29521,0.00011655,0.007950821; 30241,
+            0.000115426,0.008066247; 30961,0.000114341,0.008180588; 31681,
+            0.000113291,0.008293879; 32401,0.000112274,0.008406153; 33121,
+            0.000111289,0.008517442; 33841,0.000110334,0.008627776; 34561,
+            0.000109408,0.008737184; 35281,0.000108509,0.008845692; 36001,
+            0.000107635,0.008953328; 36721,0.000106787,0.009060115; 37441,
+            0.000105961,0.009166076; 38161,0.000105158,0.009271234; 38881,
+            0.000104377,0.009375611; 39601,0.000103615,0.009479226; 40321,
+            0.000102873,0.009582099; 41041,0.00010215,0.009684249; 41761,
+            0.000101445,0.009785694; 42481,0.000100756,0.00988645; 43201,
+            0.000100084,0.009986534; 43921,9.94283e-05,0.010085963; 44641,
+            9.87873e-05,0.01018475; 45361,9.81609e-05,0.010282911; 46081,
+            9.75485e-05,0.010380459; 46801,9.69495e-05,0.010477409; 47521,
+            9.63636e-05,0.010573772; 48241,9.57901e-05,0.010669562; 48961,
+            9.52287e-05,0.010764791; 49681,9.46789e-05,0.01085947; 50401,
+            9.41403e-05,0.01095361; 51121,9.36126e-05,0.011047223; 51841,
+            9.30953e-05,0.011140318; 52561,9.25882e-05,0.011232906; 53281,
+            9.20908e-05,0.011324997; 54001,9.16029e-05,0.0114166; 54721,
+            9.11242e-05,0.011507724; 55441,9.06544e-05,0.011598379; 56161,
+            9.01931e-05,0.011688572; 56881,8.97402e-05,0.011778312; 57601,
+            8.92954e-05,0.011867607; 58321,8.88584e-05,0.011956466; 59041,
+            8.8429e-05,0.012044895; 59761,8.8007e-05,0.012132902; 60481,
+            8.75922e-05,0.012220494; 61201,8.71843e-05,0.012307678; 61921,
+            8.67832e-05,0.012394462; 62641,8.63886e-05,0.01248085; 63361,
+            8.60005e-05,0.012566851; 64081,8.56186e-05,0.012652469; 64801,
+            8.52427e-05,0.012737712; 65521,8.48727e-05,0.012822585; 66241,
+            8.45085e-05,0.012907093; 66961,8.41498e-05,0.012991243; 67681,
+            8.37966e-05,0.01307504; 68401,8.34487e-05,0.013158488; 69121,
+            8.31059e-05,0.013241594; 69841,8.27682e-05,0.013324363; 70561,
+            8.24354e-05,0.013406798; 71281,8.21074e-05,0.013488905; 72001,
+            8.17841e-05,0.013570689; 72721,8.14653e-05,0.013652155; 73441,
+            8.1151e-05,0.013733306; 74161,8.0841e-05,0.013814147; 74881,
+            8.05353e-05,0.013894682; 75601,8.02337e-05,0.013974916; 76321,
+            7.99362e-05,0.014054852; 77041,7.96426e-05,0.014134494; 77761,
+            7.93529e-05,0.014213847; 78481,7.9067e-05,0.014292914; 79201,
+            7.87848e-05,0.014371699; 79921,7.85062e-05,0.014450205; 80641,
+            7.82312e-05,0.014528436; 81361,7.79596e-05,0.014606396; 82081,
+            7.76914e-05,0.014684087; 82801,7.74266e-05,0.014761514; 83521,
+            7.7165e-05,0.014838679; 84241,7.69065e-05,0.014915586; 84961,
+            7.66512e-05,0.014992237; 85681,7.6399e-05,0.015068636; 86401,
+            7.61497e-05,0.015144785; 87121,7.59034e-05,0.015220689; 87841,
+            7.566e-05,0.015296349])
         annotation (Placement(transformation(extent={{-28,-24},{-8,-4}})));
       inner Modelica.Blocks.Noise.GlobalSeed globalSeed(fixedSeed=randomSeed)
         annotation (Placement(transformation(extent={{-98,74},{-78,94}})));
@@ -9833,262 +10047,102 @@ to Boolean")}));
               textColor={0,0,0},
               textString="%MOV
 FailToOperate
-Model")}),     Diagram(coordinateSystem(preserveAspectRatio=false)));
-    end MOV_failToOperate_Model;
+Model",       textStyle={TextStyle.Bold})}),
+               Diagram(coordinateSystem(preserveAspectRatio=false)));
+    end MOV_failToOperate_Model_Hr;
 
-    model systemDegradation_Model
-      MOV_failToOperate_Model valveDegradation_Model1(
+    model systemDegradation_Model_Hr
+      MOV_failToOperate_Model_Sec valveDegradation_Model1(
         randomSeed=dataValveDegradationModel.TCV_randomSeed_failToOperate,
         strategyChangeTime=dataValveDegradationModel.strategyChangeTime,
-        CumulHazardFunction_1(table=[3600,1.76124e-05,1.76124e-05; 2595600,
-              0.000855354,0.000872967; 5187600,0.000443919,0.001316885; 7779600,
-              0.000358389,0.001675274; 10371600,0.000312179,0.001987453;
-              12963600,0.000281804,0.002269257; 15555600,0.000259763,0.00252902;
-              18147600,0.000242772,0.002771792; 20739600,0.000229126,
-              0.003000918; 23331600,0.000217835,0.003218753; 25923600,
-              0.000208279,0.003427032; 28515600,0.000200046,0.003627078;
-              31107600,0.000192851,0.003819929; 33699600,0.000186489,
-              0.004006418; 36291600,0.000180807,0.004187225; 38883600,
-              0.00017569,0.004362915; 41475600,0.000171047,0.004533962;
-              44067600,0.000166809,0.004700771; 46659600,0.000162919,0.00486369;
-              49251600,0.00015933,0.005023019; 51843600,0.000156004,0.005179023;
-              54435600,0.000152911,0.005331935; 57027600,0.000150024,
-              0.005481958; 59619600,0.00014732,0.005629278; 62211600,0.00014478,
-              0.005774059; 64803600,0.000142389,0.005916447; 67395600,
-              0.000140131,0.006056579; 69987600,0.000137995,0.006194574;
-              72579600,0.00013597,0.006330544; 75171600,0.000134046,0.00646459;
-              77763600,0.000132215,0.006596804; 80355600,0.000130469,
-              0.006727274; 82947600,0.000128803,0.006856077; 85539600,
-              0.000127209,0.006983286; 88131600,0.000125683,0.007108969;
-              90723600,0.00012422,0.00723319; 93315600,0.000122816,0.007356006;
-              95907600,0.000121467,0.007477473; 98499600,0.000120168,
-              0.007597641; 101091600,0.000118918,0.007716559; 103683600,
-              0.000117713,0.007834271; 106275600,0.00011655,0.007950821;
-              108867600,0.000115426,0.008066247; 111459600,0.000114341,
-              0.008180588; 114051600,0.000113291,0.008293879; 116643600,
-              0.000112274,0.008406153; 119235600,0.000111289,0.008517442;
-              121827600,0.000110334,0.008627776; 124419600,0.500109408,
-              0.008737184; 127011600,0.500108509,0.008845692; 129603600,
-              0.500107635,0.008953328; 132195600,0.500106787,0.009060115;
-              134787600,0.500105961,0.009166076; 137379600,0.500105158,
-              0.009271234; 139971600,0.500104377,0.009375611; 142563600,
-              0.500103615,0.009479226; 145155600,0.500102873,0.009582099;
-              147747600,0.50010215,0.009684249; 150339600,0.500101445,
-              0.009785694; 152931600,0.500100756,0.00988645; 155523600,
-              0.500100084,0.009986534; 158115600,0.500099428,0.010085963;
-              160707600,0.500098787,0.01018475; 163299600,0.500098161,
-              0.010282911; 165891600,0.500097548,0.010380459; 168483600,
-              0.50009695,0.010477409; 171075600,0.500096364,0.010573772;
-              173667600,0.50009579,0.010669562; 176259600,0.500095229,
-              0.010764791; 178851600,0.500094679,0.01085947; 181443600,
-              0.50009414,0.01095361; 184035600,0.500093613,0.011047223;
-              186627600,0.500093095,0.011140318; 189219600,0.500092588,
-              0.011232906; 191811600,0.500092091,0.011324997; 194403600,
-              0.500091603,0.0114166; 196995600,0.500091124,0.011507724;
-              199587600,0.500090654,0.011598379; 202179600,0.500090193,
-              0.011688572; 204771600,0.50008974,0.011778312; 207363600,
-              0.500089295,0.011867607; 209955600,0.500088858,0.011956466;
-              212547600,0.500088429,0.012044895; 215139600,0.500088007,
-              0.012132902; 217731600,0.500087592,0.012220494; 220323600,
-              0.500087184,0.012307678; 222915600,0.500086783,0.012394462;
-              225507600,0.500086389,0.01248085; 228099600,0.500086001,
-              0.012566851; 230691600,0.500085619,0.012652469; 233283600,
-              0.500085243,0.012737712; 235875600,0.500084873,0.012822585;
-              238467600,0.500084508,0.012907093; 241059600,0.50008415,
-              0.012991243; 243651600,0.500083797,0.01307504; 246243600,
-              0.500083449,0.013158488; 248835600,0.500083106,0.013241594;
-              251427600,0.500082768,0.013324363; 254019600,0.500082435,
-              0.013406798; 256611600,0.500082107,0.013488905; 259203600,
-              0.500081784,0.013570689; 261795600,0.500081465,0.013652155;
-              264387600,0.500081151,0.013733306; 266979600,0.500080841,
-              0.013814147; 269571600,0.500080535,0.013894682; 272163600,
-              0.500080234,0.013974916; 274755600,0.500079936,0.014054852;
-              277347600,0.500079643,0.014134494; 279939600,0.500079353,
-              0.014213847; 282531600,0.500079067,0.014292914; 285123600,
-              0.500078785,0.014371699; 287715600,0.500078506,0.014450205;
-              290307600,0.500078231,0.014528436; 292899600,0.50007796,
-              0.014606396; 295491600,0.500077691,0.014684087; 298083600,
-              0.500077427,0.014761514; 300675600,0.500077165,0.014838679;
-              303267600,0.500076907,0.014915586; 305859600,0.500076651,
-              0.014992237; 308451600,0.500076399,0.015068636; 311043600,
-              0.50007615,0.015144785; 313635600,0.500075903,0.015220689;
-              316227600,0.50007566,0.015296349]))
+        samplePeriod=720,
+        NoHazardFunction(table=[1,0; 721,0; 1441,0; 2161,0; 2881,0; 3601,0;
+              4321,0; 5041,0; 5761,0; 6481,0; 7201,0; 7921,0; 8641,0; 9361,0;
+              10081,0; 10801,0; 11521,0; 12241,0; 12961,0; 13681,0; 14401,0;
+              15121,0; 15841,0; 16561,0; 17281,0; 18001,0; 18721,0; 19441,0;
+              20161,0; 20881,0; 21601,0; 22321,0; 23041,0; 23761,0; 24481,0;
+              25201,0; 25921,0; 26641,0; 27361,0; 28081,0; 28801,0; 29521,0;
+              30241,0; 30961,0; 31681,0; 32401,0; 33121,0; 33841,0; 34561,0;
+              35281,0; 36001,0; 36721,0; 37441,0; 38161,0; 38881,0; 39601,0;
+              40321,0; 41041,0; 41761,0; 42481,0; 43201,0; 43921,0; 44641,0;
+              45361,0; 46081,0; 46801,0; 47521,0; 48241,0; 48961,0; 49681,0;
+              50401,0; 51121,0; 51841,0; 52561,0; 53281,0; 54001,0; 54721,0;
+              55441,0; 56161,0; 56881,0; 57601,0; 58321,0; 59041,0; 59761,0;
+              60481,0; 61201,0; 61921,0; 62641,0; 63361,0; 64081,0; 64801,0;
+              65521,0; 66241,0; 66961,0; 67681,0; 68401,0; 69121,0; 69841,0;
+              70561,0; 71281,0; 72001,0; 72721,0; 73441,0; 74161,0; 74881,0;
+              75601,0; 76321,0; 77041,0; 77761,0; 78481,0; 79201,0; 79921,0;
+              80641,0; 81361,0; 82081,0; 82801,0; 83521,0; 84241,0; 84961,0;
+              85681,0; 86401,0; 87121,0; 87841,0]))
         annotation (Placement(transformation(extent={{-94,66},{-74,86}})));
-      MOV_failToOperate_Model valveDegradation_Model2(
+      MOV_failToOperate_Model_Sec valveDegradation_Model2(
         randomSeed=dataValveDegradationModel.LPTBV1_randomSeed_failToOperate,
         strategyChangeTime=dataValveDegradationModel.strategyChangeTime,
-        CumulHazardFunction_1(table=[3600,1.76124e-05,1.76124e-05; 2595600,
-              0.000855354,0.000872967; 5187600,0.000443919,0.001316885; 7779600,
-              0.000358389,0.001675274; 10371600,0.000312179,0.001987453;
-              12963600,0.000281804,0.002269257; 15555600,0.000259763,0.00252902;
-              18147600,0.000242772,0.002771792; 20739600,0.000229126,
-              0.003000918; 23331600,0.000217835,0.003218753; 25923600,
-              0.000208279,0.003427032; 28515600,0.000200046,0.003627078;
-              31107600,0.000192851,0.003819929; 33699600,0.000186489,
-              0.004006418; 36291600,0.000180807,0.004187225; 38883600,
-              0.00017569,0.004362915; 41475600,0.000171047,0.004533962;
-              44067600,0.000166809,0.004700771; 46659600,0.000162919,0.00486369;
-              49251600,0.00015933,0.005023019; 51843600,0.000156004,0.005179023;
-              54435600,0.000152911,0.005331935; 57027600,0.000150024,
-              0.005481958; 59619600,0.00014732,0.005629278; 62211600,0.00014478,
-              0.005774059; 64803600,0.000142389,0.005916447; 67395600,
-              0.000140131,0.006056579; 69987600,0.000137995,0.006194574;
-              72579600,0.00013597,0.006330544; 75171600,0.000134046,0.00646459;
-              77763600,0.000132215,0.006596804; 80355600,0.000130469,
-              0.006727274; 82947600,0.000128803,0.006856077; 85539600,
-              0.000127209,0.006983286; 88131600,0.000125683,0.007108969;
-              90723600,0.00012422,0.00723319; 93315600,0.000122816,0.007356006;
-              95907600,0.000121467,0.007477473; 98499600,0.000120168,
-              0.007597641; 101091600,0.000118918,0.007716559; 103683600,
-              0.000117713,0.007834271; 106275600,0.00011655,0.007950821;
-              108867600,0.000115426,0.008066247; 111459600,0.000114341,
-              0.008180588; 114051600,0.000113291,0.008293879; 116643600,
-              0.000112274,0.008406153; 119235600,0.000111289,0.008517442;
-              121827600,0.000110334,0.008627776; 124419600,0.000109408,
-              0.008737184; 127011600,0.000108509,0.008845692; 129603600,
-              0.000107635,0.008953328; 132195600,0.000106787,0.009060115;
-              134787600,0.000105961,0.009166076; 137379600,0.000105158,
-              0.009271234; 139971600,0.000104377,0.009375611; 142563600,
-              0.000103615,0.009479226; 145155600,0.000102873,0.009582099;
-              147747600,0.00010215,0.009684249; 150339600,0.000101445,
-              0.009785694; 152931600,0.000100756,0.00988645; 155523600,
-              0.000100084,0.009986534; 158115600,9.94283e-05,0.010085963;
-              160707600,9.87873e-05,0.01018475; 163299600,9.81609e-05,
-              0.010282911; 165891600,9.75485e-05,0.010380459; 168483600,
-              9.69495e-05,0.010477409; 171075600,9.63636e-05,0.010573772;
-              173667600,9.57901e-05,0.010669562; 176259600,9.52287e-05,
-              0.010764791; 178851600,9.46789e-05,0.01085947; 181443600,
-              9.41403e-05,0.01095361; 184035600,9.36126e-05,0.011047223;
-              186627600,9.30953e-05,0.011140318; 189219600,9.25882e-05,
-              0.011232906; 191811600,9.20908e-05,0.011324997; 194403600,
-              9.16029e-05,0.0114166; 196995600,9.11242e-05,0.011507724;
-              199587600,9.06544e-05,0.011598379; 202179600,0.500090193,
-              0.011688572; 204771600,0.50008974,0.011778312; 207363600,
-              0.500089295,0.011867607; 209955600,0.500088858,0.011956466;
-              212547600,0.500088429,0.012044895; 215139600,0.500088007,
-              0.012132902; 217731600,0.500087592,0.012220494; 220323600,
-              0.500087184,0.012307678; 222915600,0.500086783,0.012394462;
-              225507600,0.500086389,0.01248085; 228099600,0.500086001,
-              0.012566851; 230691600,0.500085619,0.012652469; 233283600,
-              0.500085243,0.012737712; 235875600,0.500084873,0.012822585;
-              238467600,0.500084508,0.012907093; 241059600,0.50008415,
-              0.012991243; 243651600,0.500083797,0.01307504; 246243600,
-              0.500083449,0.013158488; 248835600,0.500083106,0.013241594;
-              251427600,0.500082768,0.013324363; 254019600,0.500082435,
-              0.013406798; 256611600,0.500082107,0.013488905; 259203600,
-              0.500081784,0.013570689; 261795600,0.500081465,0.013652155;
-              264387600,0.500081151,0.013733306; 266979600,0.500080841,
-              0.013814147; 269571600,0.500080535,0.013894682; 272163600,
-              0.500080234,0.013974916; 274755600,0.500079936,0.014054852;
-              277347600,0.500079643,0.014134494; 279939600,0.500079353,
-              0.014213847; 282531600,0.500079067,0.014292914; 285123600,
-              0.500078785,0.014371699; 287715600,0.500078506,0.014450205;
-              290307600,0.500078231,0.014528436; 292899600,0.50007796,
-              0.014606396; 295491600,0.500077691,0.014684087; 298083600,
-              0.500077427,0.014761514; 300675600,0.500077165,0.014838679;
-              303267600,0.500076907,0.014915586; 305859600,0.500076651,
-              0.014992237; 308451600,0.500076399,0.015068636; 311043600,
-              0.50007615,0.015144785; 313635600,0.500075903,0.015220689;
-              316227600,0.50007566,0.015296349]))
+        NoHazardFunction(table=[1,0; 721,0; 1441,0; 2161,0; 2881,0; 3601,0;
+              4321,0; 5041,0; 5761,0; 6481,0; 7201,0; 7921,0; 8641,0; 9361,0;
+              10081,0; 10801,0; 11521,0; 12241,0; 12961,0; 13681,0; 14401,0;
+              15121,0; 15841,0; 16561,0; 17281,0; 18001,0; 18721,0; 19441,0;
+              20161,0; 20881,0; 21601,0; 22321,0; 23041,0; 23761,0; 24481,0;
+              25201,0; 25921,0; 26641,0; 27361,0; 28081,0; 28801,0; 29521,0;
+              30241,0; 30961,0; 31681,0; 32401,0; 33121,0; 33841,0; 34561,0;
+              35281,0; 36001,0; 36721,0; 37441,0; 38161,0; 38881,0; 39601,0;
+              40321,0; 41041,0; 41761,0; 42481,0; 43201,0; 43921,0; 44641,0;
+              45361,0; 46081,0; 46801,0; 47521,0; 48241,0; 48961,0; 49681,0;
+              50401,0; 51121,0; 51841,0; 52561,0; 53281,0; 54001,0; 54721,0;
+              55441,0; 56161,0; 56881,0; 57601,0; 58321,0; 59041,0; 59761,0;
+              60481,0; 61201,0; 61921,0; 62641,0; 63361,0; 64081,0; 64801,0;
+              65521,0; 66241,0; 66961,0; 67681,0; 68401,0; 69121,0; 69841,0;
+              70561,0; 71281,0; 72001,0; 72721,0; 73441,0; 74161,0; 74881,0;
+              75601,0; 76321,0; 77041,0; 77761,0; 78481,0; 79201,0; 79921,0;
+              80641,0; 81361,0; 82081,0; 82801,0; 83521,0; 84241,0; 84961,0;
+              85681,0; 86401,0; 87121,0; 87841,0]))
         annotation (Placement(transformation(extent={{-94,40},{-74,60}})));
-      MOV_failToOperate_Model valveDegradation_Model3(
+      MOV_failToOperate_Model_Sec valveDegradation_Model3(
         randomSeed=dataValveDegradationModel.LPTBV2_randomSeed_failToOperate,
         strategyChangeTime=dataValveDegradationModel.strategyChangeTime,
-        CumulHazardFunction_1(table=[3600,1.76124e-05,1.76124e-05; 2595600,
-              0.000855354,0.000872967; 5187600,0.000443919,0.001316885; 7779600,
-              0.000358389,0.001675274; 10371600,0.000312179,0.001987453;
-              12963600,0.000281804,0.002269257; 15555600,0.000259763,0.00252902;
-              18147600,0.000242772,0.002771792; 20739600,0.000229126,
-              0.003000918; 23331600,0.000217835,0.003218753; 25923600,
-              0.000208279,0.003427032; 28515600,0.000200046,0.003627078;
-              31107600,0.000192851,0.003819929; 33699600,0.000186489,
-              0.004006418; 36291600,0.000180807,0.004187225; 38883600,
-              0.00017569,0.004362915; 41475600,0.000171047,0.004533962;
-              44067600,0.000166809,0.004700771; 46659600,0.000162919,0.00486369;
-              49251600,0.00015933,0.005023019; 51843600,0.000156004,0.005179023;
-              54435600,0.000152911,0.005331935; 57027600,0.000150024,
-              0.005481958; 59619600,0.00014732,0.005629278; 62211600,0.00014478,
-              0.005774059; 64803600,0.000142389,0.005916447; 67395600,
-              0.000140131,0.006056579; 69987600,0.000137995,0.006194574;
-              72579600,0.00013597,0.006330544; 75171600,0.000134046,0.00646459;
-              77763600,0.000132215,0.006596804; 80355600,0.000130469,
-              0.006727274; 82947600,0.000128803,0.006856077; 85539600,
-              0.000127209,0.006983286; 88131600,0.000125683,0.007108969;
-              90723600,0.00012422,0.00723319; 93315600,0.000122816,0.007356006;
-              95907600,0.000121467,0.007477473; 98499600,0.000120168,
-              0.007597641; 101091600,0.000118918,0.007716559; 103683600,
-              0.000117713,0.007834271; 106275600,0.00011655,0.007950821;
-              108867600,0.000115426,0.008066247; 111459600,0.000114341,
-              0.008180588; 114051600,0.000113291,0.008293879; 116643600,
-              0.000112274,0.008406153; 119235600,0.000111289,0.008517442;
-              121827600,0.000110334,0.008627776; 124419600,0.000109408,
-              0.008737184; 127011600,0.000108509,0.008845692; 129603600,
-              0.000107635,0.008953328; 132195600,0.000106787,0.009060115;
-              134787600,0.000105961,0.009166076; 137379600,0.000105158,
-              0.009271234; 139971600,0.000104377,0.009375611; 142563600,
-              0.000103615,0.009479226; 145155600,0.000102873,0.009582099;
-              147747600,0.00010215,0.009684249; 150339600,0.000101445,
-              0.009785694; 152931600,0.000100756,0.00988645; 155523600,
-              0.000100084,0.009986534; 158115600,9.94283e-05,0.010085963;
-              160707600,9.87873e-05,0.01018475; 163299600,9.81609e-05,
-              0.010282911; 165891600,9.75485e-05,0.010380459; 168483600,
-              9.69495e-05,0.010477409; 171075600,9.63636e-05,0.010573772;
-              173667600,9.57901e-05,0.010669562; 176259600,9.52287e-05,
-              0.010764791; 178851600,9.46789e-05,0.01085947; 181443600,
-              9.41403e-05,0.01095361; 184035600,9.36126e-05,0.011047223;
-              186627600,9.30953e-05,0.011140318; 189219600,9.25882e-05,
-              0.011232906; 191811600,9.20908e-05,0.011324997; 194403600,
-              9.16029e-05,0.0114166; 196995600,9.11242e-05,0.011507724;
-              199587600,9.06544e-05,0.011598379; 202179600,9.01931e-05,
-              0.011688572; 204771600,8.97402e-05,0.011778312; 207363600,
-              8.92954e-05,0.011867607; 209955600,8.88584e-05,0.011956466;
-              212547600,8.8429e-05,0.012044895; 215139600,8.8007e-05,
-              0.012132902; 217731600,8.75922e-05,0.012220494; 220323600,
-              8.71843e-05,0.012307678; 222915600,8.67832e-05,0.012394462;
-              225507600,8.63886e-05,0.01248085; 228099600,8.60005e-05,
-              0.012566851; 230691600,8.56186e-05,0.012652469; 233283600,
-              8.52427e-05,0.012737712; 235875600,8.48727e-05,0.012822585;
-              238467600,8.45085e-05,0.012907093; 241059600,8.41498e-05,
-              0.012991243; 243651600,8.37966e-05,0.01307504; 246243600,
-              8.34487e-05,0.013158488; 248835600,8.31059e-05,0.013241594;
-              251427600,8.27682e-05,0.013324363; 254019600,0.500082435,
-              0.013406798; 256611600,0.500082107,0.013488905; 259203600,
-              0.500081784,0.013570689; 261795600,0.500081465,0.013652155;
-              264387600,0.500081151,0.013733306; 266979600,0.500080841,
-              0.013814147; 269571600,0.500080535,0.013894682; 272163600,
-              0.500080234,0.013974916; 274755600,0.500079936,0.014054852;
-              277347600,0.500079643,0.014134494; 279939600,0.500079353,
-              0.014213847; 282531600,0.500079067,0.014292914; 285123600,
-              0.500078785,0.014371699; 287715600,0.500078506,0.014450205;
-              290307600,0.500078231,0.014528436; 292899600,0.50007796,
-              0.014606396; 295491600,0.500077691,0.014684087; 298083600,
-              0.500077427,0.014761514; 300675600,0.500077165,0.014838679;
-              303267600,0.500076907,0.014915586; 305859600,0.500076651,
-              0.014992237; 308451600,0.500076399,0.015068636; 311043600,
-              0.50007615,0.015144785; 313635600,0.500075903,0.015220689;
-              316227600,0.50007566,0.015296349]))
+        NoHazardFunction(table=[1,0; 721,0; 1441,0; 2161,0; 2881,0; 3601,0;
+              4321,0; 5041,0; 5761,0; 6481,0; 7201,0; 7921,0; 8641,0; 9361,0;
+              10081,0; 10801,0; 11521,0; 12241,0; 12961,0; 13681,0; 14401,0;
+              15121,0; 15841,0; 16561,0; 17281,0; 18001,0; 18721,0; 19441,0;
+              20161,0; 20881,0; 21601,0; 22321,0; 23041,0; 23761,0; 24481,0;
+              25201,0; 25921,0; 26641,0; 27361,0; 28081,0; 28801,0; 29521,0;
+              30241,0; 30961,0; 31681,0; 32401,0; 33121,0; 33841,0; 34561,0;
+              35281,0; 36001,0; 36721,0; 37441,0; 38161,0; 38881,0; 39601,0;
+              40321,0; 41041,0; 41761,0; 42481,0; 43201,0; 43921,0; 44641,0;
+              45361,0; 46081,0; 46801,0; 47521,0; 48241,0; 48961,0; 49681,0;
+              50401,0; 51121,0; 51841,0; 52561,0; 53281,0; 54001,0; 54721,0;
+              55441,0; 56161,0; 56881,0; 57601,0; 58321,0; 59041,0; 59761,0;
+              60481,0; 61201,0; 61921,0; 62641,0; 63361,0; 64081,0; 64801,0;
+              65521,0; 66241,0; 66961,0; 67681,0; 68401,0; 69121,0; 69841,0;
+              70561,0; 71281,0; 72001,0; 72721,0; 73441,0; 74161,0; 74881,0;
+              75601,0; 76321,0; 77041,0; 77761,0; 78481,0; 79201,0; 79921,0;
+              80641,0; 81361,0; 82081,0; 82801,0; 83521,0; 84241,0; 84961,0;
+              85681,0; 86401,0; 87121,0; 87841,0]))
         annotation (Placement(transformation(extent={{-94,14},{-74,34}})));
       Data.dataValveDegradationModel dataValveDegradationModel
-        annotation (Placement(transformation(extent={{70,76},{90,96}})));
+        annotation (Placement(transformation(extent={{60,64},{80,84}})));
       Modelica.Blocks.Logical.Or or1
         annotation (Placement(transformation(extent={{-42,58},{-22,78}})));
       Modelica.Blocks.Logical.Or or2
         annotation (Placement(transformation(extent={{6,34},{26,54}})));
       Modelica.Blocks.Interfaces.BooleanOutput y
         annotation (Placement(transformation(extent={{90,-10},{110,10}})));
-      MOV_failToRemainOpen_Model mOV_failToRemainOpen_Model(randomSeed=
-            dataValveDegradationModel.TCV_randomSeed_failToRemainOpen)
-        annotation (Placement(transformation(extent={{-94,-28},{-74,-8}})));
-      MOV_failToRemainOpen_Model mOV_failToRemainOpen_Model1(randomSeed=
-            dataValveDegradationModel.LPTBV1_randomSeed_failToRemainOpen)
-        annotation (Placement(transformation(extent={{-94,-56},{-74,-36}})));
-      MOV_failToRemainOpen_Model mOV_failToRemainOpen_Model2(randomSeed=
-            dataValveDegradationModel.LPTBV2_randomSeed_failToRemainOpen)
-        annotation (Placement(transformation(extent={{-94,-84},{-74,-64}})));
+      MOV_failToRemainOpen_Model_Sec mOV_failToRemainOpen_Model(randomSeed=
+            dataValveDegradationModel.TCV_randomSeed_failToRemainOpen,
+          samplePeriod=720)
+        annotation (Placement(transformation(extent={{-94,-12},{-74,8}})));
+      MOV_failToRemainOpen_Model_Sec mOV_failToRemainOpen_Model1(randomSeed=
+            dataValveDegradationModel.LPTBV1_randomSeed_failToRemainOpen,
+          samplePeriod=720)
+        annotation (Placement(transformation(extent={{-94,-40},{-74,-20}})));
+      MOV_failToRemainOpen_Model_Sec mOV_failToRemainOpen_Model2(randomSeed=
+            dataValveDegradationModel.LPTBV2_randomSeed_failToRemainOpen,
+          samplePeriod=720)
+        annotation (Placement(transformation(extent={{-94,-68},{-74,-48}})));
       Modelica.Blocks.Logical.Or or3
-        annotation (Placement(transformation(extent={{-42,-36},{-22,-16}})));
+        annotation (Placement(transformation(extent={{-42,-20},{-22,0}})));
       Modelica.Blocks.Logical.Or or4
-        annotation (Placement(transformation(extent={{6,-60},{26,-40}})));
+        annotation (Placement(transformation(extent={{6,-44},{26,-24}})));
       Modelica.Blocks.Logical.Or or5
         annotation (Placement(transformation(extent={{48,-10},{68,10}})));
     equation
@@ -10104,27 +10158,27 @@ Model")}),     Diagram(coordinateSystem(preserveAspectRatio=false)));
         annotation (Line(points={{69,0},{100,0}}, color={255,0,255}));
       connect(or2.y, or5.u1) annotation (Line(points={{27,44},{40,44},{40,0},{
               46,0}}, color={255,0,255}));
-      connect(or4.y, or5.u2) annotation (Line(points={{27,-50},{40,-50},{40,-8},
+      connect(or4.y, or5.u2) annotation (Line(points={{27,-34},{40,-34},{40,-8},
               {46,-8}}, color={255,0,255}));
-      connect(or3.y, or4.u1) annotation (Line(points={{-21,-26},{-2,-26},{-2,
-              -50},{4,-50}}, color={255,0,255}));
+      connect(or3.y, or4.u1) annotation (Line(points={{-21,-10},{-2,-10},{-2,
+              -34},{4,-34}}, color={255,0,255}));
       connect(mOV_failToRemainOpen_Model2.failToRemainOpenIndex, or4.u2)
-        annotation (Line(points={{-74,-74},{-2,-74},{-2,-58},{4,-58}}, color={
+        annotation (Line(points={{-74,-58},{-2,-58},{-2,-42},{4,-42}}, color={
               255,0,255}));
       connect(mOV_failToRemainOpen_Model1.failToRemainOpenIndex, or3.u2)
-        annotation (Line(points={{-74,-46},{-50,-46},{-50,-34},{-44,-34}},
+        annotation (Line(points={{-74,-30},{-50,-30},{-50,-18},{-44,-18}},
             color={255,0,255}));
       connect(mOV_failToRemainOpen_Model.failToRemainOpenIndex, or3.u1)
-        annotation (Line(points={{-74,-18},{-52,-18},{-52,-26},{-44,-26}},
+        annotation (Line(points={{-74,-2},{-52,-2},{-52,-10},{-44,-10}},
             color={255,0,255}));
       annotation (
         Icon(coordinateSystem(preserveAspectRatio=false), graphics={Rectangle(
                 extent={{-100,100},{100,-100}}, lineColor={0,0,0})}),
         Diagram(coordinateSystem(preserveAspectRatio=false)),
         experiment(StopTime=316227600, __Dymola_Algorithm="Dassl"));
-    end systemDegradation_Model;
+    end systemDegradation_Model_Hr;
 
-    model MOV_failToRemainOpen_Model "Separate_System_Failure_Modeling"
+    model MOV_failToRemainOpen_Model_Hr "Separate_System_Failure_Modeling"
       parameter Integer randomSeed = 1234 "random Seed";
       parameter SI.Time samplePeriod = 2592000 "2592000 sec = 720 hours";
       Modelica.Blocks.Noise.UniformNoise uniformNoise(
@@ -10134,29 +10188,26 @@ Model")}),     Diagram(coordinateSystem(preserveAspectRatio=false)));
         annotation (Placement(transformation(extent={{-28,-30},{-8,-10}})));
       valveFailProto                  system_failure
         annotation (Placement(transformation(extent={{18,-12},{38,8}})));
-      Modelica.Blocks.Sources.CombiTimeTable NoHazardFunction(table=[3600,0; 2595600,
-            0; 5187600,0; 7779600,0; 10371600,0; 12963600,0; 15555600,0; 18147600,0;
-            20739600,0; 23331600,0; 25923600,0; 28515600,0; 31107600,0; 33699600,0;
-            36291600,0; 38883600,0; 41475600,0; 44067600,0; 46659600,0; 49251600,0;
-            51843600,0; 54435600,0; 57027600,0; 59619600,0; 62211600,0; 64803600,0;
-            67395600,0; 69987600,0; 72579600,0; 75171600,0; 77763600,0; 80355600,0;
-            82947600,0; 85539600,0; 88131600,0; 90723600,0; 93315600,0; 95907600,0;
-            98499600,0; 101091600,0; 103683600,0; 106275600,0; 108867600,0; 111459600,
-            0; 114051600,0; 116643600,0; 119235600,0; 121827600,0; 124419600,0; 127011600,
-            0; 129603600,0; 132195600,0; 134787600,0; 137379600,0; 139971600,0; 142563600,
-            0; 145155600,0; 147747600,0; 150339600,0; 152931600,0; 155523600,0; 158115600,
-            0; 160707600,0; 163299600,0; 165891600,0; 168483600,0; 171075600,0; 173667600,
-            0; 176259600,0; 178851600,0; 181443600,0; 184035600,0; 186627600,0; 189219600,
-            0; 191811600,0; 194403600,0; 196995600,0; 199587600,0; 202179600,0; 204771600,
-            0; 207363600,0; 209955600,0; 212547600,0; 215139600,0; 217731600,0; 220323600,
-            0; 222915600,0; 225507600,0; 228099600,0; 230691600,0; 233283600,0; 235875600,
-            0; 238467600,0; 241059600,0; 243651600,0; 246243600,0; 248835600,0; 251427600,
-            0; 254019600,0; 256611600,0; 259203600,0; 261795600,0; 264387600,0; 266979600,
-            0; 269571600,0; 272163600,0; 274755600,0; 277347600,0; 279939600,0; 282531600,
-            0; 285123600,0; 287715600,0; 290307600,0; 292899600,0; 295491600,0; 298083600,
-            0; 300675600,0; 303267600,0; 305859600,0; 308451600,0; 311043600,0; 313635600,
-            0; 316227600,0])
-                  annotation (Placement(transformation(extent={{-28,10},{-8,30}})));
+      Modelica.Blocks.Sources.CombiTimeTable HazardFunction_failToRemainOpen(table=[1,
+            0; 721,0; 1441,0; 2161,0; 2881,0; 3601,0; 4321,0; 5041,0; 5761,0;
+            6481,0; 7201,0; 7921,0; 8641,0; 9361,0; 10081,0; 10801,0; 11521,0;
+            12241,0; 12961,0; 13681,0; 14401,0; 15121,0; 15841,0; 16561,0;
+            17281,0; 18001,0; 18721,0; 19441,0; 20161,0; 20881,0; 21601,0;
+            22321,0; 23041,0; 23761,0; 24481,0; 25201,0; 25921,0; 26641,0;
+            27361,0; 28081,0; 28801,0; 29521,0; 30241,0; 30961,0; 31681,0;
+            32401,0; 33121,0; 33841,0; 34561,0; 35281,0; 36001,0; 36721,0;
+            37441,0; 38161,0; 38881,0; 39601,0; 40321,0; 41041,0; 41761,0;
+            42481,0; 43201,0; 43921,0; 44641,0; 45361,0; 46081,0; 46801,0;
+            47521,0; 48241,0; 48961,0; 49681,0; 50401,0; 51121,0; 51841,0;
+            52561,0; 53281,0; 54001,0; 54721,0; 55441,0; 56161,0; 56881,0;
+            57601,0; 58321,0; 59041,0; 59761,0; 60481,0; 61201,0; 61921,0;
+            62641,0; 63361,0; 64081,0; 64801,0; 65521,0; 66241,0; 66961,0;
+            67681,0; 68401,0; 69121,0; 69841,0; 70561,0; 71281,0; 72001,0;
+            72721,0; 73441,0; 74161,0; 74881,0; 75601,0; 76321,0; 77041,0;
+            77761,0; 78481,0; 79201,0; 79921,0; 80641,0; 81361,0; 82081,0;
+            82801,0; 83521,0; 84241,0; 84961,0; 85681,0; 86401,0; 87121,0;
+            87841,0])
+        annotation (Placement(transformation(extent={{-28,10},{-8,30}})));
       inner Modelica.Blocks.Noise.GlobalSeed globalSeed(fixedSeed=randomSeed)
         annotation (Placement(transformation(extent={{-98,74},{-78,94}})));
       Modelica.Blocks.Interfaces.BooleanOutput failToRemainOpenIndex
@@ -10168,21 +10219,176 @@ Model")}),     Diagram(coordinateSystem(preserveAspectRatio=false)));
         annotation (Line(points={{100,0},{100,0}}, color={255,0,255}));
       connect(system_failure.failreBooleanIndex, failToRemainOpenIndex) annotation (
          Line(points={{37,-4},{68,-4},{68,0},{100,0}}, color={255,0,255}));
-      connect(NoHazardFunction.y[1], system_failure.hazard) annotation (Line(points=
-             {{-7,20},{14,20},{14,2.6},{19.2,2.6}}, color={0,0,127}));
+      connect(HazardFunction_failToRemainOpen.y[1], system_failure.hazard)
+        annotation (Line(points={{-7,20},{14,20},{14,2.6},{19.2,2.6}}, color={0,
+              0,127}));
       annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
               Rectangle(extent={{-100,100},{100,-100}}, lineColor={0,0,0}), Text(
               extent={{-60,42},{62,-46}},
               textColor={0,0,0},
               textString="%MOV
-FailToRemain
+Fail To Remain
 Open
-Model")}),     Diagram(coordinateSystem(preserveAspectRatio=false)));
-    end MOV_failToRemainOpen_Model;
+Model",       textStyle={TextStyle.Bold})}),
+               Diagram(coordinateSystem(preserveAspectRatio=false)));
+    end MOV_failToRemainOpen_Model_Hr;
+
+    model HazardFunctionTable_Hr
+      Modelica.Blocks.Sources.CombiTimeTable CumulHazardFunction_Hr(table=[1,0,
+            0; 200000,0,0; 286400,3.50207e-09,3.50207e-09; 2878400,3.35347e-06,
+            3.35697e-06; 5470400,9.60842e-06,1.29654e-05; 8062400,1.58162e-05,
+            2.87816e-05; 10654400,2.19773e-05,5.07588e-05; 13246400,2.80922e-05,
+            7.8851e-05; 15838400,3.41615e-05,0.000113012; 18430400,4.01856e-05,
+            0.000153198; 21022400,4.61652e-05,0.000199363; 23614400,5.21006e-05,
+            0.000251464; 26206400,5.79924e-05,0.000309456; 28798400,6.3841e-05,
+            0.000373297; 31390400,6.96469e-05,0.000442944; 33982400,7.54106e-05,
+            0.000518355; 36574400,8.11325e-05,0.000599487; 39166400,8.68131e-05,
+            0.0006863; 41758400,9.24529e-05,0.000778753; 44350400,9.80522e-05,
+            0.000876805; 46942400,0.000103612,0.000980417; 49534400,0.000109131,
+            0.001089548; 52126400,0.000114612,0.00120416; 54718400,0.000120054,
+            0.001324214; 57310400,0.000125457,0.001449671; 59902400,0.000130823,
+            0.001580494; 62494400,0.000136151,0.001716645; 65086400,0.000141442,
+            0.001858087; 67678400,0.000146696,0.002004783; 70270400,0.000151914,
+            0.002156698; 72862400,0.000157096,0.002313794; 75454400,0.000162242,
+            0.002476036; 78046400,0.000167353,0.002643389; 80638400,0.000172429,
+            0.002815819; 83230400,0.000177471,0.00299329; 85822400,0.000182479,
+            0.003175768; 88414400,0.000187452,0.00336322; 91006400,0.000192392,
+            0.003555613; 93598400,0.000197299,0.003752912; 96190400,0.000202173,
+            0.003955085; 98782400,0.000207015,0.0041621; 101374400,0.000211824,
+            0.004373924; 103966400,0.000216602,0.004590526; 106558400,
+            0.000221348,0.004811874; 109150400,0.000226063,0.005037937;
+            111742400,0.000230747,0.005268684; 114334400,0.0002354,0.005504084;
+            116926400,0.000240023,0.005744107; 119518400,0.000244616,
+            0.005988723; 122110400,0.000249179,0.006237903; 124702400,
+            0.000253713,0.006491616; 127294400,0.000258218,0.006749834;
+            129886400,0.000262694,0.007012527; 132478400,0.000267141,
+            0.007279668; 135070400,0.00027156,0.007551228; 137662400,0.00027595,
+            0.007827178; 140254400,0.000280313,0.008107492; 142846400,
+            0.000284649,0.008392141; 145438400,0.000288957,0.008681098;
+            148030400,0.000293238,0.008974336; 150622400,0.000297493,
+            0.009271829; 153214400,0.000301721,0.00957355; 155806400,
+            0.000305922,0.009879472; 158398400,0.000310098,0.010189571;
+            160990400,0.000314248,0.010503819; 163582400,0.000318372,
+            0.010822191; 166174400,0.000322471,0.011144662; 168766400,
+            0.000326545,0.011471208; 171358400,0.000330595,0.011801802;
+            173950400,0.000334619,0.012136421; 176542400,0.000338619,0.01247504;
+            179134400,0.000342595,0.012817636; 181726400,0.000346547,
+            0.013164183; 184318400,0.000350475,0.013514658; 186910400,
+            0.00035438,0.013869038; 189502400,0.000358262,0.0142273; 192094400,
+            0.00036212,0.01458942; 194686400,0.000365955,0.014955375; 197278400,
+            0.000369768,0.015325143; 199870400,0.000373558,0.015698702;
+            202462400,0.000377326,0.016076028; 205054400,0.000381072,0.0164571;
+            207646400,0.000384796,0.016841896; 210238400,0.000388498,
+            0.017230395; 212830400,0.000392179,0.017622574; 215422400,
+            0.000395838,0.018018412; 218014400,0.000399477,0.018417889;
+            220606400,0.000403094,0.018820983; 223198400,0.00040669,0.019227673;
+            225790400,0.000410266,0.019637939; 228382400,0.000413822,
+            0.020051761; 230974400,0.000417357,0.020469118; 233566400,
+            0.000420872,0.02088999; 236158400,0.000424367,0.021314357;
+            238750400,0.000427842,0.021742199; 241342400,0.000431298,
+            0.022173497; 243934400,0.000434735,0.022608232; 246526400,
+            0.000438152,0.023046384; 249118400,0.00044155,0.023487934;
+            251710400,0.000444929,0.023932863; 254302400,0.000448289,
+            0.024381152; 256894400,0.000451631,0.024832783; 259486400,
+            0.000454954,0.025287738; 262078400,0.000458259,0.025745997;
+            264670400,0.000461546,0.026207543; 267262400,0.000464815,
+            0.026672358; 269854400,0.000468066,0.027140424; 272446400,
+            0.000471299,0.027611723; 275038400,0.000474515,0.028086238;
+            277630400,0.000477713,0.028563951; 280222400,0.000480894,
+            0.029044846; 282814400,0.000484058,0.029528903; 285406400,
+            0.000487205,0.030016108; 287998400,0.000490335,0.030506443;
+            290590400,0.000493448,0.03099989; 293182400,0.000496544,0.031496435;
+            295774400,0.000499624,0.031996059; 298366400,0.000502688,
+            0.032498747; 300958400,0.000505736,0.033004483; 303550400,
+            0.000508767,0.03351325; 306142400,0.000511783,0.034025033;
+            308734400,0.000514782,0.034539815; 311326400,0.000517766,
+            0.035057581; 313918400,0.000520735,0.035578316; 316510400,
+            0.000523688,0.036102004])
+        annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
+      Modelica.Blocks.Interfaces.RealOutput HazardValue annotation (Placement(
+            transformation(extent={{80,-10},{100,10}}), iconTransformation(
+              extent={{80,-10},{100,10}})));
+    equation
+      connect(CumulHazardFunction_Hr.y[1], HazardValue)
+        annotation (Line(points={{11,0},{90,0}}, color={0,0,127}));
+      annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
+              Rectangle(
+              extent={{-100,100},{80,-100}},
+              lineColor={0,0,0}), Text(
+              extent={{-62,40},{46,-40}},
+              textColor={0,0,0},
+              textString="%Hazard
+Table
+Hr",          textStyle={TextStyle.Bold})}),
+           Diagram(coordinateSystem(preserveAspectRatio=false)));
+    end HazardFunctionTable_Hr;
+
+    model valve_degradation_Hr
+      Modelica.Blocks.Interfaces.RealOutput open_out annotation (Placement(
+            transformation(extent={{80,-10},{100,10}}), iconTransformation(extent={{
+                80,-10},{100,10}})));
+      Modelica.Blocks.Interfaces.RealInput open_in annotation (Placement(
+            transformation(extent={{-100,-12},{-76,12}}), iconTransformation(extent={{-100,
+                -12},{-76,12}})));
+      HazardFunctionTable_Hr hazardFunctionTable
+        annotation (Placement(transformation(extent={{-96,78},{-76,98}})));
+    equation
+      open_out =(1 - hazardFunctionTable.CumulHazardFunction_Hr.y[2])*open_in
+      annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
+            coordinateSystem(preserveAspectRatio=false)));
+
+      annotation (Icon(graphics={Rectangle(extent={{-92,100},{92,-100}},
+                lineColor={0,0,0}), Text(
+              extent={{-74,56},{74,-60}},
+              textColor={0,0,0},
+              textStyle={TextStyle.Bold},
+              textString="%Aging
+Model
+Hr")}));
+    end valve_degradation_Hr;
+
+    model systemDegradation_Model_Sec_FTOP_Only
+      MOV_failToOperate_Model_Sec valveDegradation_Model1(randomSeed=
+            dataValveDegradationModel.TCV_randomSeed_failToOperate,
+          strategyChangeTime=dataValveDegradationModel.strategyChangeTime)
+        annotation (Placement(transformation(extent={{-94,22},{-74,42}})));
+      MOV_failToOperate_Model_Sec valveDegradation_Model2(randomSeed=
+            dataValveDegradationModel.LPTBV1_randomSeed_failToOperate,
+          strategyChangeTime=dataValveDegradationModel.strategyChangeTime)
+        annotation (Placement(transformation(extent={{-94,-4},{-74,16}})));
+      MOV_failToOperate_Model_Sec valveDegradation_Model3(randomSeed=
+            dataValveDegradationModel.LPTBV2_randomSeed_failToOperate,
+          strategyChangeTime=dataValveDegradationModel.strategyChangeTime)
+        annotation (Placement(transformation(extent={{-94,-30},{-74,-10}})));
+      Data.dataValveDegradationModel dataValveDegradationModel
+        annotation (Placement(transformation(extent={{60,64},{80,84}})));
+      Modelica.Blocks.Logical.Or or1
+        annotation (Placement(transformation(extent={{-42,14},{-22,34}})));
+      Modelica.Blocks.Logical.Or or2
+        annotation (Placement(transformation(extent={{6,-10},{26,10}})));
+      Modelica.Blocks.Interfaces.BooleanOutput y
+        annotation (Placement(transformation(extent={{90,-10},{110,10}})));
+    equation
+      connect(valveDegradation_Model1.failreBooleanIndex, or1.u1) annotation (
+          Line(points={{-74,32},{-50,32},{-50,24},{-44,24}}, color={255,0,255}));
+      connect(valveDegradation_Model2.failreBooleanIndex, or1.u2) annotation (
+          Line(points={{-74,6},{-50,6},{-50,16},{-44,16}},   color={255,0,255}));
+      connect(or2.u1, or1.y) annotation (Line(points={{4,0},{-14,0},{-14,24},{
+              -21,24}},  color={255,0,255}));
+      connect(or2.u2, valveDegradation_Model3.failreBooleanIndex) annotation (
+          Line(points={{4,-8},{-14,-8},{-14,-20},{-74,-20}},
+                                                           color={255,0,255}));
+      connect(or2.y, y)
+        annotation (Line(points={{27,0},{100,0}}, color={255,0,255}));
+      annotation (
+        Icon(coordinateSystem(preserveAspectRatio=false), graphics={Rectangle(
+                extent={{-100,100},{100,-100}}, lineColor={0,0,0})}),
+        Diagram(coordinateSystem(preserveAspectRatio=false)),
+        experiment(StopTime=316227600, __Dymola_Algorithm="Dassl"));
+    end systemDegradation_Model_Sec_FTOP_Only;
   end Component_Degradation;
 
-  model
-    HTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_PumpDegradation_type2
+  model HTGR_Rankine_Cycle_Transient_TCV_Control_PumpDegradation_type2
     "Pressure Control done!!!"
     extends BaseClasses.Partial_SubSystem(
       redeclare replaceable
@@ -10716,11 +10922,9 @@ Model")}),     Diagram(coordinateSystem(preserveAspectRatio=false)));
 <p>Separate HTGR models will be developed for different uses. The primary differentiator is whether a combined cycle is going to be integrated or not. The combined cycle thoerized to be used here takes advantage of the relatively hot waste heat that is produced by an HTGR to boil water at low pressure and send that to a turbine. </p>
 <p>No part of this HTGR model should be considered to be optimized. Additionally, thermal mass of the system needs references and then will need to be adjusted (likely through pipes replacing current zero-volume volume nodes) to more appropriately reflect system time constants. </p>
 </html>"));
-  end
-    HTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_PumpDegradation_type2;
+  end HTGR_Rankine_Cycle_Transient_TCV_Control_PumpDegradation_type2;
 
-  model
-    HTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_PumpDegradation_type3
+  model HTGR_Rankine_Cycle_Transient_TCV_Control_PumpDegradation_type3
     "type2 + STisentropic efficiency is changing due to degradation"
     extends BaseClasses.Partial_SubSystem(
       redeclare replaceable
@@ -11257,11 +11461,9 @@ Model")}),     Diagram(coordinateSystem(preserveAspectRatio=false)));
 <p>Separate HTGR models will be developed for different uses. The primary differentiator is whether a combined cycle is going to be integrated or not. The combined cycle thoerized to be used here takes advantage of the relatively hot waste heat that is produced by an HTGR to boil water at low pressure and send that to a turbine. </p>
 <p>No part of this HTGR model should be considered to be optimized. Additionally, thermal mass of the system needs references and then will need to be adjusted (likely through pipes replacing current zero-volume volume nodes) to more appropriately reflect system time constants. </p>
 </html>"));
-  end
-    HTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_PumpDegradation_type3;
+  end HTGR_Rankine_Cycle_Transient_TCV_Control_PumpDegradation_type3;
 
-  model
-    HTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_PumpDegradation_type4
+  model HTGR_Rankine_Cycle_Transient_TCV_Control_PumpDegradation_type4
     "type3 + Valve (MOV) setpoint drift modeling"
     extends BaseClasses.Partial_SubSystem(
       redeclare replaceable
@@ -11875,11 +12077,9 @@ Model")}),     Diagram(coordinateSystem(preserveAspectRatio=false)));
 <p>Separate HTGR models will be developed for different uses. The primary differentiator is whether a combined cycle is going to be integrated or not. The combined cycle thoerized to be used here takes advantage of the relatively hot waste heat that is produced by an HTGR to boil water at low pressure and send that to a turbine. </p>
 <p>No part of this HTGR model should be considered to be optimized. Additionally, thermal mass of the system needs references and then will need to be adjusted (likely through pipes replacing current zero-volume volume nodes) to more appropriately reflect system time constants. </p>
 </html>"));
-  end
-    HTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_PumpDegradation_type4;
+  end HTGR_Rankine_Cycle_Transient_TCV_Control_PumpDegradation_type4;
 
-  model
-    HTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_PumpDegradation_type5_test
+  model HTGR_Rankine_Cycle_Transient_TCV_Control_PumpDegradation_type5_test
     "type3 + Valve (MOV) setpoint drift modeling_based on hazard function"
     extends BaseClasses.Partial_SubSystem(
       redeclare replaceable
@@ -12025,7 +12225,8 @@ Model")}),     Diagram(coordinateSystem(preserveAspectRatio=false)));
       p_nominal=5500000,
       allowFlowReversal=false)
       annotation (Placement(transformation(extent={{40,-92},{20,-72}})));
-    TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow1(redeclare package Medium =
+    TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow1(redeclare package
+        Medium =
           Modelica.Media.Water.StandardWater)            annotation (Placement(
           transformation(
           extent={{7,-8},{-7,8}},
@@ -12113,17 +12314,17 @@ Model")}),     Diagram(coordinateSystem(preserveAspectRatio=false)));
       LPT1_lambda=0.00000001,
       LPT2_lambda=0.00000001)
       annotation (Placement(transformation(extent={{120,122},{140,142}})));
-    Component_Degradation.valve_degradation valve_degradation annotation (
+    Component_Degradation.valve_degradation_Sec valve_degradation annotation (
         Placement(transformation(
           extent={{6,-6},{-6,6}},
           rotation=90,
           origin={-4,60})));
-    Component_Degradation.valve_degradation valve_degradation1 annotation (
+    Component_Degradation.valve_degradation_Sec valve_degradation1 annotation (
         Placement(transformation(
           extent={{6,-6},{-6,6}},
           rotation=90,
           origin={110,2})));
-    Component_Degradation.valve_degradation valve_degradation2 annotation (
+    Component_Degradation.valve_degradation_Sec valve_degradation2 annotation (
         Placement(transformation(
           extent={{-6,-6},{6,6}},
           rotation=180,
@@ -12475,11 +12676,9 @@ Model")}),     Diagram(coordinateSystem(preserveAspectRatio=false)));
 <p>Separate HTGR models will be developed for different uses. The primary differentiator is whether a combined cycle is going to be integrated or not. The combined cycle thoerized to be used here takes advantage of the relatively hot waste heat that is produced by an HTGR to boil water at low pressure and send that to a turbine. </p>
 <p>No part of this HTGR model should be considered to be optimized. Additionally, thermal mass of the system needs references and then will need to be adjusted (likely through pipes replacing current zero-volume volume nodes) to more appropriately reflect system time constants. </p>
 </html>"));
-  end
-    HTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_PumpDegradation_type5_test;
+  end HTGR_Rankine_Cycle_Transient_TCV_Control_PumpDegradation_type5_test;
 
-  model
-    HTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_PumpDegradation_type5_Daniel
+  model HTGR_Rankine_Cycle_Transient_TCV_Control_PumpDegradation_type5_Daniel
     "type3 + Valve (MOV) setpoint drift modeling_based on hazard function"
     extends BaseClasses.Partial_SubSystem(
       redeclare replaceable
@@ -12714,17 +12913,17 @@ Model")}),     Diagram(coordinateSystem(preserveAspectRatio=false)));
       LPT1_lambda=0.00000001,
       LPT2_lambda=0.00000001)
       annotation (Placement(transformation(extent={{120,122},{140,142}})));
-    Component_Degradation.valve_degradation valve_degradation annotation (
+    Component_Degradation.valve_degradation_Sec valve_degradation annotation (
         Placement(transformation(
           extent={{6,-6},{-6,6}},
           rotation=90,
           origin={-4,60})));
-    Component_Degradation.valve_degradation valve_degradation1 annotation (
+    Component_Degradation.valve_degradation_Sec valve_degradation1 annotation (
         Placement(transformation(
           extent={{6,-6},{-6,6}},
           rotation=90,
           origin={110,2})));
-    Component_Degradation.valve_degradation valve_degradation2 annotation (
+    Component_Degradation.valve_degradation_Sec valve_degradation2 annotation (
         Placement(transformation(
           extent={{-6,-6},{6,6}},
           rotation=180,
@@ -13070,11 +13269,9 @@ Model")}),     Diagram(coordinateSystem(preserveAspectRatio=false)));
 <p>Separate HTGR models will be developed for different uses. The primary differentiator is whether a combined cycle is going to be integrated or not. The combined cycle thoerized to be used here takes advantage of the relatively hot waste heat that is produced by an HTGR to boil water at low pressure and send that to a turbine. </p>
 <p>No part of this HTGR model should be considered to be optimized. Additionally, thermal mass of the system needs references and then will need to be adjusted (likely through pipes replacing current zero-volume volume nodes) to more appropriately reflect system time constants. </p>
 </html>"));
-  end
-    HTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_PumpDegradation_type5_Daniel;
+  end HTGR_Rankine_Cycle_Transient_TCV_Control_PumpDegradation_type5_Daniel;
 
-  model
-    HTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_PumpDegradation_type5
+  model HTGR_Rankine_Cycle_Transient_TCV_Control_PumpDegradation_type5
     "type3 + Valve (MOV) setpoint drift modeling_based on hazard function"
     extends BaseClasses.Partial_SubSystem(
       redeclare replaceable
@@ -13082,7 +13279,6 @@ Model")}),     Diagram(coordinateSystem(preserveAspectRatio=false)));
         CS,
       redeclare replaceable ControlSystems.ED_Dummy ED,
       redeclare Data.IdealTurbine data);
-
 
     PrimaryHeatSystem.HTGR.HTGR_Rankine.Data.DataInitial_HTGR_Pebble dataInitial(
         P_LP_Comp_Ref=4000000)
@@ -13307,17 +13503,17 @@ Model")}),     Diagram(coordinateSystem(preserveAspectRatio=false)));
       LPT1_lambda=0.00000001,
       LPT2_lambda=0.00000001)
       annotation (Placement(transformation(extent={{120,122},{140,142}})));
-    Component_Degradation.valve_degradation valve_degradation annotation (
+    Component_Degradation.valve_degradation_Sec valve_degradation annotation (
         Placement(transformation(
           extent={{6,-6},{-6,6}},
           rotation=90,
           origin={-4,60})));
-    Component_Degradation.valve_degradation valve_degradation1 annotation (
+    Component_Degradation.valve_degradation_Sec valve_degradation1 annotation (
         Placement(transformation(
           extent={{6,-6},{-6,6}},
           rotation=90,
           origin={110,2})));
-    Component_Degradation.valve_degradation valve_degradation2 annotation (
+    Component_Degradation.valve_degradation_Sec valve_degradation2 annotation (
         Placement(transformation(
           extent={{-6,-6},{6,6}},
           rotation=180,
@@ -13643,15 +13839,587 @@ Model")}),     Diagram(coordinateSystem(preserveAspectRatio=false)));
 <p>Separate HTGR models will be developed for different uses. The primary differentiator is whether a combined cycle is going to be integrated or not. The combined cycle thoerized to be used here takes advantage of the relatively hot waste heat that is produced by an HTGR to boil water at low pressure and send that to a turbine. </p>
 <p>No part of this HTGR model should be considered to be optimized. Additionally, thermal mass of the system needs references and then will need to be adjusted (likely through pipes replacing current zero-volume volume nodes) to more appropriately reflect system time constants. </p>
 </html>"));
-  end
-    HTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_PumpDegradation_type5;
+  end HTGR_Rankine_Cycle_Transient_TCV_Control_PumpDegradation_type5;
 
-  model
-    HTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_PumpDegradation_type6
+  model HTGR_Rankine_Cycle_Transient_TCV_Control_ValveDegradation_type6_Sec
     "type4 + new Failure Logic different from Type5 test"
     extends BaseClasses.Partial_SubSystem(
       redeclare replaceable
-        ControlSystems.CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TCVcontrol_CompDegradation_type5
+        ControlSystems.CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TCVcontrol_CompDegradation_type5_Sec
+        CS,
+      redeclare replaceable ControlSystems.ED_Dummy ED,
+      redeclare Data.IdealTurbine data);
+
+    PrimaryHeatSystem.HTGR.HTGR_Rankine.Data.DataInitial_HTGR_Pebble dataInitial(
+        P_LP_Comp_Ref=4000000)
+      annotation (Placement(transformation(extent={{64,122},{84,142}})));
+
+    TRANSFORM.Fluid.Machines.SteamTurbine HPT(
+      nUnits=1,
+      eta_mech=0.93,
+      redeclare model Eta_wetSteam =
+          TRANSFORM.Fluid.Machines.BaseClasses.WetSteamEfficiency.eta_Constant,
+      p_a_start=dataInitial_HTGR_BoP_3stage.HPT_P_inlet,
+      p_b_start=dataInitial_HTGR_BoP_3stage.HPT_P_outlet,
+      T_a_start=dataInitial_HTGR_BoP_3stage.HPT_T_inlet,
+      T_b_start=dataInitial_HTGR_BoP_3stage.HPT_T_outlet,
+      m_flow_nominal=200,
+      p_inlet_nominal=dataInitial_HTGR_BoP_3stage.HPT_P_inlet,
+      p_outlet_nominal=dataInitial_HTGR_BoP_3stage.HPT_P_outlet,
+      T_nominal=dataInitial_HTGR_BoP_3stage.HPT_T_inlet)
+      annotation (Placement(transformation(extent={{34,24},{54,44}})));
+
+    TRANSFORM.Electrical.PowerConverters.Generator_Basic generator
+      annotation (Placement(transformation(extent={{-10,-10},{10,10}},
+          rotation=90,
+          origin={238,66})));
+    Fluid.Vessels.IdealCondenser Condenser(
+      p=10000,
+      V_total=2500,
+      V_liquid_start=1.2)
+      annotation (Placement(transformation(extent={{244,-62},{224,-42}})));
+    TRANSFORM.Fluid.Machines.Pump_Controlled pump(
+      redeclare package Medium = Modelica.Media.Water.StandardWater,
+      redeclare model EfficiencyChar =
+          TRANSFORM.Fluid.Machines.BaseClasses.PumpCharacteristics.Efficiency.Constant,
+      N_nominal=1200,
+      dp_nominal=15000000,
+      m_flow_nominal=50,
+      d_nominal=1000,
+      controlType="RPM",
+      use_port=true)
+      annotation (Placement(transformation(extent={{-24,-48},{-44,-68}})));
+
+    TRANSFORM.Fluid.Sensors.TemperatureTwoPort
+                                         sensor_T1(redeclare package Medium =
+          Modelica.Media.Water.StandardWater)            annotation (Placement(
+          transformation(
+          extent={{6,6},{-6,-6}},
+          rotation=180,
+          origin={22,40})));
+    TRANSFORM.Fluid.Sensors.Pressure     sensor_p(redeclare package Medium =
+          Modelica.Media.Water.StandardWater, redeclare function iconUnit =
+          TRANSFORM.Units.Conversions.Functions.Pressure_Pa.to_bar)
+                                                         annotation (Placement(
+          transformation(
+          extent={{10,-10},{-10,10}},
+          rotation=0,
+          origin={-14,76})));
+    TRANSFORM.Fluid.Volumes.SimpleVolume volume(
+      redeclare package Medium = Modelica.Media.Water.StandardWater,
+      p_start=3900000,
+      T_start=723.15,
+      redeclare model Geometry =
+          TRANSFORM.Fluid.ClosureRelations.Geometry.Models.LumpedVolume.GenericVolume
+          (V=2),
+      use_TraceMassPort=false)
+      annotation (Placement(transformation(extent={{10,-10},{-10,10}},
+          rotation=180,
+          origin={-60,38})));
+
+    TRANSFORM.Fluid.Valves.ValveLinear TCV(
+      redeclare package Medium = Modelica.Media.Water.StandardWater,
+      dp_nominal=100000,
+      m_flow_nominal=50) annotation (Placement(transformation(
+          extent={{8,8},{-8,-8}},
+          rotation=180,
+          origin={-4,40})));
+    Modelica.Blocks.Sources.RealExpression Electrical_Power(y=generator.power)
+      annotation (Placement(transformation(extent={{-106,108},{-86,116}})));
+    TRANSFORM.Fluid.Machines.SteamTurbine LPT1(
+      nUnits=1,
+      eta_mech=0.93,
+      redeclare model Eta_wetSteam =
+          TRANSFORM.Fluid.Machines.BaseClasses.WetSteamEfficiency.eta_Constant,
+      p_a_start=3000000,
+      p_b_start=1500000,
+      T_a_start=573.15,
+      T_b_start=473.15,
+      m_flow_nominal=200,
+      p_inlet_nominal=2000000,
+      p_outlet_nominal=dataInitial_HTGR_BoP_3stage.LPT1_P_outlet,
+      T_nominal=423.15) annotation (Placement(transformation(
+          extent={{10,10},{-10,-10}},
+          rotation=180,
+          origin={128,34})));
+
+    TRANSFORM.Fluid.Volumes.SimpleVolume volume1(
+      redeclare package Medium = Modelica.Media.Water.StandardWater,
+      p_start=3900000,
+      T_start=473.15,
+      redeclare model Geometry =
+          TRANSFORM.Fluid.ClosureRelations.Geometry.Models.LumpedVolume.GenericVolume
+          (V=5.0),
+      use_TraceMassPort=false)
+      annotation (Placement(transformation(extent={{-10,-10},{10,10}},
+          rotation=180,
+          origin={-4,-58})));
+    TRANSFORM.Fluid.FittingsAndResistances.TeeJunctionVolume tee1(
+      redeclare package Medium = Modelica.Media.Water.StandardWater,
+      V=5,
+      p_start=2500000,
+      T_start=573.15) annotation (Placement(transformation(
+          extent={{-10,-10},{10,10}},
+          rotation=180,
+          origin={94,50})));
+    TRANSFORM.Fluid.Valves.ValveLinear LPT1_Bypass(
+      redeclare package Medium = Modelica.Media.Water.StandardWater,
+      dp_nominal=100000,
+      m_flow_nominal=30)
+                        annotation (Placement(transformation(
+          extent={{10,10},{-10,-10}},
+          rotation=90,
+          origin={94,-16})));
+    TRANSFORM.Fluid.Sensors.TemperatureTwoPort
+                                         sensor_T2(redeclare package Medium =
+          Modelica.Media.Water.StandardWater)            annotation (Placement(
+          transformation(
+          extent={{-10,-10},{10,10}},
+          rotation=180,
+          origin={-108,-58})));
+    TRANSFORM.Fluid.Machines.Pump_PressureBooster
+                                             pump1(redeclare package Medium =
+          Modelica.Media.Water.StandardWater,
+      use_input=false,
+      p_nominal=5500000,
+      allowFlowReversal=false)
+      annotation (Placement(transformation(extent={{40,-92},{20,-72}})));
+    TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow1(redeclare package
+        Medium =
+          Modelica.Media.Water.StandardWater)            annotation (Placement(
+          transformation(
+          extent={{7,-8},{-7,8}},
+          rotation=90,
+          origin={242,-19})));
+    TRANSFORM.Fluid.Valves.ValveLinear TBV(
+      redeclare package Medium = Modelica.Media.Water.StandardWater,
+      dp_nominal=100000,
+      m_flow_nominal=50) annotation (Placement(transformation(
+          extent={{-8,8},{8,-8}},
+          rotation=180,
+          origin={-74,72})));
+    TRANSFORM.Fluid.BoundaryConditions.Boundary_pT boundary1(
+      redeclare package Medium = Modelica.Media.Water.StandardWater,
+      p=12000000,
+      T=573.15,
+      nPorts=1)
+      annotation (Placement(transformation(extent={{-116,62},{-96,82}})));
+    TRANSFORM.Fluid.Interfaces.FluidPort_Flow port_a(redeclare package Medium =
+          Modelica.Media.Water.StandardWater)
+      annotation (Placement(transformation(extent={{-150,38},{-130,58}})));
+    TRANSFORM.Fluid.Interfaces.FluidPort_State port_b(redeclare package Medium =
+          Modelica.Media.Water.StandardWater)
+      annotation (Placement(transformation(extent={{-150,-68},{-130,-48}})));
+    TRANSFORM.Electrical.Interfaces.ElectricalPowerPort_Flow port_e
+      annotation (Placement(transformation(extent={{130,-10},{150,10}}),
+          iconTransformation(extent={{130,-10},{150,10}})));
+    TRANSFORM.Fluid.FittingsAndResistances.TeeJunctionVolume tee2(
+      redeclare package Medium = Modelica.Media.Water.StandardWater,
+      V=5,
+      p_start=1500000,
+      T_start=423.15)
+      annotation (Placement(transformation(extent={{-10,-10},{10,10}},
+          rotation=180,
+          origin={178,50})));
+    TRANSFORM.Fluid.Machines.SteamTurbine LPT2(
+      nUnits=1,
+      eta_mech=0.93,
+      redeclare model Eta_wetSteam =
+          TRANSFORM.Fluid.Machines.BaseClasses.WetSteamEfficiency.eta_Constant,
+      p_a_start=1500000,
+      p_b_start=8000,
+      T_a_start=523.15,
+      T_b_start=343.15,
+      m_flow_nominal=200,
+      p_inlet_nominal=1500000,
+      p_outlet_nominal=dataInitial_HTGR_BoP_3stage.LPT2_P_outlet,
+      T_nominal=423.15) annotation (Placement(transformation(
+          extent={{10,10},{-10,-10}},
+          rotation=180,
+          origin={208,34})));
+
+    TRANSFORM.Fluid.Valves.ValveLinear LPT2_Bypass(
+      redeclare package Medium = Modelica.Media.Water.StandardWater,
+      dp_nominal=100000,
+      m_flow_nominal=5) annotation (Placement(transformation(
+          extent={{10,10},{-10,-10}},
+          rotation=90,
+          origin={178,16})));
+    Data.DataInitial_HTGR_BoP_3stage dataInitial_HTGR_BoP_3stage(LPT1_T_outlet=
+          473.15, LPT2_T_inlet=473.15)
+      annotation (Placement(transformation(extent={{90,122},{110,142}})));
+    StagebyStageTurbineSecondary.StagebyStageTurbine.BaseClasses.TRANSFORMMoistureSeparator_MIKK
+      Moisture_Separator2(
+      redeclare package Medium = Modelica.Media.Water.StandardWater,
+      p_start=2500000,
+      T_start=573.15,
+      redeclare model Geometry =
+          TRANSFORM.Fluid.ClosureRelations.Geometry.Models.LumpedVolume.GenericVolume)
+      annotation (Placement(transformation(extent={{140,40},{160,60}})));
+    TRANSFORM.Fluid.BoundaryConditions.Boundary_pT boundary2(
+      redeclare package Medium = Modelica.Media.Water.StandardWater,
+      p=5500000,
+      T=573.15,
+      nPorts=1)
+      annotation (Placement(transformation(extent={{-104,-42},{-84,-22}})));
+    TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium =
+          Modelica.Media.Water.StandardWater)            annotation (Placement(
+          transformation(
+          extent={{-10,-10},{10,10}},
+          rotation=180,
+          origin={44,-32})));
+    Data.ComponentDegradation componentDegradation(
+      HPT_lambda=0.00000001,
+      LPT1_lambda=0.00000001,
+      LPT2_lambda=0.00000001)
+      annotation (Placement(transformation(extent={{120,122},{140,142}})));
+    Component_Degradation.valve_degradation_Sec valve_degradation
+                                                                 annotation (
+        Placement(transformation(
+          extent={{6,-6},{-6,6}},
+          rotation=90,
+          origin={-4,60})));
+    Component_Degradation.valve_degradation_Sec valve_degradation1
+                                                                  annotation (
+        Placement(transformation(
+          extent={{6,-6},{-6,6}},
+          rotation=90,
+          origin={110,2})));
+    Component_Degradation.valve_degradation_Sec valve_degradation2
+                                                                  annotation (
+        Placement(transformation(
+          extent={{-6,-6},{6,6}},
+          rotation=180,
+          origin={206,16})));
+  initial equation
+
+  equation
+    port_e.W = generator.power;
+
+    connect(HPT.portHP, sensor_T1.port_b) annotation (Line(
+        points={{34,40},{28,40}},
+        color={0,127,255},
+        thickness=0.5));
+    connect(sensorBus.Steam_Temperature, sensor_T1.T) annotation (Line(
+        points={{-30,100},{4,100},{4,50},{22,50},{22,42.16}},
+        color={239,82,82},
+        pattern=LinePattern.Dash,
+        thickness=0.5));
+    connect(actuatorBus.Feed_Pump_Speed, pump.inputSignal) annotation (Line(
+        points={{30,100},{258,100},{258,-98},{-34,-98},{-34,-65}},
+        color={111,216,99},
+        pattern=LinePattern.Dash,
+        thickness=0.5));
+    connect(sensorBus.Steam_Pressure, sensor_p.p) annotation (Line(
+        points={{-30,100},{-30,76},{-20,76}},
+        color={239,82,82},
+        pattern=LinePattern.Dash,
+        thickness=0.5));
+    connect(TCV.port_b, sensor_T1.port_a) annotation (Line(
+        points={{4,40},{16,40}},
+        color={0,127,255},
+        thickness=0.5));
+    connect(sensorBus.Power, Electrical_Power.y) annotation (Line(
+        points={{-30,100},{-30,76},{-80,76},{-80,112},{-85,112}},
+        color={239,82,82},
+        pattern=LinePattern.Dash,
+        thickness=0.5));
+    connect(volume1.port_b, pump.port_a) annotation (Line(
+        points={{-10,-58},{-24,-58}},
+        color={0,127,255},
+        thickness=0.5));
+    connect(LPT1.portHP, tee1.port_1) annotation (Line(
+        points={{118,40},{118,50},{104,50}},
+        color={0,127,255},
+        thickness=0.5));
+    connect(tee1.port_3, LPT1_Bypass.port_a) annotation (Line(
+        points={{94,40},{94,-6}},
+        color={0,127,255},
+        thickness=0.5));
+    connect(sensorBus.Feedwater_Temp, sensor_T2.T) annotation (Line(
+        points={{-30,100},{-30,-44},{-56,-44},{-56,-74},{-108,-74},{-108,-61.6}},
+        color={239,82,82},
+        pattern=LinePattern.Dash,
+        thickness=0.5));
+    connect(Condenser.port_b, pump1.port_a) annotation (Line(points={{234,-62},
+            {234,-82},{40,-82}},                                      color={0,127,
+            255},
+        thickness=0.5));
+    connect(pump1.port_b, volume1.port_a) annotation (Line(points={{20,-82},{16,
+            -82},{16,-58},{2,-58}},                    color={0,127,255},
+        thickness=0.5));
+    connect(HPT.shaft_b, LPT1.shaft_a) annotation (Line(
+        points={{54,34},{118,34}},
+        color={0,0,0},
+        pattern=LinePattern.Dash));
+    connect(sensor_m_flow1.port_b,Condenser. port_a)
+      annotation (Line(points={{242,-26},{242,-42},{241,-42}},
+                                                       color={0,127,255},
+        thickness=0.5));
+
+    connect(TBV.port_b, boundary1.ports[1])
+      annotation (Line(points={{-82,72},{-96,72}}, color={0,127,255}));
+    connect(volume.port_b, TBV.port_a) annotation (Line(points={{-54,38},{-46,
+            38},{-46,72},{-66,72}},
+                                color={0,127,255}));
+    connect(volume.port_b, TCV.port_a)
+      annotation (Line(points={{-54,38},{-34,38},{-34,40},{-12,40}},
+                                                   color={0,127,255}));
+    connect(volume.port_b, sensor_p.port) annotation (Line(points={{-54,38},{
+            -34,38},{-34,62},{-14,62},{-14,66}},
+                                         color={0,127,255}));
+    connect(port_a, volume.port_a)
+      annotation (Line(points={{-140,48},{-104,48},{-104,38},{-66,38}},
+                                                    color={0,127,255}));
+    connect(sensor_T2.port_b, port_b)
+      annotation (Line(points={{-118,-58},{-140,-58}},color={0,127,255}));
+    connect(TBV.opening, actuatorBus.TBV) annotation (Line(points={{-74,78.4},{-74,
+            100},{30,100}},       color={111,216,99},
+        pattern=LinePattern.Dash,
+        thickness=0.5));
+    connect(LPT1.shaft_b, LPT2.shaft_a)
+      annotation (Line(points={{138,34},{198,34}}, color={0,0,0}));
+    connect(tee2.port_1, LPT2.portHP) annotation (Line(points={{188,50},{192,50},{
+            192,40},{198,40}}, color={0,127,255}));
+    connect(LPT2.portLP, sensor_m_flow1.port_a)
+      annotation (Line(points={{218,40},{242,40},{242,-12}}, color={0,127,255}));
+    connect(tee2.port_3, LPT2_Bypass.port_a)
+      annotation (Line(points={{178,40},{178,26}},color={0,127,255}));
+    connect(LPT2_Bypass.port_b, pump1.port_a) annotation (Line(points={{178,6},
+            {178,-82},{40,-82}},color={0,127,255}));
+    connect(LPT1.portLP, Moisture_Separator2.port_a) annotation (Line(points={{
+            138,40},{138,50},{144,50}}, color={0,127,255}));
+    connect(Moisture_Separator2.port_b, tee2.port_2)
+      annotation (Line(points={{156,50},{168,50}}, color={0,127,255}));
+    connect(Moisture_Separator2.port_Liquid, volume1.port_a) annotation (Line(
+          points={{146,46},{146,-58},{2,-58}},                     color={0,127,
+            255}));
+    connect(HPT.portLP, tee1.port_2) annotation (Line(points={{54,40},{78,40},{
+            78,50},{84,50}}, color={0,127,255}));
+    connect(LPT1_Bypass.port_b, sensor_m_flow.port_a) annotation (Line(points={{94,-26},
+            {94,-32},{54,-32}},          color={0,127,255}));
+    connect(sensor_m_flow.port_b, boundary2.ports[1])
+      annotation (Line(points={{34,-32},{-84,-32}},color={0,127,255}));
+    connect(sensorBus.massflow_LPTv, sensor_m_flow.m_flow) annotation (Line(
+        points={{-30,100},{-30,-42},{44,-42},{44,-35.6}},
+        color={239,82,82},
+        pattern=LinePattern.Dash,
+        thickness=0.5), Text(
+        string="%first",
+        index=-1,
+        extent={{-6,3},{-6,3}},
+        horizontalAlignment=TextAlignment.Right));
+    connect(generator.shaft, LPT2.shaft_b) annotation (Line(points={{238.1,55.9},
+            {238.1,34},{218,34}}, color={0,0,0}));
+    connect(sensor_T2.port_a, pump.port_b)
+      annotation (Line(points={{-98,-58},{-44,-58}}, color={0,127,255}));
+    connect(TCV.opening, valve_degradation.open_out)
+      annotation (Line(points={{-4,46.4},{-4,54.6}}, color={0,0,127}));
+    connect(actuatorBus.opening_TCV, valve_degradation.open_in) annotation (
+        Line(
+        points={{30.1,100.1},{-4,100.1},{-4,65.28}},
+        color={111,216,99},
+        pattern=LinePattern.Dash,
+        thickness=0.5), Text(
+        string="%first",
+        index=-1,
+        extent={{6,3},{6,3}},
+        horizontalAlignment=TextAlignment.Left));
+    connect(valve_degradation1.open_out, LPT1_Bypass.opening) annotation (Line(
+          points={{110,-3.4},{110,-16},{102,-16}}, color={0,0,127}));
+    connect(actuatorBus.openingLPTv, valve_degradation1.open_in) annotation (
+        Line(
+        points={{30,100},{110,100},{110,7.28}},
+        color={111,216,99},
+        pattern=LinePattern.Dash,
+        thickness=0.5), Text(
+        string="%first",
+        index=-1,
+        extent={{-6,3},{-6,3}},
+        horizontalAlignment=TextAlignment.Right));
+    connect(LPT2_Bypass.opening, valve_degradation2.open_out)
+      annotation (Line(points={{186,16},{200.6,16}}, color={0,0,127}));
+    connect(actuatorBus.Divert_Valve_Position, valve_degradation2.open_in)
+      annotation (Line(
+        points={{30,100},{224,100},{224,16},{211.28,16}},
+        color={111,216,99},
+        pattern=LinePattern.Dash,
+        thickness=0.5), Text(
+        string="%first",
+        index=-1,
+        extent={{-6,3},{-6,3}},
+        horizontalAlignment=TextAlignment.Right));
+    annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-140,
+              -100},{140,100}}),                                  graphics={
+          Rectangle(
+            extent={{-2.09756,2},{83.9024,-2}},
+            lineColor={0,0,0},
+            origin={-45.9024,-64},
+            rotation=360,
+            fillColor={0,0,255},
+            fillPattern=FillPattern.HorizontalCylinder),
+          Rectangle(
+            extent={{-1.81329,5},{66.1867,-5}},
+            lineColor={0,0,0},
+            origin={-68.1867,-41},
+            rotation=0,
+            fillColor={0,0,255},
+            fillPattern=FillPattern.HorizontalCylinder),
+          Rectangle(
+            extent={{-16,3},{16,-3}},
+            lineColor={0,0,0},
+            fillColor={66,200,200},
+            fillPattern=FillPattern.HorizontalCylinder,
+            origin={4,30},
+            rotation=-90),
+          Rectangle(
+            extent={{-1.81332,3},{66.1869,-3}},
+            lineColor={0,0,0},
+            origin={-18.1867,-3},
+            rotation=0,
+            fillColor={135,135,135},
+            fillPattern=FillPattern.HorizontalCylinder),
+          Rectangle(
+            extent={{-70,46},{-22,34}},
+            lineColor={0,0,0},
+            fillColor={66,200,200},
+            fillPattern=FillPattern.HorizontalCylinder),
+          Polygon(
+            points={{0,16},{0,-14},{30,-32},{30,36},{0,16}},
+            lineColor={0,0,0},
+            fillColor={0,114,208},
+            fillPattern=FillPattern.Solid),
+          Text(
+            extent={{11,-8},{21,6}},
+            lineColor={0,0,0},
+            fillColor={255,255,255},
+            fillPattern=FillPattern.Solid,
+            textString="T"),
+          Ellipse(
+            extent={{46,12},{74,-14}},
+            lineColor={0,0,0},
+            fillColor={255,255,255},
+            fillPattern=FillPattern.Solid),
+          Rectangle(
+            extent={{-0.4,3},{15.5,-3}},
+            lineColor={0,0,0},
+            origin={30.4272,-29},
+            rotation=0,
+            fillColor={0,128,255},
+            fillPattern=FillPattern.HorizontalCylinder),
+          Rectangle(
+            extent={{-0.43805,2.7864},{15.9886,-2.7864}},
+            lineColor={0,0,0},
+            origin={45.2136,-41.989},
+            rotation=90,
+            fillColor={0,128,255},
+            fillPattern=FillPattern.HorizontalCylinder),
+          Ellipse(
+            extent={{32,-42},{60,-68}},
+            lineColor={0,0,0},
+            fillColor={255,255,255},
+            fillPattern=FillPattern.Solid),
+          Rectangle(
+            extent={{-0.373344,2},{13.6267,-2}},
+            lineColor={0,0,0},
+            origin={18.3733,-56},
+            rotation=0,
+            fillColor={0,0,255},
+            fillPattern=FillPattern.HorizontalCylinder),
+          Rectangle(
+            extent={{-0.487802,2},{19.5122,-2}},
+            lineColor={0,0,0},
+            origin={20,-38.488},
+            rotation=-90,
+            fillColor={0,0,255},
+            fillPattern=FillPattern.HorizontalCylinder),
+          Rectangle(
+            extent={{-0.243902,2},{9.7562,-2}},
+            lineColor={0,0,0},
+            origin={-46,-62.244},
+            rotation=-90,
+            fillColor={0,0,255},
+            fillPattern=FillPattern.HorizontalCylinder),
+          Rectangle(
+            extent={{-0.578156,2.1722},{23.1262,-2.1722}},
+            lineColor={0,0,0},
+            origin={21.4218,-39.828},
+            rotation=180,
+            fillColor={0,0,255},
+            fillPattern=FillPattern.HorizontalCylinder),
+          Ellipse(
+            extent={{-4,-34},{8,-46}},
+            lineColor={0,0,0},
+            fillPattern=FillPattern.Sphere,
+            fillColor={0,100,199}),
+          Polygon(
+            points={{-2,-44},{-6,-48},{10,-48},{6,-44},{-2,-44}},
+            lineColor={0,0,255},
+            pattern=LinePattern.None,
+            fillColor={0,0,0},
+            fillPattern=FillPattern.VerticalCylinder),
+          Rectangle(
+            extent={{-20,46},{6,34}},
+            lineColor={0,0,0},
+            fillColor={66,200,200},
+            fillPattern=FillPattern.HorizontalCylinder),
+          Ellipse(
+            extent={{-30,49},{-12,31}},
+            lineColor={95,95,95},
+            fillColor={175,175,175},
+            fillPattern=FillPattern.Sphere),
+          Rectangle(
+            extent={{-20,49},{-22,61}},
+            lineColor={0,0,0},
+            fillColor={95,95,95},
+            fillPattern=FillPattern.VerticalCylinder),
+          Rectangle(
+            extent={{-30,63},{-12,61}},
+            lineColor={0,0,0},
+            fillColor={181,0,0},
+            fillPattern=FillPattern.HorizontalCylinder),
+          Ellipse(
+            extent={{-19,49},{-23,31}},
+            lineColor={0,0,0},
+            fillPattern=FillPattern.VerticalCylinder,
+            fillColor={162,162,0}),
+          Text(
+            extent={{55,-10},{65,4}},
+            lineColor={0,0,0},
+            fillColor={255,255,255},
+            fillPattern=FillPattern.Solid,
+            textString="G"),
+          Text(
+            extent={{41,-62},{51,-48}},
+            lineColor={0,0,0},
+            fillColor={255,255,255},
+            fillPattern=FillPattern.Solid,
+            textString="C"),
+          Polygon(
+            points={{3,-37},{3,-43},{-1,-40},{3,-37}},
+            lineColor={0,0,0},
+            pattern=LinePattern.None,
+            fillPattern=FillPattern.HorizontalCylinder,
+            fillColor={255,255,255})}),                            Diagram(
+          coordinateSystem(preserveAspectRatio=false, extent={{-140,-100},{140,
+              100}})),
+      experiment(
+        StopTime=86400,
+        Interval=30,
+        __Dymola_Algorithm="Esdirk45a"),
+      Documentation(info="<html>
+<p>The goal of the HTGR models is to obtain a baseline functioning model that can be used to investigate HTGR applications within IES. That being the motivation, there are likely incorrect time constants throughout the system without relevant comparative data to use. Note also that the current core model structure, while this loop is described as a pebble bed (prismatic is pending), is still using the old nuclear core geometry file. This is due to some odd modeling failures during attempts to change. I will modify this description should I obtain the correct core functioning with a reasonable geometry. Using the old core geometry to obtain the correct flow values (flow area, hydraulic diameters, Reynolds numbers) should provide accurate-enough information. </p>
+<p>The Dittus-Boelter simple correlation for single phase heat transfer in turbulent flow is used to calculate the heat transfer between the fuel and the coolant, and maximum fuel temperatures appear to agree with literature (~1200C). </p>
+<p>Separate HTGR models will be developed for different uses. The primary differentiator is whether a combined cycle is going to be integrated or not. The combined cycle thoerized to be used here takes advantage of the relatively hot waste heat that is produced by an HTGR to boil water at low pressure and send that to a turbine. </p>
+<p>No part of this HTGR model should be considered to be optimized. Additionally, thermal mass of the system needs references and then will need to be adjusted (likely through pipes replacing current zero-volume volume nodes) to more appropriately reflect system time constants. </p>
+</html>"));
+  end HTGR_Rankine_Cycle_Transient_TCV_Control_ValveDegradation_type6_Sec;
+
+  model HTGR_Rankine_Cycle_Transient_TCV_Control_ValveDegradation_type6_Hr
+    "type4 + new Failure Logic different from Type5 test"
+    extends BaseClasses.Partial_SubSystem(
+      redeclare replaceable
+        ControlSystems.CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TCVcontrol_CompDegradation_type5_Sec
         CS,
       redeclare replaceable ControlSystems.ED_Dummy ED,
       redeclare Data.IdealTurbine data);
@@ -13879,17 +14647,17 @@ Model")}),     Diagram(coordinateSystem(preserveAspectRatio=false)));
       LPT1_lambda=0.00000001,
       LPT2_lambda=0.00000001)
       annotation (Placement(transformation(extent={{120,122},{140,142}})));
-    Component_Degradation.valve_degradation valve_degradation annotation (
+    Component_Degradation.valve_degradation_Hr valve_degradation annotation (
         Placement(transformation(
           extent={{6,-6},{-6,6}},
           rotation=90,
           origin={-4,60})));
-    Component_Degradation.valve_degradation valve_degradation1 annotation (
+    Component_Degradation.valve_degradation_Hr valve_degradation1 annotation (
         Placement(transformation(
           extent={{6,-6},{-6,6}},
           rotation=90,
           origin={110,2})));
-    Component_Degradation.valve_degradation valve_degradation2 annotation (
+    Component_Degradation.valve_degradation_Hr valve_degradation2 annotation (
         Placement(transformation(
           extent={{-6,-6},{6,6}},
           rotation=180,
@@ -14215,6 +14983,1191 @@ Model")}),     Diagram(coordinateSystem(preserveAspectRatio=false)));
 <p>Separate HTGR models will be developed for different uses. The primary differentiator is whether a combined cycle is going to be integrated or not. The combined cycle thoerized to be used here takes advantage of the relatively hot waste heat that is produced by an HTGR to boil water at low pressure and send that to a turbine. </p>
 <p>No part of this HTGR model should be considered to be optimized. Additionally, thermal mass of the system needs references and then will need to be adjusted (likely through pipes replacing current zero-volume volume nodes) to more appropriately reflect system time constants. </p>
 </html>"));
-  end
-    HTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_PumpDegradation_type6;
+  end HTGR_Rankine_Cycle_Transient_TCV_Control_ValveDegradation_type6_Hr;
+
+  model HTGR_Rankine_Cycle_Transient_TCV_Control_ValveDegradation_type6_Sec_Final
+    "type4 + new Failure Logic different from Type5 test"
+    extends BaseClasses.Partial_SubSystem(
+      redeclare replaceable
+        ControlSystems.CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TCVcontrol_CompDegradation_type5_Sec
+        CS,
+      redeclare replaceable ControlSystems.ED_Dummy ED,
+      redeclare Data.IdealTurbine data);
+      Modelica.Units.SI.SpecificEntropy HPT_entropy_a;
+      Modelica.Units.SI.SpecificEntropy HPT_entropy_b;
+      Modelica.Units.SI.SpecificEntropy LPT1_entropy_a;
+      Modelica.Units.SI.SpecificEntropy LPT1_entropy_b;
+      Modelica.Units.SI.SpecificEntropy LPT2_entropy_a;
+      Modelica.Units.SI.SpecificEntropy LPT2_entropy_b;
+    PrimaryHeatSystem.HTGR.HTGR_Rankine.Data.DataInitial_HTGR_Pebble dataInitial(
+        P_LP_Comp_Ref=4000000)
+      annotation (Placement(transformation(extent={{64,122},{84,142}})));
+
+    TRANSFORM.Fluid.Machines.SteamTurbine HPT(
+      nUnits=1,
+      eta_mech=0.93,
+      redeclare model Eta_wetSteam =
+          TRANSFORM.Fluid.Machines.BaseClasses.WetSteamEfficiency.eta_Degradation_HPT
+          (lambda_HPT=lambda_HPT),
+      p_a_start=dataInitial_HTGR_BoP_3stage.HPT_P_inlet,
+      p_b_start=dataInitial_HTGR_BoP_3stage.HPT_P_outlet,
+      T_a_start=dataInitial_HTGR_BoP_3stage.HPT_T_inlet,
+      T_b_start=dataInitial_HTGR_BoP_3stage.HPT_T_outlet,
+      m_flow_nominal=200,
+      p_inlet_nominal=dataInitial_HTGR_BoP_3stage.HPT_P_inlet,
+      p_outlet_nominal=dataInitial_HTGR_BoP_3stage.HPT_P_outlet,
+      T_nominal=dataInitial_HTGR_BoP_3stage.HPT_T_inlet)
+      annotation (Placement(transformation(extent={{34,24},{54,44}})));
+
+    TRANSFORM.Electrical.PowerConverters.Generator_Basic generator
+      annotation (Placement(transformation(extent={{-10,-10},{10,10}},
+          rotation=90,
+          origin={238,66})));
+    Fluid.Vessels.IdealCondenser Condenser(
+      p=10000,
+      V_total=2500,
+      V_liquid_start=1.2)
+      annotation (Placement(transformation(extent={{244,-62},{224,-42}})));
+    TRANSFORM.Fluid.Machines.Pump_Controlled pump(
+      redeclare package Medium = Modelica.Media.Water.StandardWater,
+      redeclare model EfficiencyChar =
+          TRANSFORM.Fluid.Machines.BaseClasses.PumpCharacteristics.Efficiency.Constant,
+      N_nominal=1200,
+      dp_nominal=15000000,
+      m_flow_nominal=50,
+      d_nominal=1000,
+      controlType="RPM",
+      use_port=true)
+      annotation (Placement(transformation(extent={{-24,-48},{-44,-68}})));
+
+    TRANSFORM.Fluid.Sensors.TemperatureTwoPort
+                                         sensor_T1(redeclare package Medium =
+          Modelica.Media.Water.StandardWater)            annotation (Placement(
+          transformation(
+          extent={{6,6},{-6,-6}},
+          rotation=180,
+          origin={22,40})));
+    TRANSFORM.Fluid.Sensors.Pressure     sensor_p(redeclare package Medium =
+          Modelica.Media.Water.StandardWater, redeclare function iconUnit =
+          TRANSFORM.Units.Conversions.Functions.Pressure_Pa.to_bar)
+                                                         annotation (Placement(
+          transformation(
+          extent={{10,-10},{-10,10}},
+          rotation=0,
+          origin={-14,76})));
+    TRANSFORM.Fluid.Volumes.SimpleVolume volume(
+      redeclare package Medium = Modelica.Media.Water.StandardWater,
+      p_start=3900000,
+      T_start=723.15,
+      redeclare model Geometry =
+          TRANSFORM.Fluid.ClosureRelations.Geometry.Models.LumpedVolume.GenericVolume
+          (V=2),
+      use_TraceMassPort=false)
+      annotation (Placement(transformation(extent={{10,-10},{-10,10}},
+          rotation=180,
+          origin={-60,38})));
+
+    TRANSFORM.Fluid.Valves.ValveLinear TCV(
+      redeclare package Medium = Modelica.Media.Water.StandardWater,
+      dp_nominal=100000,
+      m_flow_nominal=50) annotation (Placement(transformation(
+          extent={{8,8},{-8,-8}},
+          rotation=180,
+          origin={-4,40})));
+    Modelica.Blocks.Sources.RealExpression Electrical_Power(y=generator.power)
+      annotation (Placement(transformation(extent={{-106,108},{-86,116}})));
+    TRANSFORM.Fluid.Machines.SteamTurbine LPT1(
+      nUnits=1,
+      eta_mech=0.93,
+      redeclare model Eta_wetSteam =
+          TRANSFORM.Fluid.Machines.BaseClasses.WetSteamEfficiency.eta_Degradation_LPT1
+          (lambda_LPT1=lambda_LPT1),
+      p_a_start=3000000,
+      p_b_start=1500000,
+      T_a_start=573.15,
+      T_b_start=473.15,
+      m_flow_nominal=200,
+      p_inlet_nominal=2000000,
+      p_outlet_nominal=dataInitial_HTGR_BoP_3stage.LPT1_P_outlet,
+      T_nominal=423.15) annotation (Placement(transformation(
+          extent={{10,10},{-10,-10}},
+          rotation=180,
+          origin={128,34})));
+
+    TRANSFORM.Fluid.Volumes.SimpleVolume volume1(
+      redeclare package Medium = Modelica.Media.Water.StandardWater,
+      p_start=3900000,
+      T_start=473.15,
+      redeclare model Geometry =
+          TRANSFORM.Fluid.ClosureRelations.Geometry.Models.LumpedVolume.GenericVolume
+          (V=5.0),
+      use_TraceMassPort=false)
+      annotation (Placement(transformation(extent={{-10,-10},{10,10}},
+          rotation=180,
+          origin={-4,-58})));
+    TRANSFORM.Fluid.FittingsAndResistances.TeeJunctionVolume tee1(
+      redeclare package Medium = Modelica.Media.Water.StandardWater,
+      V=5,
+      p_start=2500000,
+      T_start=573.15) annotation (Placement(transformation(
+          extent={{-10,-10},{10,10}},
+          rotation=180,
+          origin={94,50})));
+    TRANSFORM.Fluid.Valves.ValveLinear LPT1_Bypass(
+      redeclare package Medium = Modelica.Media.Water.StandardWater,
+      dp_nominal=100000,
+      m_flow_nominal=30)
+                        annotation (Placement(transformation(
+          extent={{10,10},{-10,-10}},
+          rotation=90,
+          origin={94,-16})));
+    TRANSFORM.Fluid.Sensors.TemperatureTwoPort
+                                         sensor_T2(redeclare package Medium =
+          Modelica.Media.Water.StandardWater)            annotation (Placement(
+          transformation(
+          extent={{-10,-10},{10,10}},
+          rotation=180,
+          origin={-108,-58})));
+    TRANSFORM.Fluid.Machines.Pump_PressureBooster
+                                             pump1(redeclare package Medium =
+          Modelica.Media.Water.StandardWater,
+      use_input=false,
+      p_nominal=5500000,
+      allowFlowReversal=false)
+      annotation (Placement(transformation(extent={{40,-92},{20,-72}})));
+    TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow1(redeclare package Medium =
+          Modelica.Media.Water.StandardWater)            annotation (Placement(
+          transformation(
+          extent={{7,-8},{-7,8}},
+          rotation=90,
+          origin={242,-19})));
+    TRANSFORM.Fluid.Valves.ValveLinear TBV(
+      redeclare package Medium = Modelica.Media.Water.StandardWater,
+      dp_nominal=100000,
+      m_flow_nominal=50) annotation (Placement(transformation(
+          extent={{-8,8},{8,-8}},
+          rotation=180,
+          origin={-74,72})));
+    TRANSFORM.Fluid.BoundaryConditions.Boundary_pT boundary1(
+      redeclare package Medium = Modelica.Media.Water.StandardWater,
+      p=12000000,
+      T=573.15,
+      nPorts=1)
+      annotation (Placement(transformation(extent={{-116,62},{-96,82}})));
+    TRANSFORM.Fluid.Interfaces.FluidPort_Flow port_a(redeclare package Medium =
+          Modelica.Media.Water.StandardWater)
+      annotation (Placement(transformation(extent={{-150,38},{-130,58}})));
+    TRANSFORM.Fluid.Interfaces.FluidPort_State port_b(redeclare package Medium =
+          Modelica.Media.Water.StandardWater)
+      annotation (Placement(transformation(extent={{-150,-68},{-130,-48}})));
+    TRANSFORM.Electrical.Interfaces.ElectricalPowerPort_Flow port_e
+      annotation (Placement(transformation(extent={{130,-10},{150,10}}),
+          iconTransformation(extent={{130,-10},{150,10}})));
+    TRANSFORM.Fluid.FittingsAndResistances.TeeJunctionVolume tee2(
+      redeclare package Medium = Modelica.Media.Water.StandardWater,
+      V=5,
+      p_start=1500000,
+      T_start=423.15)
+      annotation (Placement(transformation(extent={{-10,-10},{10,10}},
+          rotation=180,
+          origin={178,50})));
+    TRANSFORM.Fluid.Machines.SteamTurbine LPT2(
+      nUnits=1,
+      eta_mech=0.93,
+      redeclare model Eta_wetSteam =
+          TRANSFORM.Fluid.Machines.BaseClasses.WetSteamEfficiency.eta_Degradation_LPT2
+          (lambda_LPT2=lambda_LPT2),
+      p_a_start=1500000,
+      p_b_start=8000,
+      T_a_start=523.15,
+      T_b_start=343.15,
+      m_flow_nominal=200,
+      p_inlet_nominal=1500000,
+      p_outlet_nominal=dataInitial_HTGR_BoP_3stage.LPT2_P_outlet,
+      T_nominal=423.15) annotation (Placement(transformation(
+          extent={{10,10},{-10,-10}},
+          rotation=180,
+          origin={208,34})));
+
+    TRANSFORM.Fluid.Valves.ValveLinear LPT2_Bypass(
+      redeclare package Medium = Modelica.Media.Water.StandardWater,
+      dp_nominal=100000,
+      m_flow_nominal=5) annotation (Placement(transformation(
+          extent={{10,10},{-10,-10}},
+          rotation=90,
+          origin={178,16})));
+    Data.DataInitial_HTGR_BoP_3stage dataInitial_HTGR_BoP_3stage(LPT1_T_outlet=
+          473.15, LPT2_T_inlet=473.15)
+      annotation (Placement(transformation(extent={{90,122},{110,142}})));
+    StagebyStageTurbineSecondary.StagebyStageTurbine.BaseClasses.TRANSFORMMoistureSeparator_MIKK
+      Moisture_Separator2(
+      redeclare package Medium = Modelica.Media.Water.StandardWater,
+      p_start=2500000,
+      T_start=573.15,
+      redeclare model Geometry =
+          TRANSFORM.Fluid.ClosureRelations.Geometry.Models.LumpedVolume.GenericVolume)
+      annotation (Placement(transformation(extent={{140,40},{160,60}})));
+    TRANSFORM.Fluid.BoundaryConditions.Boundary_pT boundary2(
+      redeclare package Medium = Modelica.Media.Water.StandardWater,
+      p=5500000,
+      T=573.15,
+      nPorts=1)
+      annotation (Placement(transformation(extent={{-104,-42},{-84,-22}})));
+    TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium =
+          Modelica.Media.Water.StandardWater)            annotation (Placement(
+          transformation(
+          extent={{-10,-10},{10,10}},
+          rotation=180,
+          origin={44,-32})));
+    Data.ComponentDegradation componentDegradation(
+      HPT_lambda=0.0000000001,
+      LPT1_lambda=0.0000000001,
+      LPT2_lambda=0.0000000001)
+      annotation (Placement(transformation(extent={{120,122},{140,142}})));
+    Component_Degradation.valve_degradation_Sec valve_degradation
+                                                                 annotation (
+        Placement(transformation(
+          extent={{6,-6},{-6,6}},
+          rotation=90,
+          origin={-4,60})));
+    Component_Degradation.valve_degradation_Sec valve_degradation1
+                                                                  annotation (
+        Placement(transformation(
+          extent={{6,-6},{-6,6}},
+          rotation=90,
+          origin={110,2})));
+    Component_Degradation.valve_degradation_Sec valve_degradation2
+                                                                  annotation (
+        Placement(transformation(
+          extent={{-6,-6},{6,6}},
+          rotation=180,
+          origin={206,16})));
+    // parameter Real lambda=componentDegradation.HPT_lambda;
+    parameter Real lambda_HPT=componentDegradation.HPT_lambda;
+    parameter Real lambda_LPT1=componentDegradation.LPT1_lambda;
+    parameter Real lambda_LPT2=componentDegradation.LPT2_lambda;
+    parameter SI.Time Strategy_Change_Time=5e+5
+      "Operational Strategy Change Time";
+  initial equation
+
+  equation
+    port_e.W = generator.power;
+    HPT_entropy_a = HPT.Medium.specificEntropy(HPT.state_a);
+    HPT_entropy_b = HPT.Medium.specificEntropy(HPT.state_b);
+    LPT1_entropy_a = HPT.Medium.specificEntropy(LPT1.state_a);
+    LPT1_entropy_b = HPT.Medium.specificEntropy(LPT1.state_b);
+    LPT2_entropy_a = HPT.Medium.specificEntropy(LPT2.state_a);
+    LPT2_entropy_b = HPT.Medium.specificEntropy(LPT2.state_b);
+
+    connect(HPT.portHP, sensor_T1.port_b) annotation (Line(
+        points={{34,40},{28,40}},
+        color={0,127,255},
+        thickness=0.5));
+    connect(sensorBus.Steam_Temperature, sensor_T1.T) annotation (Line(
+        points={{-30,100},{4,100},{4,50},{22,50},{22,42.16}},
+        color={239,82,82},
+        pattern=LinePattern.Dash,
+        thickness=0.5));
+    connect(actuatorBus.Feed_Pump_Speed, pump.inputSignal) annotation (Line(
+        points={{30,100},{258,100},{258,-98},{-34,-98},{-34,-65}},
+        color={111,216,99},
+        pattern=LinePattern.Dash,
+        thickness=0.5));
+    connect(sensorBus.Steam_Pressure, sensor_p.p) annotation (Line(
+        points={{-30,100},{-30,76},{-20,76}},
+        color={239,82,82},
+        pattern=LinePattern.Dash,
+        thickness=0.5));
+    connect(TCV.port_b, sensor_T1.port_a) annotation (Line(
+        points={{4,40},{16,40}},
+        color={0,127,255},
+        thickness=0.5));
+    connect(sensorBus.Power, Electrical_Power.y) annotation (Line(
+        points={{-30,100},{-30,76},{-80,76},{-80,112},{-85,112}},
+        color={239,82,82},
+        pattern=LinePattern.Dash,
+        thickness=0.5));
+    connect(volume1.port_b, pump.port_a) annotation (Line(
+        points={{-10,-58},{-24,-58}},
+        color={0,127,255},
+        thickness=0.5));
+    connect(LPT1.portHP, tee1.port_1) annotation (Line(
+        points={{118,40},{118,50},{104,50}},
+        color={0,127,255},
+        thickness=0.5));
+    connect(tee1.port_3, LPT1_Bypass.port_a) annotation (Line(
+        points={{94,40},{94,-6}},
+        color={0,127,255},
+        thickness=0.5));
+    connect(sensorBus.Feedwater_Temp, sensor_T2.T) annotation (Line(
+        points={{-30,100},{-30,-44},{-56,-44},{-56,-74},{-108,-74},{-108,-61.6}},
+        color={239,82,82},
+        pattern=LinePattern.Dash,
+        thickness=0.5));
+    connect(Condenser.port_b, pump1.port_a) annotation (Line(points={{234,-62},
+            {234,-82},{40,-82}},                                      color={0,127,
+            255},
+        thickness=0.5));
+    connect(pump1.port_b, volume1.port_a) annotation (Line(points={{20,-82},{16,
+            -82},{16,-58},{2,-58}},                    color={0,127,255},
+        thickness=0.5));
+    connect(HPT.shaft_b, LPT1.shaft_a) annotation (Line(
+        points={{54,34},{118,34}},
+        color={0,0,0},
+        pattern=LinePattern.Dash));
+    connect(sensor_m_flow1.port_b,Condenser. port_a)
+      annotation (Line(points={{242,-26},{242,-42},{241,-42}},
+                                                       color={0,127,255},
+        thickness=0.5));
+
+    connect(TBV.port_b, boundary1.ports[1])
+      annotation (Line(points={{-82,72},{-96,72}}, color={0,127,255}));
+    connect(volume.port_b, TBV.port_a) annotation (Line(points={{-54,38},{-46,
+            38},{-46,72},{-66,72}},
+                                color={0,127,255}));
+    connect(volume.port_b, TCV.port_a)
+      annotation (Line(points={{-54,38},{-34,38},{-34,40},{-12,40}},
+                                                   color={0,127,255}));
+    connect(volume.port_b, sensor_p.port) annotation (Line(points={{-54,38},{
+            -34,38},{-34,62},{-14,62},{-14,66}},
+                                         color={0,127,255}));
+    connect(port_a, volume.port_a)
+      annotation (Line(points={{-140,48},{-104,48},{-104,38},{-66,38}},
+                                                    color={0,127,255}));
+    connect(sensor_T2.port_b, port_b)
+      annotation (Line(points={{-118,-58},{-140,-58}},color={0,127,255}));
+    connect(TBV.opening, actuatorBus.TBV) annotation (Line(points={{-74,78.4},{-74,
+            100},{30,100}},       color={111,216,99},
+        pattern=LinePattern.Dash,
+        thickness=0.5));
+    connect(LPT1.shaft_b, LPT2.shaft_a)
+      annotation (Line(points={{138,34},{198,34}}, color={0,0,0}));
+    connect(tee2.port_1, LPT2.portHP) annotation (Line(points={{188,50},{192,50},{
+            192,40},{198,40}}, color={0,127,255}));
+    connect(LPT2.portLP, sensor_m_flow1.port_a)
+      annotation (Line(points={{218,40},{242,40},{242,-12}}, color={0,127,255}));
+    connect(tee2.port_3, LPT2_Bypass.port_a)
+      annotation (Line(points={{178,40},{178,26}},color={0,127,255}));
+    connect(LPT2_Bypass.port_b, pump1.port_a) annotation (Line(points={{178,6},
+            {178,-82},{40,-82}},color={0,127,255}));
+    connect(LPT1.portLP, Moisture_Separator2.port_a) annotation (Line(points={{
+            138,40},{138,50},{144,50}}, color={0,127,255}));
+    connect(Moisture_Separator2.port_b, tee2.port_2)
+      annotation (Line(points={{156,50},{168,50}}, color={0,127,255}));
+    connect(Moisture_Separator2.port_Liquid, volume1.port_a) annotation (Line(
+          points={{146,46},{146,-58},{2,-58}},                     color={0,127,
+            255}));
+    connect(HPT.portLP, tee1.port_2) annotation (Line(points={{54,40},{78,40},{
+            78,50},{84,50}}, color={0,127,255}));
+    connect(LPT1_Bypass.port_b, sensor_m_flow.port_a) annotation (Line(points={{94,-26},
+            {94,-32},{54,-32}},          color={0,127,255}));
+    connect(sensor_m_flow.port_b, boundary2.ports[1])
+      annotation (Line(points={{34,-32},{-84,-32}},color={0,127,255}));
+    connect(sensorBus.massflow_LPTv, sensor_m_flow.m_flow) annotation (Line(
+        points={{-30,100},{-30,-42},{44,-42},{44,-35.6}},
+        color={239,82,82},
+        pattern=LinePattern.Dash,
+        thickness=0.5), Text(
+        string="%first",
+        index=-1,
+        extent={{-6,3},{-6,3}},
+        horizontalAlignment=TextAlignment.Right));
+    connect(generator.shaft, LPT2.shaft_b) annotation (Line(points={{238.1,55.9},
+            {238.1,34},{218,34}}, color={0,0,0}));
+    connect(sensor_T2.port_a, pump.port_b)
+      annotation (Line(points={{-98,-58},{-44,-58}}, color={0,127,255}));
+    connect(TCV.opening, valve_degradation.open_out)
+      annotation (Line(points={{-4,46.4},{-4,54.6}}, color={0,0,127}));
+    connect(actuatorBus.opening_TCV, valve_degradation.open_in) annotation (
+        Line(
+        points={{30.1,100.1},{-4,100.1},{-4,65.28}},
+        color={111,216,99},
+        pattern=LinePattern.Dash,
+        thickness=0.5), Text(
+        string="%first",
+        index=-1,
+        extent={{6,3},{6,3}},
+        horizontalAlignment=TextAlignment.Left));
+    connect(valve_degradation1.open_out, LPT1_Bypass.opening) annotation (Line(
+          points={{110,-3.4},{110,-16},{102,-16}}, color={0,0,127}));
+    connect(actuatorBus.openingLPTv, valve_degradation1.open_in) annotation (
+        Line(
+        points={{30,100},{110,100},{110,7.28}},
+        color={111,216,99},
+        pattern=LinePattern.Dash,
+        thickness=0.5), Text(
+        string="%first",
+        index=-1,
+        extent={{-6,3},{-6,3}},
+        horizontalAlignment=TextAlignment.Right));
+    connect(LPT2_Bypass.opening, valve_degradation2.open_out)
+      annotation (Line(points={{186,16},{200.6,16}}, color={0,0,127}));
+    connect(actuatorBus.Divert_Valve_Position, valve_degradation2.open_in)
+      annotation (Line(
+        points={{30,100},{224,100},{224,16},{211.28,16}},
+        color={111,216,99},
+        pattern=LinePattern.Dash,
+        thickness=0.5), Text(
+        string="%first",
+        index=-1,
+        extent={{-6,3},{-6,3}},
+        horizontalAlignment=TextAlignment.Right));
+    annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-140,
+              -100},{140,100}}),                                  graphics={
+          Rectangle(
+            extent={{-2.09756,2},{83.9024,-2}},
+            lineColor={0,0,0},
+            origin={-45.9024,-64},
+            rotation=360,
+            fillColor={0,0,255},
+            fillPattern=FillPattern.HorizontalCylinder),
+          Rectangle(
+            extent={{-1.81329,5},{66.1867,-5}},
+            lineColor={0,0,0},
+            origin={-68.1867,-41},
+            rotation=0,
+            fillColor={0,0,255},
+            fillPattern=FillPattern.HorizontalCylinder),
+          Rectangle(
+            extent={{-16,3},{16,-3}},
+            lineColor={0,0,0},
+            fillColor={66,200,200},
+            fillPattern=FillPattern.HorizontalCylinder,
+            origin={4,30},
+            rotation=-90),
+          Rectangle(
+            extent={{-1.81332,3},{66.1869,-3}},
+            lineColor={0,0,0},
+            origin={-18.1867,-3},
+            rotation=0,
+            fillColor={135,135,135},
+            fillPattern=FillPattern.HorizontalCylinder),
+          Rectangle(
+            extent={{-70,46},{-22,34}},
+            lineColor={0,0,0},
+            fillColor={66,200,200},
+            fillPattern=FillPattern.HorizontalCylinder),
+          Polygon(
+            points={{0,16},{0,-14},{30,-32},{30,36},{0,16}},
+            lineColor={0,0,0},
+            fillColor={0,114,208},
+            fillPattern=FillPattern.Solid),
+          Text(
+            extent={{11,-8},{21,6}},
+            lineColor={0,0,0},
+            fillColor={255,255,255},
+            fillPattern=FillPattern.Solid,
+            textString="T"),
+          Ellipse(
+            extent={{46,12},{74,-14}},
+            lineColor={0,0,0},
+            fillColor={255,255,255},
+            fillPattern=FillPattern.Solid),
+          Rectangle(
+            extent={{-0.4,3},{15.5,-3}},
+            lineColor={0,0,0},
+            origin={30.4272,-29},
+            rotation=0,
+            fillColor={0,128,255},
+            fillPattern=FillPattern.HorizontalCylinder),
+          Rectangle(
+            extent={{-0.43805,2.7864},{15.9886,-2.7864}},
+            lineColor={0,0,0},
+            origin={45.2136,-41.989},
+            rotation=90,
+            fillColor={0,128,255},
+            fillPattern=FillPattern.HorizontalCylinder),
+          Ellipse(
+            extent={{32,-42},{60,-68}},
+            lineColor={0,0,0},
+            fillColor={255,255,255},
+            fillPattern=FillPattern.Solid),
+          Rectangle(
+            extent={{-0.373344,2},{13.6267,-2}},
+            lineColor={0,0,0},
+            origin={18.3733,-56},
+            rotation=0,
+            fillColor={0,0,255},
+            fillPattern=FillPattern.HorizontalCylinder),
+          Rectangle(
+            extent={{-0.487802,2},{19.5122,-2}},
+            lineColor={0,0,0},
+            origin={20,-38.488},
+            rotation=-90,
+            fillColor={0,0,255},
+            fillPattern=FillPattern.HorizontalCylinder),
+          Rectangle(
+            extent={{-0.243902,2},{9.7562,-2}},
+            lineColor={0,0,0},
+            origin={-46,-62.244},
+            rotation=-90,
+            fillColor={0,0,255},
+            fillPattern=FillPattern.HorizontalCylinder),
+          Rectangle(
+            extent={{-0.578156,2.1722},{23.1262,-2.1722}},
+            lineColor={0,0,0},
+            origin={21.4218,-39.828},
+            rotation=180,
+            fillColor={0,0,255},
+            fillPattern=FillPattern.HorizontalCylinder),
+          Ellipse(
+            extent={{-4,-34},{8,-46}},
+            lineColor={0,0,0},
+            fillPattern=FillPattern.Sphere,
+            fillColor={0,100,199}),
+          Polygon(
+            points={{-2,-44},{-6,-48},{10,-48},{6,-44},{-2,-44}},
+            lineColor={0,0,255},
+            pattern=LinePattern.None,
+            fillColor={0,0,0},
+            fillPattern=FillPattern.VerticalCylinder),
+          Rectangle(
+            extent={{-20,46},{6,34}},
+            lineColor={0,0,0},
+            fillColor={66,200,200},
+            fillPattern=FillPattern.HorizontalCylinder),
+          Ellipse(
+            extent={{-30,49},{-12,31}},
+            lineColor={95,95,95},
+            fillColor={175,175,175},
+            fillPattern=FillPattern.Sphere),
+          Rectangle(
+            extent={{-20,49},{-22,61}},
+            lineColor={0,0,0},
+            fillColor={95,95,95},
+            fillPattern=FillPattern.VerticalCylinder),
+          Rectangle(
+            extent={{-30,63},{-12,61}},
+            lineColor={0,0,0},
+            fillColor={181,0,0},
+            fillPattern=FillPattern.HorizontalCylinder),
+          Ellipse(
+            extent={{-19,49},{-23,31}},
+            lineColor={0,0,0},
+            fillPattern=FillPattern.VerticalCylinder,
+            fillColor={162,162,0}),
+          Text(
+            extent={{55,-10},{65,4}},
+            lineColor={0,0,0},
+            fillColor={255,255,255},
+            fillPattern=FillPattern.Solid,
+            textString="G"),
+          Text(
+            extent={{41,-62},{51,-48}},
+            lineColor={0,0,0},
+            fillColor={255,255,255},
+            fillPattern=FillPattern.Solid,
+            textString="C"),
+          Polygon(
+            points={{3,-37},{3,-43},{-1,-40},{3,-37}},
+            lineColor={0,0,0},
+            pattern=LinePattern.None,
+            fillPattern=FillPattern.HorizontalCylinder,
+            fillColor={255,255,255})}),                            Diagram(
+          coordinateSystem(preserveAspectRatio=false, extent={{-140,-100},{140,
+              100}})),
+      experiment(
+        StopTime=86400,
+        Interval=30,
+        __Dymola_Algorithm="Esdirk45a"),
+      Documentation(info="<html>
+<p>The goal of the HTGR models is to obtain a baseline functioning model that can be used to investigate HTGR applications within IES. That being the motivation, there are likely incorrect time constants throughout the system without relevant comparative data to use. Note also that the current core model structure, while this loop is described as a pebble bed (prismatic is pending), is still using the old nuclear core geometry file. This is due to some odd modeling failures during attempts to change. I will modify this description should I obtain the correct core functioning with a reasonable geometry. Using the old core geometry to obtain the correct flow values (flow area, hydraulic diameters, Reynolds numbers) should provide accurate-enough information. </p>
+<p>The Dittus-Boelter simple correlation for single phase heat transfer in turbulent flow is used to calculate the heat transfer between the fuel and the coolant, and maximum fuel temperatures appear to agree with literature (~1200C). </p>
+<p>Separate HTGR models will be developed for different uses. The primary differentiator is whether a combined cycle is going to be integrated or not. The combined cycle thoerized to be used here takes advantage of the relatively hot waste heat that is produced by an HTGR to boil water at low pressure and send that to a turbine. </p>
+<p>No part of this HTGR model should be considered to be optimized. Additionally, thermal mass of the system needs references and then will need to be adjusted (likely through pipes replacing current zero-volume volume nodes) to more appropriately reflect system time constants. </p>
+</html>"));
+  end HTGR_Rankine_Cycle_Transient_TCV_Control_ValveDegradation_type6_Sec_Final;
+
+  model BOP "type4 + new Failure Logic different from Type5 test"
+    extends BaseClasses.Partial_SubSystem(
+      redeclare replaceable
+        ControlSystems.CS
+        CS,
+      redeclare replaceable ControlSystems.ED_Dummy ED,
+      redeclare Data.IdealTurbine data);
+      Modelica.Units.SI.SpecificEntropy HPT_entropy_a;
+      Modelica.Units.SI.SpecificEntropy HPT_entropy_b;
+      Modelica.Units.SI.SpecificEntropy LPT1_entropy_a;
+      Modelica.Units.SI.SpecificEntropy LPT1_entropy_b;
+      Modelica.Units.SI.SpecificEntropy LPT2_entropy_a;
+      Modelica.Units.SI.SpecificEntropy LPT2_entropy_b;
+    PrimaryHeatSystem.HTGR.HTGR_Rankine.Data.DataInitial_HTGR_Pebble dataInitial(
+        P_LP_Comp_Ref=4000000)
+      annotation (Placement(transformation(extent={{64,122},{84,142}})));
+
+    TRANSFORM.Fluid.Machines.SteamTurbine HPT(
+      nUnits=1,
+      eta_mech=0.93,
+      redeclare model Eta_wetSteam =
+          TRANSFORM.Fluid.Machines.BaseClasses.WetSteamEfficiency.eta_Degradation_HPT
+          (lambda_HPT=lambda_HPT),
+      p_a_start=dataInitial_HTGR_BoP_3stage.HPT_P_inlet,
+      p_b_start=dataInitial_HTGR_BoP_3stage.HPT_P_outlet,
+      T_a_start=dataInitial_HTGR_BoP_3stage.HPT_T_inlet,
+      T_b_start=dataInitial_HTGR_BoP_3stage.HPT_T_outlet,
+      m_flow_nominal=200,
+      p_inlet_nominal=dataInitial_HTGR_BoP_3stage.HPT_P_inlet,
+      p_outlet_nominal=dataInitial_HTGR_BoP_3stage.HPT_P_outlet,
+      T_nominal=dataInitial_HTGR_BoP_3stage.HPT_T_inlet)
+      annotation (Placement(transformation(extent={{34,24},{54,44}})));
+
+    TRANSFORM.Electrical.PowerConverters.Generator_Basic generator
+      annotation (Placement(transformation(extent={{-10,-10},{10,10}},
+          rotation=90,
+          origin={238,66})));
+    Fluid.Vessels.IdealCondenser Condenser(
+      p=10000,
+      V_total=2500,
+      V_liquid_start=1.2)
+      annotation (Placement(transformation(extent={{244,-62},{224,-42}})));
+    TRANSFORM.Fluid.Machines.Pump_Controlled pump(
+      redeclare package Medium = Modelica.Media.Water.StandardWater,
+      redeclare model EfficiencyChar =
+          TRANSFORM.Fluid.Machines.BaseClasses.PumpCharacteristics.Efficiency.Constant,
+      N_nominal=1200,
+      dp_nominal=15000000,
+      m_flow_nominal=50,
+      d_nominal=1000,
+      controlType="RPM",
+      use_port=true)
+      annotation (Placement(transformation(extent={{-24,-48},{-44,-68}})));
+
+    TRANSFORM.Fluid.Sensors.TemperatureTwoPort
+                                         sensor_T1(redeclare package Medium =
+          Modelica.Media.Water.StandardWater)            annotation (Placement(
+          transformation(
+          extent={{6,6},{-6,-6}},
+          rotation=180,
+          origin={22,40})));
+    TRANSFORM.Fluid.Sensors.Pressure     sensor_p(redeclare package Medium =
+          Modelica.Media.Water.StandardWater, redeclare function iconUnit =
+          TRANSFORM.Units.Conversions.Functions.Pressure_Pa.to_bar)
+                                                         annotation (Placement(
+          transformation(
+          extent={{10,-10},{-10,10}},
+          rotation=0,
+          origin={-14,76})));
+    TRANSFORM.Fluid.Volumes.SimpleVolume volume(
+      redeclare package Medium = Modelica.Media.Water.StandardWater,
+      p_start=3900000,
+      T_start=723.15,
+      redeclare model Geometry =
+          TRANSFORM.Fluid.ClosureRelations.Geometry.Models.LumpedVolume.GenericVolume
+          (V=2),
+      use_TraceMassPort=false)
+      annotation (Placement(transformation(extent={{10,-10},{-10,10}},
+          rotation=180,
+          origin={-60,38})));
+
+    TRANSFORM.Fluid.Valves.ValveLinear TCV(
+      redeclare package Medium = Modelica.Media.Water.StandardWater,
+      dp_nominal=100000,
+      m_flow_nominal=50) annotation (Placement(transformation(
+          extent={{8,8},{-8,-8}},
+          rotation=180,
+          origin={-4,40})));
+    Modelica.Blocks.Sources.RealExpression Electrical_Power(y=generator.power)
+      annotation (Placement(transformation(extent={{-106,108},{-86,116}})));
+    TRANSFORM.Fluid.Machines.SteamTurbine LPT1(
+      nUnits=1,
+      eta_mech=0.93,
+      redeclare model Eta_wetSteam =
+          TRANSFORM.Fluid.Machines.BaseClasses.WetSteamEfficiency.eta_Degradation_LPT1
+          (lambda_LPT1=lambda_LPT1),
+      p_a_start=3000000,
+      p_b_start=1500000,
+      T_a_start=573.15,
+      T_b_start=473.15,
+      m_flow_nominal=200,
+      p_inlet_nominal=2000000,
+      p_outlet_nominal=dataInitial_HTGR_BoP_3stage.LPT1_P_outlet,
+      T_nominal=423.15) annotation (Placement(transformation(
+          extent={{10,10},{-10,-10}},
+          rotation=180,
+          origin={128,34})));
+
+    TRANSFORM.Fluid.Volumes.SimpleVolume volume1(
+      redeclare package Medium = Modelica.Media.Water.StandardWater,
+      p_start=3900000,
+      T_start=473.15,
+      redeclare model Geometry =
+          TRANSFORM.Fluid.ClosureRelations.Geometry.Models.LumpedVolume.GenericVolume
+          (V=5.0),
+      use_TraceMassPort=false)
+      annotation (Placement(transformation(extent={{-10,-10},{10,10}},
+          rotation=180,
+          origin={-4,-58})));
+    TRANSFORM.Fluid.FittingsAndResistances.TeeJunctionVolume tee1(
+      redeclare package Medium = Modelica.Media.Water.StandardWater,
+      V=5,
+      p_start=2500000,
+      T_start=573.15) annotation (Placement(transformation(
+          extent={{-10,-10},{10,10}},
+          rotation=180,
+          origin={94,50})));
+    TRANSFORM.Fluid.Valves.ValveLinear LPT1_Bypass(
+      redeclare package Medium = Modelica.Media.Water.StandardWater,
+      dp_nominal=100000,
+      m_flow_nominal=30)
+                        annotation (Placement(transformation(
+          extent={{10,10},{-10,-10}},
+          rotation=90,
+          origin={94,-16})));
+    TRANSFORM.Fluid.Sensors.TemperatureTwoPort
+                                         sensor_T2(redeclare package Medium =
+          Modelica.Media.Water.StandardWater)            annotation (Placement(
+          transformation(
+          extent={{-10,-10},{10,10}},
+          rotation=180,
+          origin={-108,-58})));
+    TRANSFORM.Fluid.Machines.Pump_PressureBooster
+                                             pump1(redeclare package Medium =
+          Modelica.Media.Water.StandardWater,
+      use_input=false,
+      p_nominal=5500000,
+      allowFlowReversal=false)
+      annotation (Placement(transformation(extent={{40,-92},{20,-72}})));
+    TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow1(redeclare package
+        Medium =
+          Modelica.Media.Water.StandardWater)            annotation (Placement(
+          transformation(
+          extent={{7,-8},{-7,8}},
+          rotation=90,
+          origin={242,-19})));
+    TRANSFORM.Fluid.Valves.ValveLinear TBV(
+      redeclare package Medium = Modelica.Media.Water.StandardWater,
+      dp_nominal=100000,
+      m_flow_nominal=50) annotation (Placement(transformation(
+          extent={{-8,8},{8,-8}},
+          rotation=180,
+          origin={-74,72})));
+    TRANSFORM.Fluid.BoundaryConditions.Boundary_pT boundary1(
+      redeclare package Medium = Modelica.Media.Water.StandardWater,
+      p=12000000,
+      T=573.15,
+      nPorts=1)
+      annotation (Placement(transformation(extent={{-116,62},{-96,82}})));
+    TRANSFORM.Fluid.Interfaces.FluidPort_Flow port_a(redeclare package Medium
+        = Modelica.Media.Water.StandardWater)
+      annotation (Placement(transformation(extent={{-150,38},{-130,58}})));
+    TRANSFORM.Fluid.Interfaces.FluidPort_State port_b(redeclare package Medium
+        = Modelica.Media.Water.StandardWater)
+      annotation (Placement(transformation(extent={{-150,-68},{-130,-48}})));
+    TRANSFORM.Electrical.Interfaces.ElectricalPowerPort_Flow port_e
+      annotation (Placement(transformation(extent={{130,-10},{150,10}}),
+          iconTransformation(extent={{130,-10},{150,10}})));
+    TRANSFORM.Fluid.FittingsAndResistances.TeeJunctionVolume tee2(
+      redeclare package Medium = Modelica.Media.Water.StandardWater,
+      V=5,
+      p_start=1500000,
+      T_start=423.15)
+      annotation (Placement(transformation(extent={{-10,-10},{10,10}},
+          rotation=180,
+          origin={178,50})));
+    TRANSFORM.Fluid.Machines.SteamTurbine LPT2(
+      nUnits=1,
+      eta_mech=0.93,
+      redeclare model Eta_wetSteam =
+          TRANSFORM.Fluid.Machines.BaseClasses.WetSteamEfficiency.eta_Degradation_LPT2
+          (lambda_LPT2=lambda_LPT2),
+      p_a_start=1500000,
+      p_b_start=8000,
+      T_a_start=523.15,
+      T_b_start=343.15,
+      m_flow_nominal=200,
+      p_inlet_nominal=1500000,
+      p_outlet_nominal=dataInitial_HTGR_BoP_3stage.LPT2_P_outlet,
+      T_nominal=423.15) annotation (Placement(transformation(
+          extent={{10,10},{-10,-10}},
+          rotation=180,
+          origin={208,34})));
+
+    TRANSFORM.Fluid.Valves.ValveLinear LPT2_Bypass(
+      redeclare package Medium = Modelica.Media.Water.StandardWater,
+      dp_nominal=100000,
+      m_flow_nominal=5) annotation (Placement(transformation(
+          extent={{10,10},{-10,-10}},
+          rotation=90,
+          origin={178,16})));
+    Data.DataInitial_HTGR_BoP_3stage dataInitial_HTGR_BoP_3stage(LPT1_T_outlet=
+          473.15, LPT2_T_inlet=473.15)
+      annotation (Placement(transformation(extent={{90,122},{110,142}})));
+    StagebyStageTurbineSecondary.StagebyStageTurbine.BaseClasses.TRANSFORMMoistureSeparator_MIKK
+      Moisture_Separator2(
+      redeclare package Medium = Modelica.Media.Water.StandardWater,
+      p_start=2500000,
+      T_start=573.15,
+      redeclare model Geometry =
+          TRANSFORM.Fluid.ClosureRelations.Geometry.Models.LumpedVolume.GenericVolume)
+      annotation (Placement(transformation(extent={{140,40},{160,60}})));
+    TRANSFORM.Fluid.BoundaryConditions.Boundary_pT boundary2(
+      redeclare package Medium = Modelica.Media.Water.StandardWater,
+      p=5500000,
+      T=573.15,
+      nPorts=1)
+      annotation (Placement(transformation(extent={{-104,-42},{-84,-22}})));
+    TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium
+        = Modelica.Media.Water.StandardWater)            annotation (Placement(
+          transformation(
+          extent={{-10,-10},{10,10}},
+          rotation=180,
+          origin={44,-32})));
+    Data.ComponentDegradation componentDegradation(
+      HPT_lambda=0.0000000001,
+      LPT1_lambda=0.0000000001,
+      LPT2_lambda=0.0000000001)
+      annotation (Placement(transformation(extent={{120,122},{140,142}})));
+    Component_Degradation.valve_degradation_Sec valve_degradation
+                                                                 annotation (
+        Placement(transformation(
+          extent={{6,-6},{-6,6}},
+          rotation=90,
+          origin={-4,60})));
+    Component_Degradation.valve_degradation_Sec valve_degradation1
+                                                                  annotation (
+        Placement(transformation(
+          extent={{6,-6},{-6,6}},
+          rotation=90,
+          origin={110,2})));
+    Component_Degradation.valve_degradation_Sec valve_degradation2
+                                                                  annotation (
+        Placement(transformation(
+          extent={{-6,-6},{6,6}},
+          rotation=180,
+          origin={206,16})));
+    // parameter Real lambda=componentDegradation.HPT_lambda;
+    parameter Real lambda_HPT=componentDegradation.HPT_lambda;
+    parameter Real lambda_LPT1=componentDegradation.LPT1_lambda;
+    parameter Real lambda_LPT2=componentDegradation.LPT2_lambda;
+    parameter SI.Time Strategy_Change_Time=5e+5
+      "Operational Strategy Change Time";
+  initial equation
+
+  equation
+    port_e.W = generator.power;
+    HPT_entropy_a = HPT.Medium.specificEntropy(HPT.state_a);
+    HPT_entropy_b = HPT.Medium.specificEntropy(HPT.state_b);
+    LPT1_entropy_a = HPT.Medium.specificEntropy(LPT1.state_a);
+    LPT1_entropy_b = HPT.Medium.specificEntropy(LPT1.state_b);
+    LPT2_entropy_a = HPT.Medium.specificEntropy(LPT2.state_a);
+    LPT2_entropy_b = HPT.Medium.specificEntropy(LPT2.state_b);
+
+    connect(HPT.portHP, sensor_T1.port_b) annotation (Line(
+        points={{34,40},{28,40}},
+        color={0,127,255},
+        thickness=0.5));
+    connect(sensorBus.Steam_Temperature, sensor_T1.T) annotation (Line(
+        points={{-30,100},{4,100},{4,50},{22,50},{22,42.16}},
+        color={239,82,82},
+        pattern=LinePattern.Dash,
+        thickness=0.5));
+    connect(actuatorBus.Feed_Pump_Speed, pump.inputSignal) annotation (Line(
+        points={{30,100},{258,100},{258,-98},{-34,-98},{-34,-65}},
+        color={111,216,99},
+        pattern=LinePattern.Dash,
+        thickness=0.5));
+    connect(sensorBus.Steam_Pressure, sensor_p.p) annotation (Line(
+        points={{-30,100},{-30,76},{-20,76}},
+        color={239,82,82},
+        pattern=LinePattern.Dash,
+        thickness=0.5));
+    connect(TCV.port_b, sensor_T1.port_a) annotation (Line(
+        points={{4,40},{16,40}},
+        color={0,127,255},
+        thickness=0.5));
+    connect(sensorBus.Power, Electrical_Power.y) annotation (Line(
+        points={{-30,100},{-30,76},{-80,76},{-80,112},{-85,112}},
+        color={239,82,82},
+        pattern=LinePattern.Dash,
+        thickness=0.5));
+    connect(volume1.port_b, pump.port_a) annotation (Line(
+        points={{-10,-58},{-24,-58}},
+        color={0,127,255},
+        thickness=0.5));
+    connect(LPT1.portHP, tee1.port_1) annotation (Line(
+        points={{118,40},{118,50},{104,50}},
+        color={0,127,255},
+        thickness=0.5));
+    connect(tee1.port_3, LPT1_Bypass.port_a) annotation (Line(
+        points={{94,40},{94,-6}},
+        color={0,127,255},
+        thickness=0.5));
+    connect(sensorBus.Feedwater_Temp, sensor_T2.T) annotation (Line(
+        points={{-30,100},{-30,-44},{-56,-44},{-56,-74},{-108,-74},{-108,-61.6}},
+        color={239,82,82},
+        pattern=LinePattern.Dash,
+        thickness=0.5));
+    connect(Condenser.port_b, pump1.port_a) annotation (Line(points={{234,-62},
+            {234,-82},{40,-82}},                                      color={0,127,
+            255},
+        thickness=0.5));
+    connect(pump1.port_b, volume1.port_a) annotation (Line(points={{20,-82},{16,
+            -82},{16,-58},{2,-58}},                    color={0,127,255},
+        thickness=0.5));
+    connect(HPT.shaft_b, LPT1.shaft_a) annotation (Line(
+        points={{54,34},{118,34}},
+        color={0,0,0},
+        pattern=LinePattern.Dash));
+    connect(sensor_m_flow1.port_b,Condenser. port_a)
+      annotation (Line(points={{242,-26},{242,-42},{241,-42}},
+                                                       color={0,127,255},
+        thickness=0.5));
+
+    connect(TBV.port_b, boundary1.ports[1])
+      annotation (Line(points={{-82,72},{-96,72}}, color={0,127,255}));
+    connect(volume.port_b, TBV.port_a) annotation (Line(points={{-54,38},{-46,
+            38},{-46,72},{-66,72}},
+                                color={0,127,255}));
+    connect(volume.port_b, TCV.port_a)
+      annotation (Line(points={{-54,38},{-34,38},{-34,40},{-12,40}},
+                                                   color={0,127,255}));
+    connect(volume.port_b, sensor_p.port) annotation (Line(points={{-54,38},{
+            -34,38},{-34,62},{-14,62},{-14,66}},
+                                         color={0,127,255}));
+    connect(port_a, volume.port_a)
+      annotation (Line(points={{-140,48},{-104,48},{-104,38},{-66,38}},
+                                                    color={0,127,255}));
+    connect(sensor_T2.port_b, port_b)
+      annotation (Line(points={{-118,-58},{-140,-58}},color={0,127,255}));
+    connect(TBV.opening, actuatorBus.TBV) annotation (Line(points={{-74,78.4},{-74,
+            100},{30,100}},       color={111,216,99},
+        pattern=LinePattern.Dash,
+        thickness=0.5));
+    connect(LPT1.shaft_b, LPT2.shaft_a)
+      annotation (Line(points={{138,34},{198,34}}, color={0,0,0}));
+    connect(tee2.port_1, LPT2.portHP) annotation (Line(points={{188,50},{192,50},{
+            192,40},{198,40}}, color={0,127,255}));
+    connect(LPT2.portLP, sensor_m_flow1.port_a)
+      annotation (Line(points={{218,40},{242,40},{242,-12}}, color={0,127,255}));
+    connect(tee2.port_3, LPT2_Bypass.port_a)
+      annotation (Line(points={{178,40},{178,26}},color={0,127,255}));
+    connect(LPT2_Bypass.port_b, pump1.port_a) annotation (Line(points={{178,6},
+            {178,-82},{40,-82}},color={0,127,255}));
+    connect(LPT1.portLP, Moisture_Separator2.port_a) annotation (Line(points={{
+            138,40},{138,50},{144,50}}, color={0,127,255}));
+    connect(Moisture_Separator2.port_b, tee2.port_2)
+      annotation (Line(points={{156,50},{168,50}}, color={0,127,255}));
+    connect(Moisture_Separator2.port_Liquid, volume1.port_a) annotation (Line(
+          points={{146,46},{146,-58},{2,-58}},                     color={0,127,
+            255}));
+    connect(HPT.portLP, tee1.port_2) annotation (Line(points={{54,40},{78,40},{
+            78,50},{84,50}}, color={0,127,255}));
+    connect(LPT1_Bypass.port_b, sensor_m_flow.port_a) annotation (Line(points={{94,-26},
+            {94,-32},{54,-32}},          color={0,127,255}));
+    connect(sensor_m_flow.port_b, boundary2.ports[1])
+      annotation (Line(points={{34,-32},{-84,-32}},color={0,127,255}));
+    connect(sensorBus.massflow_LPTv, sensor_m_flow.m_flow) annotation (Line(
+        points={{-30,100},{-30,-42},{44,-42},{44,-35.6}},
+        color={239,82,82},
+        pattern=LinePattern.Dash,
+        thickness=0.5), Text(
+        string="%first",
+        index=-1,
+        extent={{-6,3},{-6,3}},
+        horizontalAlignment=TextAlignment.Right));
+    connect(generator.shaft, LPT2.shaft_b) annotation (Line(points={{238.1,55.9},
+            {238.1,34},{218,34}}, color={0,0,0}));
+    connect(sensor_T2.port_a, pump.port_b)
+      annotation (Line(points={{-98,-58},{-44,-58}}, color={0,127,255}));
+    connect(TCV.opening, valve_degradation.open_out)
+      annotation (Line(points={{-4,46.4},{-4,54.6}}, color={0,0,127}));
+    connect(actuatorBus.opening_TCV, valve_degradation.open_in) annotation (
+        Line(
+        points={{30.1,100.1},{-4,100.1},{-4,65.28}},
+        color={111,216,99},
+        pattern=LinePattern.Dash,
+        thickness=0.5), Text(
+        string="%first",
+        index=-1,
+        extent={{6,3},{6,3}},
+        horizontalAlignment=TextAlignment.Left));
+    connect(valve_degradation1.open_out, LPT1_Bypass.opening) annotation (Line(
+          points={{110,-3.4},{110,-16},{102,-16}}, color={0,0,127}));
+    connect(actuatorBus.openingLPTv, valve_degradation1.open_in) annotation (
+        Line(
+        points={{30,100},{110,100},{110,7.28}},
+        color={111,216,99},
+        pattern=LinePattern.Dash,
+        thickness=0.5), Text(
+        string="%first",
+        index=-1,
+        extent={{-6,3},{-6,3}},
+        horizontalAlignment=TextAlignment.Right));
+    connect(LPT2_Bypass.opening, valve_degradation2.open_out)
+      annotation (Line(points={{186,16},{200.6,16}}, color={0,0,127}));
+    connect(actuatorBus.Divert_Valve_Position, valve_degradation2.open_in)
+      annotation (Line(
+        points={{30,100},{224,100},{224,16},{211.28,16}},
+        color={111,216,99},
+        pattern=LinePattern.Dash,
+        thickness=0.5), Text(
+        string="%first",
+        index=-1,
+        extent={{-6,3},{-6,3}},
+        horizontalAlignment=TextAlignment.Right));
+    annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-140,
+              -100},{140,100}}),                                  graphics={
+          Rectangle(
+            extent={{-2.09756,2},{83.9024,-2}},
+            lineColor={0,0,0},
+            origin={-45.9024,-64},
+            rotation=360,
+            fillColor={0,0,255},
+            fillPattern=FillPattern.HorizontalCylinder),
+          Rectangle(
+            extent={{-1.81329,5},{66.1867,-5}},
+            lineColor={0,0,0},
+            origin={-68.1867,-41},
+            rotation=0,
+            fillColor={0,0,255},
+            fillPattern=FillPattern.HorizontalCylinder),
+          Rectangle(
+            extent={{-16,3},{16,-3}},
+            lineColor={0,0,0},
+            fillColor={66,200,200},
+            fillPattern=FillPattern.HorizontalCylinder,
+            origin={4,30},
+            rotation=-90),
+          Rectangle(
+            extent={{-1.81332,3},{66.1869,-3}},
+            lineColor={0,0,0},
+            origin={-18.1867,-3},
+            rotation=0,
+            fillColor={135,135,135},
+            fillPattern=FillPattern.HorizontalCylinder),
+          Rectangle(
+            extent={{-70,46},{-22,34}},
+            lineColor={0,0,0},
+            fillColor={66,200,200},
+            fillPattern=FillPattern.HorizontalCylinder),
+          Polygon(
+            points={{0,16},{0,-14},{30,-32},{30,36},{0,16}},
+            lineColor={0,0,0},
+            fillColor={0,114,208},
+            fillPattern=FillPattern.Solid),
+          Text(
+            extent={{11,-8},{21,6}},
+            lineColor={0,0,0},
+            fillColor={255,255,255},
+            fillPattern=FillPattern.Solid,
+            textString="T"),
+          Ellipse(
+            extent={{46,12},{74,-14}},
+            lineColor={0,0,0},
+            fillColor={255,255,255},
+            fillPattern=FillPattern.Solid),
+          Rectangle(
+            extent={{-0.4,3},{15.5,-3}},
+            lineColor={0,0,0},
+            origin={30.4272,-29},
+            rotation=0,
+            fillColor={0,128,255},
+            fillPattern=FillPattern.HorizontalCylinder),
+          Rectangle(
+            extent={{-0.43805,2.7864},{15.9886,-2.7864}},
+            lineColor={0,0,0},
+            origin={45.2136,-41.989},
+            rotation=90,
+            fillColor={0,128,255},
+            fillPattern=FillPattern.HorizontalCylinder),
+          Ellipse(
+            extent={{32,-42},{60,-68}},
+            lineColor={0,0,0},
+            fillColor={255,255,255},
+            fillPattern=FillPattern.Solid),
+          Rectangle(
+            extent={{-0.373344,2},{13.6267,-2}},
+            lineColor={0,0,0},
+            origin={18.3733,-56},
+            rotation=0,
+            fillColor={0,0,255},
+            fillPattern=FillPattern.HorizontalCylinder),
+          Rectangle(
+            extent={{-0.487802,2},{19.5122,-2}},
+            lineColor={0,0,0},
+            origin={20,-38.488},
+            rotation=-90,
+            fillColor={0,0,255},
+            fillPattern=FillPattern.HorizontalCylinder),
+          Rectangle(
+            extent={{-0.243902,2},{9.7562,-2}},
+            lineColor={0,0,0},
+            origin={-46,-62.244},
+            rotation=-90,
+            fillColor={0,0,255},
+            fillPattern=FillPattern.HorizontalCylinder),
+          Rectangle(
+            extent={{-0.578156,2.1722},{23.1262,-2.1722}},
+            lineColor={0,0,0},
+            origin={21.4218,-39.828},
+            rotation=180,
+            fillColor={0,0,255},
+            fillPattern=FillPattern.HorizontalCylinder),
+          Ellipse(
+            extent={{-4,-34},{8,-46}},
+            lineColor={0,0,0},
+            fillPattern=FillPattern.Sphere,
+            fillColor={0,100,199}),
+          Polygon(
+            points={{-2,-44},{-6,-48},{10,-48},{6,-44},{-2,-44}},
+            lineColor={0,0,255},
+            pattern=LinePattern.None,
+            fillColor={0,0,0},
+            fillPattern=FillPattern.VerticalCylinder),
+          Rectangle(
+            extent={{-20,46},{6,34}},
+            lineColor={0,0,0},
+            fillColor={66,200,200},
+            fillPattern=FillPattern.HorizontalCylinder),
+          Ellipse(
+            extent={{-30,49},{-12,31}},
+            lineColor={95,95,95},
+            fillColor={175,175,175},
+            fillPattern=FillPattern.Sphere),
+          Rectangle(
+            extent={{-20,49},{-22,61}},
+            lineColor={0,0,0},
+            fillColor={95,95,95},
+            fillPattern=FillPattern.VerticalCylinder),
+          Rectangle(
+            extent={{-30,63},{-12,61}},
+            lineColor={0,0,0},
+            fillColor={181,0,0},
+            fillPattern=FillPattern.HorizontalCylinder),
+          Ellipse(
+            extent={{-19,49},{-23,31}},
+            lineColor={0,0,0},
+            fillPattern=FillPattern.VerticalCylinder,
+            fillColor={162,162,0}),
+          Text(
+            extent={{55,-10},{65,4}},
+            lineColor={0,0,0},
+            fillColor={255,255,255},
+            fillPattern=FillPattern.Solid,
+            textString="G"),
+          Text(
+            extent={{41,-62},{51,-48}},
+            lineColor={0,0,0},
+            fillColor={255,255,255},
+            fillPattern=FillPattern.Solid,
+            textString="C"),
+          Polygon(
+            points={{3,-37},{3,-43},{-1,-40},{3,-37}},
+            lineColor={0,0,0},
+            pattern=LinePattern.None,
+            fillPattern=FillPattern.HorizontalCylinder,
+            fillColor={255,255,255})}),                            Diagram(
+          coordinateSystem(preserveAspectRatio=false, extent={{-140,-100},{140,
+              100}})),
+      experiment(
+        StopTime=86400,
+        Interval=30,
+        __Dymola_Algorithm="Esdirk45a"),
+      Documentation(info="<html>
+<p>The goal of the HTGR models is to obtain a baseline functioning model that can be used to investigate HTGR applications within IES. That being the motivation, there are likely incorrect time constants throughout the system without relevant comparative data to use. Note also that the current core model structure, while this loop is described as a pebble bed (prismatic is pending), is still using the old nuclear core geometry file. This is due to some odd modeling failures during attempts to change. I will modify this description should I obtain the correct core functioning with a reasonable geometry. Using the old core geometry to obtain the correct flow values (flow area, hydraulic diameters, Reynolds numbers) should provide accurate-enough information. </p>
+<p>The Dittus-Boelter simple correlation for single phase heat transfer in turbulent flow is used to calculate the heat transfer between the fuel and the coolant, and maximum fuel temperatures appear to agree with literature (~1200C). </p>
+<p>Separate HTGR models will be developed for different uses. The primary differentiator is whether a combined cycle is going to be integrated or not. The combined cycle thoerized to be used here takes advantage of the relatively hot waste heat that is produced by an HTGR to boil water at low pressure and send that to a turbine. </p>
+<p>No part of this HTGR model should be considered to be optimized. Additionally, thermal mass of the system needs references and then will need to be adjusted (likely through pipes replacing current zero-volume volume nodes) to more appropriately reflect system time constants. </p>
+</html>"));
+  end BOP;
 end HTGR_RankineCycles;

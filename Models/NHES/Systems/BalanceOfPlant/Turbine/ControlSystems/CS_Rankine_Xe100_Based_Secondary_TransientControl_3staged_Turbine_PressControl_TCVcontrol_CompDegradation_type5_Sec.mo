@@ -1,6 +1,7 @@
 within NHES.Systems.BalanceOfPlant.Turbine.ControlSystems;
 model
-  CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TCVcontrol_CompDegradation_type5
+  CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TCVcontrol_CompDegradation_type5_Sec
+
 
 
 
@@ -87,7 +88,7 @@ model
     annotation (Placement(transformation(extent={{-196,-18},{-176,-38}})));
   Modelica.Blocks.Logical.Switch switch_P_setpoint_TCV3
     annotation (Placement(transformation(extent={{-156,-38},{-136,-18}})));
-  Modelica.Blocks.Sources.Constant valvedelay4(k=14e6)
+  Modelica.Blocks.Sources.Constant valvedelay4(k=data.p_steam_vent)
     annotation (Placement(transformation(extent={{-196,-4},{-176,16}})));
   Modelica.Blocks.Math.Add         add1
     annotation (Placement(transformation(extent={{-10,-44},{10,-24}})));
@@ -106,23 +107,27 @@ model
   Modelica.Blocks.Logical.Switch switch_P_setpoint_TCV4
     annotation (Placement(transformation(extent={{-182,110},{-162,130}})));
   Modelica.Blocks.Sources.Trapezoid Original_trap_LTV1bypass_power(
-    amplitude=-10e6,
-    rising=3600,
-    width=5e4,
-    falling=3600,
-    period=107200,
+    amplitude=-15e6,
+    rising=7200,
+    width=36000,
+    falling=7200,
+    period=86400,
     nperiod=-1,
     offset=44e6,
-    startTime=2e5)
+    startTime=componentDegradation.start_after_initialization)
     annotation (Placement(transformation(extent={{-222,76},{-202,96}})));
   Data.ComponentDegradation componentDegradation(
-    Strategy_Change_Time=8e+5,
-    HPT_lambda=0.00000001,
-    LPT1_lambda=0.00000001,
-    LPT2_lambda=0.00000001)
+    Strategy_Change_Time=3.17e+8)
     annotation (Placement(transformation(extent={{-134,80},{-114,100}})));
   Modelica.Blocks.Sources.Constant const2(k=-1e-1)
     annotation (Placement(transformation(extent={{-56,196},{-40,212}})));
+  Modelica.Blocks.Sources.Sine      Original_trap_LTV1bypass_power1(
+    amplitude=-10e6,
+    f=0.00001157407,
+    phase=0,
+    offset=34e6,
+    startTime=componentDegradation.start_after_initialization)
+    annotation (Placement(transformation(extent={{-222,38},{-202,58}})));
 equation
 
   connect(const5.y,LTV2_Divert_Valve. u_s)
@@ -242,9 +247,6 @@ equation
           138},{-234,128},{-224,128}}, color={0,0,127}));
   connect(clock4.y, greater4.u1) annotation (Line(points={{-237,98},{-234,98},{
           -234,120},{-224,120}}, color={0,0,127}));
-  connect(Original_trap_LTV1bypass_power.y, switch_P_setpoint_TCV4.u3)
-    annotation (Line(points={{-201,86},{-190,86},{-190,112},{-184,112}}, color=
-          {0,0,127}));
   connect(const_LTV1bypass_power.y, switch_P_setpoint_TCV4.u1) annotation (Line(
         points={{-201,150},{-190,150},{-190,128},{-184,128}}, color={0,0,127}));
   connect(switch_P_setpoint_TCV4.y, LTV1_Divert_Valve1.u_s)
@@ -255,6 +257,9 @@ equation
     annotation (Line(points={{-39.2,150},{6,150},{6,37}}, color={0,0,127}));
   connect(const2.y, PID.prop_k) annotation (Line(points={{-39.2,204},{14,204},{
           14,37.4},{13.4,37.4}}, color={0,0,127}));
+  connect(Original_trap_LTV1bypass_power.y, switch_P_setpoint_TCV4.u3)
+    annotation (Line(points={{-201,86},{-192,86},{-192,112},{-184,112}}, color=
+          {0,0,127}));
 annotation(defaultComponentName="changeMe_CS", Icon(graphics));
 end
-  CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TCVcontrol_CompDegradation_type5;
+  CS_Rankine_Xe100_Based_Secondary_TransientControl_3staged_Turbine_PressControl_TCVcontrol_CompDegradation_type5_Sec;
