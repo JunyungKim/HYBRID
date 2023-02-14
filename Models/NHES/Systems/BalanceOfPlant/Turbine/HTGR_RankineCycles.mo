@@ -9389,29 +9389,78 @@ Model")}));
 Model")}));
     end PumpMotor_degradation_type2;
 
-    model valve_degradation_Sec
+    model TCV_valve_degradation_Sec
+
       Modelica.Blocks.Interfaces.RealOutput open_out annotation (Placement(
-            transformation(extent={{80,-10},{100,10}}), iconTransformation(extent={{
-                80,-10},{100,10}})));
+            transformation(extent={{80,-10},{100,10}}), iconTransformation(extent={{80,-10},
+                {100,10}})));
       Modelica.Blocks.Interfaces.RealInput open_in annotation (Placement(
             transformation(extent={{-100,-12},{-76,12}}), iconTransformation(extent={{-100,
                 -12},{-76,12}})));
-      HazardFunctionTable_Sec hazardFunctionTable
+      HazardFunction_Sec hazardFunctionTable
         annotation (Placement(transformation(extent={{-96,78},{-76,98}})));
+      Modelica.Blocks.Sources.Constant strChangeTime
+        annotation (Placement(transformation(extent={{-52,8},{-32,28}})));
+      Modelica.Blocks.Sources.ContinuousClock clock4(offset=0, startTime=0)
+        annotation (Placement(transformation(extent={{-52,-22},{-32,-2}})));
+      Modelica.Blocks.Logical.Greater greater1
+        annotation (Placement(transformation(extent={{-10,8},{10,-12}})));
+      Modelica.Blocks.Logical.Switch TCV_HazardAfterSwitch
+        annotation (Placement(transformation(extent={{30,-12},{50,8}})));
+      Modelica.Blocks.Sources.CombiTimeTable NoHazardFunction(table=[3600,0; 2595600,
+            0; 5187600,0; 7779600,0; 10371600,0; 12963600,0; 15555600,0; 18147600,0;
+            20739600,0; 23331600,0; 25923600,0; 28515600,0; 31107600,0; 33699600,0;
+            36291600,0; 38883600,0; 41475600,0; 44067600,0; 46659600,0; 49251600,0;
+            51843600,0; 54435600,0; 57027600,0; 59619600,0; 62211600,0; 64803600,0;
+            67395600,0; 69987600,0; 72579600,0; 75171600,0; 77763600,0; 80355600,0;
+            82947600,0; 85539600,0; 88131600,0; 90723600,0; 93315600,0; 95907600,0;
+            98499600,0; 101091600,0; 103683600,0; 106275600,0; 108867600,0; 111459600,
+            0; 114051600,0; 116643600,0; 119235600,0; 121827600,0; 124419600,0; 127011600,
+            0; 129603600,0; 132195600,0; 134787600,0; 137379600,0; 139971600,0; 142563600,
+            0; 145155600,0; 147747600,0; 150339600,0; 152931600,0; 155523600,0; 158115600,
+            0; 160707600,0; 163299600,0; 165891600,0; 168483600,0; 171075600,0; 173667600,
+            0; 176259600,0; 178851600,0; 181443600,0; 184035600,0; 186627600,0; 189219600,
+            0; 191811600,0; 194403600,0; 196995600,0; 199587600,0; 202179600,0; 204771600,
+            0; 207363600,0; 209955600,0; 212547600,0; 215139600,0; 217731600,0; 220323600,
+            0; 222915600,0; 225507600,0; 228099600,0; 230691600,0; 233283600,0; 235875600,
+            0; 238467600,0; 241059600,0; 243651600,0; 246243600,0; 248835600,0; 251427600,
+            0; 254019600,0; 256611600,0; 259203600,0; 261795600,0; 264387600,0; 266979600,
+            0; 269571600,0; 272163600,0; 274755600,0; 277347600,0; 279939600,0; 282531600,
+            0; 285123600,0; 287715600,0; 290307600,0; 292899600,0; 295491600,0; 298083600,
+            0; 300675600,0; 303267600,0; 305859600,0; 308451600,0; 311043600,0; 313635600,
+            0; 316227600,0])
+                  annotation (Placement(transformation(extent={{-10,16},{10,36}})));
+      TCV_HazardFunctionCumul_Sec
+                              hazardFunctionTable_Sec
+        annotation (Placement(transformation(extent={{-10,-48},{12,-28}})));
     equation
-      open_out = (1 - hazardFunctionTable.CumulHazardFunction_Sec.y[2])*open_in
-      annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
-            coordinateSystem(preserveAspectRatio=false)));
+      /* open_out = (1 - hazardFunctionTable.CumulHazardFunction_Sec.y[2])*open_in
+  annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
+        coordinateSystem(preserveAspectRatio=false)));
+  */
+      open_out =(1 - TCV_HazardAfterSwitch.y)*open_in;
 
+      connect(greater1.y, TCV_HazardAfterSwitch.u2)
+        annotation (Line(points={{11,-2},{28,-2}}, color={255,0,255}));
+      connect(strChangeTime.y, greater1.u2) annotation (Line(points={{-31,18},{-20,18},
+              {-20,6},{-12,6}}, color={0,0,127}));
+      connect(clock4.y,greater1. u1) annotation (Line(points={{-31,-12},{-20,-12},{-20,
+              -2},{-12,-2}}, color={0,0,127}));
+      connect(hazardFunctionTable_Sec.HazardValue, TCV_HazardAfterSwitch.u3)
+        annotation (Line(points={{10.9,-38},{22,-38},{22,-10},{28,-10}}, color=
+              {0,0,127}));
+      connect(NoHazardFunction.y[1], TCV_HazardAfterSwitch.u1) annotation (Line(
+            points={{11,26},{22,26},{22,6},{28,6}}, color={0,0,127}));
       annotation (Icon(graphics={Rectangle(extent={{-92,100},{92,-100}},
                 lineColor={0,0,0}), Text(
               extent={{-74,56},{74,-60}},
               textColor={0,0,0},
               textStyle={TextStyle.Bold},
-              textString="%Aging
+              textString="%TCV
+Aging
 Model
 Sec")}));
-    end valve_degradation_Sec;
+    end TCV_valve_degradation_Sec;
 
     model valveFail
       Modelica.Blocks.Interfaces.RealOutput failureIndex annotation (Placement(
@@ -9451,7 +9500,7 @@ Sec")}));
     end valveFail;
 
     model valveFail_Index
-      HazardFunctionTable_Sec hazardFunctionTable
+      HazardFunction_Sec hazardFunctionTable
         annotation (Placement(transformation(extent={{-72,30},{-54,48}})));
       Modelica.Blocks.Noise.UniformNoise uniformNoise(
         samplePeriod=1000,
@@ -9506,7 +9555,7 @@ Sec")}));
 Failure")}), Diagram(coordinateSystem(preserveAspectRatio=false)));
     end valveFail_Index;
 
-    model HazardFunctionTable_Sec
+    model HazardFunction_Sec
       Modelica.Blocks.Sources.CombiTimeTable CumulHazardFunction_Sec(table=[1,0,
             0; 86400,3.50207e-09,3.50207e-09; 2592000,3.14065e-06,3.14415e-06;
             5184000,9.40069e-06,1.25448e-05; 7776000,1.561e-05,2.81548e-05;
@@ -9593,7 +9642,7 @@ Failure")}), Diagram(coordinateSystem(preserveAspectRatio=false)));
 Table
 Sec.",        textStyle={TextStyle.Bold})}),
            Diagram(coordinateSystem(preserveAspectRatio=false)));
-    end HazardFunctionTable_Sec;
+    end HazardFunction_Sec;
 
     model systemFail_Index
       valveFail_Index valveFail_Index1
@@ -9707,7 +9756,7 @@ to Boolean")}));
               textString="Failure")}));
     end valveFailProto;
 
-    model MOV_failToOperate_Model_Sec "Separate_System_Failure_Modeling"
+    model TCV_failToOperate_Model_Sec "Separate_System_Failure_Modeling"
       parameter Integer randomSeed = 1234 "random Seed";
       parameter SI.Time strategyChangeTime "strategy Change Timing";
       parameter SI.Time samplePeriod = 2592000 "2592000 sec = 720 hours";
@@ -9753,7 +9802,8 @@ to Boolean")}));
         annotation (Placement(transformation(extent={{-98,74},{-78,94}})));
       Modelica.Blocks.Interfaces.BooleanOutput failreBooleanIndex
         annotation (Placement(transformation(extent={{90,-10},{110,10}})));
-      HazardFunctionTable_Sec hazardFunctionTable_Sec
+      TCV_HazardFunctionCumul_Sec
+                         hazardFunctionTable_Sec
         annotation (Placement(transformation(extent={{-28,-26},{-6,-6}})));
     equation
       connect(uniformNoise.y, system_failure.random) annotation (Line(points={{33,-44},
@@ -9779,22 +9829,22 @@ to Boolean")}));
               Rectangle(extent={{-100,100},{100,-100}}, lineColor={0,0,0}), Text(
               extent={{-60,42},{62,-46}},
               textColor={0,0,0},
-              textString="%MOV
+              textStyle={TextStyle.Bold},
+              textString="%TCV
 FailToOperate
-Model",       textStyle={TextStyle.Bold})}),
-               Diagram(coordinateSystem(preserveAspectRatio=false)));
-    end MOV_failToOperate_Model_Sec;
+Model")}),     Diagram(coordinateSystem(preserveAspectRatio=false)));
+    end TCV_failToOperate_Model_Sec;
 
     model systemDegradation_Model_Sec
-      MOV_failToOperate_Model_Sec valveDegradation_Model1(randomSeed=
+      TCV_failToOperate_Model_Sec valveDegradation_Model1(randomSeed=
             dataValveDegradationModel.TCV_randomSeed_failToOperate,
           strategyChangeTime=dataValveDegradationModel.strategyChangeTime)
         annotation (Placement(transformation(extent={{-94,66},{-74,86}})));
-      MOV_failToOperate_Model_Sec valveDegradation_Model2(randomSeed=
+      TCV_failToOperate_Model_Sec valveDegradation_Model2(randomSeed=
             dataValveDegradationModel.LPTBV1_randomSeed_failToOperate,
           strategyChangeTime=dataValveDegradationModel.strategyChangeTime)
         annotation (Placement(transformation(extent={{-94,40},{-74,60}})));
-      MOV_failToOperate_Model_Sec valveDegradation_Model3(randomSeed=
+      TCV_failToOperate_Model_Sec valveDegradation_Model3(randomSeed=
             dataValveDegradationModel.LPTBV2_randomSeed_failToOperate,
           strategyChangeTime=dataValveDegradationModel.strategyChangeTime)
         annotation (Placement(transformation(extent={{-94,14},{-74,34}})));
@@ -10052,7 +10102,7 @@ Model",       textStyle={TextStyle.Bold})}),
     end MOV_failToOperate_Model_Hr;
 
     model systemDegradation_Model_Hr
-      MOV_failToOperate_Model_Sec valveDegradation_Model1(
+      TCV_failToOperate_Model_Sec valveDegradation_Model1(
         randomSeed=dataValveDegradationModel.TCV_randomSeed_failToOperate,
         strategyChangeTime=dataValveDegradationModel.strategyChangeTime,
         samplePeriod=720,
@@ -10075,7 +10125,7 @@ Model",       textStyle={TextStyle.Bold})}),
               80641,0; 81361,0; 82081,0; 82801,0; 83521,0; 84241,0; 84961,0;
               85681,0; 86401,0; 87121,0; 87841,0]))
         annotation (Placement(transformation(extent={{-94,66},{-74,86}})));
-      MOV_failToOperate_Model_Sec valveDegradation_Model2(
+      TCV_failToOperate_Model_Sec valveDegradation_Model2(
         randomSeed=dataValveDegradationModel.LPTBV1_randomSeed_failToOperate,
         strategyChangeTime=dataValveDegradationModel.strategyChangeTime,
         NoHazardFunction(table=[1,0; 721,0; 1441,0; 2161,0; 2881,0; 3601,0;
@@ -10097,7 +10147,7 @@ Model",       textStyle={TextStyle.Bold})}),
               80641,0; 81361,0; 82081,0; 82801,0; 83521,0; 84241,0; 84961,0;
               85681,0; 86401,0; 87121,0; 87841,0]))
         annotation (Placement(transformation(extent={{-94,40},{-74,60}})));
-      MOV_failToOperate_Model_Sec valveDegradation_Model3(
+      TCV_failToOperate_Model_Sec valveDegradation_Model3(
         randomSeed=dataValveDegradationModel.LPTBV2_randomSeed_failToOperate,
         strategyChangeTime=dataValveDegradationModel.strategyChangeTime,
         NoHazardFunction(table=[1,0; 721,0; 1441,0; 2161,0; 2881,0; 3601,0;
@@ -10347,16 +10397,16 @@ Model
 Hr")}));
     end valve_degradation_Hr;
 
-    model systemDegradation_Model_Sec_FTOP_Only
-      MOV_failToOperate_Model_Sec valveDegradation_Model1(randomSeed=
+    model _Old_systemDegradation_Model_Sec_FTOP_Only
+      TCV_failToOperate_Model_Sec valveDegradation_Model1(randomSeed=
             dataValveDegradationModel.TCV_randomSeed_failToOperate,
           strategyChangeTime=dataValveDegradationModel.strategyChangeTime)
         annotation (Placement(transformation(extent={{-94,22},{-74,42}})));
-      MOV_failToOperate_Model_Sec valveDegradation_Model2(randomSeed=
+      TCV_failToOperate_Model_Sec valveDegradation_Model2(randomSeed=
             dataValveDegradationModel.LPTBV1_randomSeed_failToOperate,
           strategyChangeTime=dataValveDegradationModel.strategyChangeTime)
         annotation (Placement(transformation(extent={{-94,-4},{-74,16}})));
-      MOV_failToOperate_Model_Sec valveDegradation_Model3(randomSeed=
+      TCV_failToOperate_Model_Sec valveDegradation_Model3(randomSeed=
             dataValveDegradationModel.LPTBV2_randomSeed_failToOperate,
           strategyChangeTime=dataValveDegradationModel.strategyChangeTime)
         annotation (Placement(transformation(extent={{-94,-30},{-74,-10}})));
@@ -10385,7 +10435,729 @@ Hr")}));
                 extent={{-100,100},{100,-100}}, lineColor={0,0,0})}),
         Diagram(coordinateSystem(preserveAspectRatio=false)),
         experiment(StopTime=316227600, __Dymola_Algorithm="Dassl"));
+    end _Old_systemDegradation_Model_Sec_FTOP_Only;
+
+    model HazardFunctionCumul_Sec
+      Modelica.Blocks.Sources.CombiTimeTable CumulHazardFunction_Sec(table=[1,0,
+            0; 86400,3.50207e-09,3.50207e-09; 2592000,3.14065e-06,3.14415e-06;
+            5184000,9.40069e-06,1.25448e-05; 7776000,1.561e-05,2.81548e-05;
+            10368000,2.17726e-05,4.99275e-05; 12960000,2.78891e-05,7.78166e-05;
+            15552000,3.39599e-05,0.000111776; 18144000,3.99856e-05,0.000151762;
+            20736000,4.59666e-05,0.000197729; 23328000,5.19035e-05,0.000249632;
+            25920000,5.77967e-05,0.000307429; 28512000,6.36467e-05,0.000371075;
+            31104000,6.9454e-05,0.000440529; 33696000,7.52191e-05,0.000515749;
+            36288000,8.09425e-05,0.000596691; 38880000,8.66244e-05,0.000683316;
+            41472000,9.22655e-05,0.000775581; 44064000,9.78662e-05,0.000873447;
+            46656000,0.000103427,0.000976874; 49248000,0.000108948,0.001085822;
+            51840000,0.00011443,0.001200252; 54432000,0.000119873,0.001320125;
+            57024000,0.000125278,0.001445403; 59616000,0.000130645,0.001576047;
+            62208000,0.000135974,0.001712021; 64800000,0.000141266,0.001853288;
+            67392000,0.000146522,0.001999809; 69984000,0.000151741,0.00215155;
+            72576000,0.000156924,0.002308474; 75168000,0.000162071,0.002470545;
+            77760000,0.000167184,0.002637729; 80352000,0.000172261,0.00280999;
+            82944000,0.000177304,0.002987293; 85536000,0.000182312,0.003169605;
+            88128000,0.000187287,0.003356892; 90720000,0.000192228,0.00354912;
+            93312000,0.000197136,0.003746256; 95904000,0.000202011,0.003948268;
+            98496000,0.000206854,0.004155122; 101088000,0.000211665,0.004366786;
+            103680000,0.000216443,0.004583229; 106272000,0.00022119,0.00480442;
+            108864000,0.000225906,0.005030326; 111456000,0.000230591,
+            0.005260917; 114048000,0.000235246,0.005496163; 116640000,
+            0.00023987,0.005736032; 119232000,0.000244464,0.005980496;
+            121824000,0.000249028,0.006229523; 124416000,0.000253563,
+            0.006483086; 127008000,0.000258068,0.006741154; 129600000,
+            0.000262545,0.007003699; 132192000,0.000266993,0.007270692;
+            134784000,0.000271413,0.007542105; 137376000,0.000275805,
+            0.007817909; 139968000,0.000280168,0.008098078; 142560000,
+            0.000284505,0.008382583; 145152000,0.000288814,0.008671397;
+            147744000,0.000293096,0.008964493; 150336000,0.000297351,
+            0.009261844; 152928000,0.00030158,0.009563425; 155520000,
+            0.000305783,0.009869208; 158112000,0.000309959,0.010179167;
+            160704000,0.00031411,0.010493277; 163296000,0.000318235,0.010811512;
+            165888000,0.000322335,0.011133848; 168480000,0.00032641,0.011460258;
+            171072000,0.00033046,0.011790717; 173664000,0.000334485,0.012125203;
+            176256000,0.000338486,0.012463689; 178848000,0.000342463,
+            0.012806152; 181440000,0.000346416,0.013152568; 184032000,
+            0.000350345,0.013502913; 186624000,0.00035425,0.013857163;
+            189216000,0.000358133,0.014215296; 191808000,0.000361992,
+            0.014577287; 194400000,0.000365828,0.014943115; 196992000,
+            0.000369641,0.015312757; 199584000,0.000373432,0.015686189;
+            202176000,0.000377201,0.01606339; 204768000,0.000380948,0.016444338;
+            207360000,0.000384672,0.01682901; 209952000,0.000388375,0.017217385;
+            212544000,0.000392057,0.017609442; 215136000,0.000395717,
+            0.018005159; 217728000,0.000399356,0.018404515; 220320000,
+            0.000402974,0.018807488; 222912000,0.000406571,0.019214059;
+            225504000,0.000410147,0.019624206; 228096000,0.000413703,0.02003791;
+            230688000,0.000417239,0.020455149; 233280000,0.000420755,
+            0.020875904; 235872000,0.000424251,0.021300155; 238464000,
+            0.000427727,0.021727882; 241056000,0.000431183,0.022159065;
+            243648000,0.00043462,0.022593685; 246240000,0.000438038,0.023031724;
+            248832000,0.000441437,0.023473161; 251424000,0.000444817,
+            0.023917977; 254016000,0.000448178,0.024366155; 256608000,
+            0.00045152,0.024817675; 259200000,0.000454844,0.025272519;
+            261792000,0.00045815,0.025730669; 264384000,0.000461437,0.026192106;
+            266976000,0.000464706,0.026656812; 269568000,0.000467958,0.02712477;
+            272160000,0.000471192,0.027595962; 274752000,0.000474408,0.02807037;
+            277344000,0.000477607,0.028547976; 279936000,0.000480788,
+            0.029028765; 282528000,0.000483953,0.029512717; 285120000,0.0004871,
+            0.029999817; 287712000,0.00049023,0.030490048; 290304000,
+            0.000493344,0.030983392; 292896000,0.000496441,0.031479833;
+            295488000,0.000499522,0.031979355; 298080000,0.000502586,
+            0.032481942; 300672000,0.000505634,0.032987576; 303264000,
+            0.000508666,0.033496242; 305856000,0.000511682,0.034007925;
+            308448000,0.000514683,0.034522607; 311040000,0.000517667,
+            0.035040275; 313632000,0.000520636,0.035560911; 316224000,
+            0.000523589,0.0360845])
+        annotation (Placement(transformation(extent={{-12,-10},{8,10}})));
+      Modelica.Blocks.Interfaces.RealOutput HazardValue annotation (Placement(
+            transformation(extent={{80,-10},{100,10}}), iconTransformation(
+              extent={{80,-10},{100,10}})));
+    equation
+      connect(CumulHazardFunction_Sec.y[2], HazardValue)
+        annotation (Line(points={{9,0},{90,0}}, color={0,0,127}));
+      annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
+              Rectangle(
+              extent={{-100,100},{80,-100}},
+              lineColor={0,0,0}), Text(
+              extent={{-62,40},{46,-40}},
+              textColor={0,0,0},
+              textString="%Hazard
+Table
+Sec.",        textStyle={TextStyle.Bold})}),
+           Diagram(coordinateSystem(preserveAspectRatio=false)));
+    end HazardFunctionCumul_Sec;
+
+    model LPTV1_valve_degradation_Sec
+
+      Modelica.Blocks.Interfaces.RealOutput open_out annotation (Placement(
+            transformation(extent={{80,-10},{100,10}}), iconTransformation(extent={{80,-10},
+                {100,10}})));
+      Modelica.Blocks.Interfaces.RealInput open_in annotation (Placement(
+            transformation(extent={{-100,-12},{-76,12}}), iconTransformation(extent={{-100,
+                -12},{-76,12}})));
+      HazardFunction_Sec hazardFunctionTable
+        annotation (Placement(transformation(extent={{-96,78},{-76,98}})));
+      Modelica.Blocks.Sources.Constant strChangeTime
+        annotation (Placement(transformation(extent={{-52,8},{-32,28}})));
+      Modelica.Blocks.Sources.ContinuousClock clock4(offset=0, startTime=0)
+        annotation (Placement(transformation(extent={{-52,-22},{-32,-2}})));
+      Modelica.Blocks.Logical.Greater greater1
+        annotation (Placement(transformation(extent={{-10,8},{10,-12}})));
+      Modelica.Blocks.Logical.Switch LPTV1_HazardAfterSwitch
+        annotation (Placement(transformation(extent={{30,-12},{50,8}})));
+      Modelica.Blocks.Sources.CombiTimeTable NoHazardFunction(table=[3600,0; 2595600,
+            0; 5187600,0; 7779600,0; 10371600,0; 12963600,0; 15555600,0; 18147600,0;
+            20739600,0; 23331600,0; 25923600,0; 28515600,0; 31107600,0; 33699600,0;
+            36291600,0; 38883600,0; 41475600,0; 44067600,0; 46659600,0; 49251600,0;
+            51843600,0; 54435600,0; 57027600,0; 59619600,0; 62211600,0; 64803600,0;
+            67395600,0; 69987600,0; 72579600,0; 75171600,0; 77763600,0; 80355600,0;
+            82947600,0; 85539600,0; 88131600,0; 90723600,0; 93315600,0; 95907600,0;
+            98499600,0; 101091600,0; 103683600,0; 106275600,0; 108867600,0; 111459600,
+            0; 114051600,0; 116643600,0; 119235600,0; 121827600,0; 124419600,0; 127011600,
+            0; 129603600,0; 132195600,0; 134787600,0; 137379600,0; 139971600,0; 142563600,
+            0; 145155600,0; 147747600,0; 150339600,0; 152931600,0; 155523600,0; 158115600,
+            0; 160707600,0; 163299600,0; 165891600,0; 168483600,0; 171075600,0; 173667600,
+            0; 176259600,0; 178851600,0; 181443600,0; 184035600,0; 186627600,0; 189219600,
+            0; 191811600,0; 194403600,0; 196995600,0; 199587600,0; 202179600,0; 204771600,
+            0; 207363600,0; 209955600,0; 212547600,0; 215139600,0; 217731600,0; 220323600,
+            0; 222915600,0; 225507600,0; 228099600,0; 230691600,0; 233283600,0; 235875600,
+            0; 238467600,0; 241059600,0; 243651600,0; 246243600,0; 248835600,0; 251427600,
+            0; 254019600,0; 256611600,0; 259203600,0; 261795600,0; 264387600,0; 266979600,
+            0; 269571600,0; 272163600,0; 274755600,0; 277347600,0; 279939600,0; 282531600,
+            0; 285123600,0; 287715600,0; 290307600,0; 292899600,0; 295491600,0; 298083600,
+            0; 300675600,0; 303267600,0; 305859600,0; 308451600,0; 311043600,0; 313635600,
+            0; 316227600,0])
+                  annotation (Placement(transformation(extent={{-10,16},{10,36}})));
+      LPTV1_HazardFunctionCumul_Sec
+                              hazardFunctionTable_Sec
+        annotation (Placement(transformation(extent={{-10,-48},{12,-28}})));
+    equation
+      /* open_out = (1 - hazardFunctionTable.CumulHazardFunction_Sec.y[2])*open_in
+  annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
+        coordinateSystem(preserveAspectRatio=false)));
+  */
+      open_out =(1 - LPTV1_HazardAfterSwitch.y)*open_in;
+
+      connect(greater1.y, LPTV1_HazardAfterSwitch.u2)
+        annotation (Line(points={{11,-2},{28,-2}}, color={255,0,255}));
+      connect(strChangeTime.y, greater1.u2) annotation (Line(points={{-31,18},{-20,18},
+              {-20,6},{-12,6}}, color={0,0,127}));
+      connect(clock4.y,greater1. u1) annotation (Line(points={{-31,-12},{-20,-12},{-20,
+              -2},{-12,-2}}, color={0,0,127}));
+      connect(hazardFunctionTable_Sec.HazardValue, LPTV1_HazardAfterSwitch.u3)
+        annotation (Line(points={{10.9,-38},{22,-38},{22,-10},{28,-10}}, color=
+              {0,0,127}));
+      connect(NoHazardFunction.y[1], LPTV1_HazardAfterSwitch.u1) annotation (
+          Line(points={{11,26},{22,26},{22,6},{28,6}}, color={0,0,127}));
+      annotation (Icon(graphics={Rectangle(extent={{-92,100},{92,-100}},
+                lineColor={0,0,0}), Text(
+              extent={{-74,56},{74,-60}},
+              textColor={0,0,0},
+              textStyle={TextStyle.Bold},
+              textString="%LPTV1
+Aging
+Model
+Sec")}));
+    end LPTV1_valve_degradation_Sec;
+
+    model LPTV2_valve_degradation_Sec
+
+      Modelica.Blocks.Interfaces.RealOutput open_out annotation (Placement(
+            transformation(extent={{80,-10},{100,10}}), iconTransformation(extent={{80,-10},
+                {100,10}})));
+      Modelica.Blocks.Interfaces.RealInput open_in annotation (Placement(
+            transformation(extent={{-100,-12},{-76,12}}), iconTransformation(extent={{-100,
+                -12},{-76,12}})));
+      HazardFunction_Sec hazardFunctionTable
+        annotation (Placement(transformation(extent={{-96,78},{-76,98}})));
+      Modelica.Blocks.Sources.Constant strChangeTime
+        annotation (Placement(transformation(extent={{-52,8},{-32,28}})));
+      Modelica.Blocks.Sources.ContinuousClock clock4(offset=0, startTime=0)
+        annotation (Placement(transformation(extent={{-52,-22},{-32,-2}})));
+      Modelica.Blocks.Logical.Greater greater1
+        annotation (Placement(transformation(extent={{-10,8},{10,-12}})));
+      Modelica.Blocks.Logical.Switch LPTV2_HazardAfterSwitch
+        annotation (Placement(transformation(extent={{30,-12},{50,8}})));
+      Modelica.Blocks.Sources.CombiTimeTable NoHazardFunction(table=[3600,0; 2595600,
+            0; 5187600,0; 7779600,0; 10371600,0; 12963600,0; 15555600,0; 18147600,0;
+            20739600,0; 23331600,0; 25923600,0; 28515600,0; 31107600,0; 33699600,0;
+            36291600,0; 38883600,0; 41475600,0; 44067600,0; 46659600,0; 49251600,0;
+            51843600,0; 54435600,0; 57027600,0; 59619600,0; 62211600,0; 64803600,0;
+            67395600,0; 69987600,0; 72579600,0; 75171600,0; 77763600,0; 80355600,0;
+            82947600,0; 85539600,0; 88131600,0; 90723600,0; 93315600,0; 95907600,0;
+            98499600,0; 101091600,0; 103683600,0; 106275600,0; 108867600,0; 111459600,
+            0; 114051600,0; 116643600,0; 119235600,0; 121827600,0; 124419600,0; 127011600,
+            0; 129603600,0; 132195600,0; 134787600,0; 137379600,0; 139971600,0; 142563600,
+            0; 145155600,0; 147747600,0; 150339600,0; 152931600,0; 155523600,0; 158115600,
+            0; 160707600,0; 163299600,0; 165891600,0; 168483600,0; 171075600,0; 173667600,
+            0; 176259600,0; 178851600,0; 181443600,0; 184035600,0; 186627600,0; 189219600,
+            0; 191811600,0; 194403600,0; 196995600,0; 199587600,0; 202179600,0; 204771600,
+            0; 207363600,0; 209955600,0; 212547600,0; 215139600,0; 217731600,0; 220323600,
+            0; 222915600,0; 225507600,0; 228099600,0; 230691600,0; 233283600,0; 235875600,
+            0; 238467600,0; 241059600,0; 243651600,0; 246243600,0; 248835600,0; 251427600,
+            0; 254019600,0; 256611600,0; 259203600,0; 261795600,0; 264387600,0; 266979600,
+            0; 269571600,0; 272163600,0; 274755600,0; 277347600,0; 279939600,0; 282531600,
+            0; 285123600,0; 287715600,0; 290307600,0; 292899600,0; 295491600,0; 298083600,
+            0; 300675600,0; 303267600,0; 305859600,0; 308451600,0; 311043600,0; 313635600,
+            0; 316227600,0])
+                  annotation (Placement(transformation(extent={{-10,16},{10,36}})));
+      LPTV2_HazardFunctionCumul_Sec
+                              hazardFunctionTable_Sec
+        annotation (Placement(transformation(extent={{-10,-48},{12,-28}})));
+    equation
+      /* open_out = (1 - hazardFunctionTable.CumulHazardFunction_Sec.y[2])*open_in
+  annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
+        coordinateSystem(preserveAspectRatio=false)));
+  */
+      open_out =(1 - LPTV2_HazardAfterSwitch.y)*open_in;
+
+      connect(greater1.y, LPTV2_HazardAfterSwitch.u2)
+        annotation (Line(points={{11,-2},{28,-2}}, color={255,0,255}));
+      connect(strChangeTime.y, greater1.u2) annotation (Line(points={{-31,18},{-20,18},
+              {-20,6},{-12,6}}, color={0,0,127}));
+      connect(clock4.y,greater1. u1) annotation (Line(points={{-31,-12},{-20,-12},{-20,
+              -2},{-12,-2}}, color={0,0,127}));
+      connect(hazardFunctionTable_Sec.HazardValue, LPTV2_HazardAfterSwitch.u3)
+        annotation (Line(points={{10.9,-38},{22,-38},{22,-10},{28,-10}}, color=
+              {0,0,127}));
+      connect(NoHazardFunction.y[1], LPTV2_HazardAfterSwitch.u1) annotation (
+          Line(points={{11,26},{22,26},{22,6},{28,6}}, color={0,0,127}));
+      annotation (Icon(graphics={Rectangle(extent={{-92,100},{92,-100}},
+                lineColor={0,0,0}), Text(
+              extent={{-74,56},{74,-60}},
+              textColor={0,0,0},
+              textStyle={TextStyle.Bold},
+              textString="%LPTV2
+Aging
+Model
+Sec")}));
+    end LPTV2_valve_degradation_Sec;
+
+    model TCV_HazardFunctionCumul_Sec
+      Modelica.Blocks.Sources.CombiTimeTable TCV_CumulHazardFunction_Sec(table=[1,
+            0,0; 86400,3.50207e-09,3.50207e-09; 2592000,3.14065e-06,3.14415e-06;
+            5184000,9.40069e-06,1.25448e-05; 7776000,1.561e-05,2.81548e-05;
+            10368000,2.17726e-05,4.99275e-05; 12960000,2.78891e-05,7.78166e-05;
+            15552000,3.39599e-05,0.000111776; 18144000,3.99856e-05,0.000151762;
+            20736000,4.59666e-05,0.000197729; 23328000,5.19035e-05,0.000249632;
+            25920000,5.77967e-05,0.000307429; 28512000,6.36467e-05,0.000371075;
+            31104000,6.9454e-05,0.000440529; 33696000,7.52191e-05,0.000515749;
+            36288000,8.09425e-05,0.000596691; 38880000,8.66244e-05,0.000683316;
+            41472000,9.22655e-05,0.000775581; 44064000,9.78662e-05,0.000873447;
+            46656000,0.000103427,0.000976874; 49248000,0.000108948,0.001085822;
+            51840000,0.00011443,0.001200252; 54432000,0.000119873,0.001320125;
+            57024000,0.000125278,0.001445403; 59616000,0.000130645,0.001576047;
+            62208000,0.000135974,0.001712021; 64800000,0.000141266,0.001853288;
+            67392000,0.000146522,0.001999809; 69984000,0.000151741,0.00215155;
+            72576000,0.000156924,0.002308474; 75168000,0.000162071,0.002470545;
+            77760000,0.000167184,0.002637729; 80352000,0.000172261,0.00280999;
+            82944000,0.000177304,0.002987293; 85536000,0.000182312,0.003169605;
+            88128000,0.000187287,0.003356892; 90720000,0.000192228,0.00354912;
+            93312000,0.000197136,0.003746256; 95904000,0.000202011,0.003948268;
+            98496000,0.000206854,0.004155122; 101088000,0.000211665,0.004366786;
+            103680000,0.000216443,0.004583229; 106272000,0.00022119,0.00480442;
+            108864000,0.000225906,0.005030326; 111456000,0.000230591,
+            0.005260917; 114048000,0.000235246,0.005496163; 116640000,
+            0.00023987,0.005736032; 119232000,0.000244464,0.005980496;
+            121824000,0.000249028,0.006229523; 124416000,0.000253563,
+            0.006483086; 127008000,0.000258068,0.006741154; 129600000,
+            0.000262545,0.007003699; 132192000,0.000266993,0.007270692;
+            134784000,0.000271413,0.007542105; 137376000,0.000275805,
+            0.007817909; 139968000,0.000280168,0.008098078; 142560000,
+            0.000284505,0.008382583; 145152000,0.000288814,0.008671397;
+            147744000,0.000293096,0.008964493; 150336000,0.000297351,
+            0.009261844; 152928000,0.00030158,0.009563425; 155520000,
+            0.000305783,0.009869208; 158112000,0.000309959,0.010179167;
+            160704000,0.00031411,0.010493277; 163296000,0.000318235,0.010811512;
+            165888000,0.000322335,0.011133848; 168480000,0.00032641,0.011460258;
+            171072000,0.00033046,0.011790717; 173664000,0.000334485,0.012125203;
+            176256000,0.000338486,0.012463689; 178848000,0.000342463,
+            0.012806152; 181440000,0.000346416,0.013152568; 184032000,
+            0.000350345,0.013502913; 186624000,0.00035425,0.013857163;
+            189216000,0.000358133,0.014215296; 191808000,0.000361992,
+            0.014577287; 194400000,0.000365828,0.014943115; 196992000,
+            0.000369641,0.015312757; 199584000,0.000373432,0.015686189;
+            202176000,0.000377201,0.01606339; 204768000,0.000380948,0.016444338;
+            207360000,0.000384672,0.01682901; 209952000,0.000388375,0.017217385;
+            212544000,0.000392057,0.017609442; 215136000,0.000395717,
+            0.018005159; 217728000,0.000399356,0.018404515; 220320000,
+            0.000402974,0.018807488; 222912000,0.000406571,0.019214059;
+            225504000,0.000410147,0.019624206; 228096000,0.000413703,0.02003791;
+            230688000,0.000417239,0.020455149; 233280000,0.000420755,
+            0.020875904; 235872000,0.000424251,0.021300155; 238464000,
+            0.000427727,0.021727882; 241056000,0.000431183,0.022159065;
+            243648000,0.00043462,0.022593685; 246240000,0.000438038,0.023031724;
+            248832000,0.000441437,0.023473161; 251424000,0.000444817,
+            0.023917977; 254016000,0.000448178,0.024366155; 256608000,
+            0.00045152,0.024817675; 259200000,0.000454844,0.025272519;
+            261792000,0.00045815,0.025730669; 264384000,0.000461437,0.026192106;
+            266976000,0.000464706,0.026656812; 269568000,0.000467958,0.02712477;
+            272160000,0.000471192,0.027595962; 274752000,0.000474408,0.02807037;
+            277344000,0.000477607,0.028547976; 279936000,0.000480788,
+            0.029028765; 282528000,0.000483953,0.029512717; 285120000,0.0004871,
+            0.029999817; 287712000,0.00049023,0.030490048; 290304000,
+            0.000493344,0.030983392; 292896000,0.000496441,0.031479833;
+            295488000,0.000499522,0.031979355; 298080000,0.000502586,
+            0.032481942; 300672000,0.000505634,0.032987576; 303264000,
+            0.000508666,0.033496242; 305856000,0.000511682,0.034007925;
+            308448000,0.000514683,0.034522607; 311040000,0.000517667,
+            0.035040275; 313632000,0.000520636,0.035560911; 316224000,
+            0.000523589,0.0360845])
+        annotation (Placement(transformation(extent={{-12,-10},{8,10}})));
+      Modelica.Blocks.Interfaces.RealOutput HazardValue annotation (Placement(
+            transformation(extent={{80,-10},{100,10}}), iconTransformation(
+              extent={{80,-10},{100,10}})));
+    equation
+      connect(TCV_CumulHazardFunction_Sec.y[2], HazardValue)
+        annotation (Line(points={{9,0},{90,0}}, color={0,0,127}));
+      annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
+              Rectangle(
+              extent={{-100,100},{80,-100}},
+              lineColor={0,0,0}), Text(
+              extent={{-62,40},{46,-40}},
+              textColor={0,0,0},
+              textStyle={TextStyle.Bold},
+              textString="%TCV
+Hazard
+Table
+Sec.")}),  Diagram(coordinateSystem(preserveAspectRatio=false)));
+    end TCV_HazardFunctionCumul_Sec;
+
+    model LPTV1_HazardFunctionCumul_Sec
+      Modelica.Blocks.Sources.CombiTimeTable LPTV1_CumulHazardFunction_Sec(table=[1,
+            0,0; 86400,4.29427e-07,4.29427e-07; 2592000,6.99911e-05,7.04205e-05;
+            5184000,0.000128359,0.000198779; 7776000,0.000165684,0.000364463;
+            10368000,0.000195582,0.000560045; 12960000,0.000221155,0.000781199;
+            15552000,0.000243791,0.00102499; 18144000,0.000264258,0.001289248;
+            20736000,0.000283035,0.001572282; 23328000,0.000300445,0.001872728;
+            25920000,0.000316721,0.002189448; 28512000,0.000332032,0.00252148;
+            31104000,0.000346511,0.002867991; 33696000,0.000360262,0.003228254;
+            36288000,0.000373369,0.003601623; 38880000,0.000385901,0.003987524;
+            41472000,0.000397914,0.004385438; 44064000,0.000409457,0.004794895;
+            46656000,0.00042057,0.005215465; 49248000,0.00043129,0.005646755;
+            51840000,0.000441647,0.006088402; 54432000,0.000451668,0.00654007;
+            57024000,0.000461377,0.007001448; 59616000,0.000470795,0.007472243;
+            62208000,0.00047994,0.007952183; 64800000,0.00048883,0.008441013;
+            67392000,0.00049748,0.008938493; 69984000,0.000505903,0.009444396;
+            72576000,0.000514112,0.009958508; 75168000,0.000522118,0.010480626;
+            77760000,0.000529932,0.011010558; 80352000,0.000537564,0.011548122;
+            82944000,0.000545021,0.012093143; 85536000,0.000552313,0.012645457;
+            88128000,0.000559447,0.013204904; 90720000,0.00056643,0.013771333;
+            93312000,0.000573267,0.014344601; 95904000,0.000579966,0.014924567;
+            98496000,0.000586532,0.0155111; 101088000,0.000592971,0.016104071;
+            103680000,0.000599286,0.016703357; 106272000,0.000605484,
+            0.017308841; 108864000,0.000611567,0.017920408; 111456000,
+            0.000617541,0.018537949; 114048000,0.000623409,0.019161358;
+            116640000,0.000629175,0.019790533; 119232000,0.000634842,
+            0.020425376; 121824000,0.000640414,0.02106579; 124416000,
+            0.000645894,0.021711684; 127008000,0.000651284,0.022362968;
+            129600000,0.000656588,0.023019555; 132192000,0.000661807,
+            0.023681363; 134784000,0.000666946,0.024348309; 137376000,
+            0.000672005,0.025020314; 139968000,0.000676988,0.025697302;
+            142560000,0.000681897,0.026379199; 145152000,0.000686733,
+            0.027065931; 147744000,0.000691498,0.02775743; 150336000,
+            0.000696196,0.028453625; 152928000,0.000700826,0.029154452;
+            155520000,0.000705392,0.029859844; 158112000,0.000709895,
+            0.030569739; 160704000,0.000714336,0.031284075; 163296000,
+            0.000718718,0.032002793; 165888000,0.00072304,0.032725834;
+            168480000,0.000727306,0.03345314; 171072000,0.000731517,0.034184656;
+            173664000,0.000735672,0.034920329; 176256000,0.000739775,
+            0.035660104; 178848000,0.000743827,0.036403931; 181440000,
+            0.000747827,0.037151758; 184032000,0.000751778,0.037903536;
+            186624000,0.000755681,0.038659217; 189216000,0.000759537,
+            0.039418754; 191808000,0.000763346,0.0401821; 194400000,0.00076711,
+            0.04094921; 196992000,0.00077083,0.041720039; 199584000,0.000774506,
+            0.042494546; 202176000,0.00077814,0.043272686; 204768000,
+            0.000781733,0.044054419; 207360000,0.000785285,0.044839704;
+            209952000,0.000788797,0.045628501; 212544000,0.00079227,0.046420771;
+            215136000,0.000795705,0.047216476; 217728000,0.000799102,
+            0.048015578; 220320000,0.000802462,0.048818041; 222912000,
+            0.000805787,0.049623827; 225504000,0.000809076,0.050432903;
+            228096000,0.00081233,0.051245232; 230688000,0.00081555,0.052060782;
+            233280000,0.000818736,0.052879518; 235872000,0.00082189,0.053701408;
+            238464000,0.000825011,0.054526419; 241056000,0.000828101,0.05535452;
+            243648000,0.00083116,0.05618568; 246240000,0.000834188,0.057019868;
+            248832000,0.000837186,0.057857054; 251424000,0.000840154,
+            0.058697208; 254016000,0.000843094,0.059540301; 256608000,
+            0.000846005,0.060386306; 259200000,0.000848888,0.061235194;
+            261792000,0.000851743,0.062086937; 264384000,0.000854571,
+            0.062941508; 266976000,0.000857373,0.063798881; 269568000,
+            0.000860148,0.064659029; 272160000,0.000862898,0.065521926;
+            274752000,0.000865622,0.066387548; 277344000,0.000868321,
+            0.067255869; 279936000,0.000870996,0.068126865; 282528000,
+            0.000873646,0.06900051; 285120000,0.000876272,0.069876783;
+            287712000,0.000878875,0.070755658; 290304000,0.000881455,
+            0.071637114; 292896000,0.000884013,0.072521126; 295488000,
+            0.000886547,0.073407674; 298080000,0.00088906,0.074296734;
+            300672000,0.000891551,0.075188285; 303264000,0.000894021,
+            0.076082306; 305856000,0.000896469,0.076978775; 308448000,
+            0.000898897,0.077877671; 311040000,0.000901304,0.078778975;
+            313632000,0.000903691,0.079682666; 316224000,0.000906058,
+            0.080588724])
+        annotation (Placement(transformation(extent={{-12,-10},{8,10}})));
+      Modelica.Blocks.Interfaces.RealOutput HazardValue annotation (Placement(
+            transformation(extent={{80,-10},{100,10}}), iconTransformation(
+              extent={{80,-10},{100,10}})));
+    equation
+      connect(LPTV1_CumulHazardFunction_Sec.y[2], HazardValue)
+        annotation (Line(points={{9,0},{90,0}}, color={0,0,127}));
+      annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
+              Rectangle(
+              extent={{-100,100},{80,-100}},
+              lineColor={0,0,0}), Text(
+              extent={{-62,40},{46,-40}},
+              textColor={0,0,0},
+              textStyle={TextStyle.Bold},
+              textString="%LPTV1
+Hazard
+Table
+Sec.")}),  Diagram(coordinateSystem(preserveAspectRatio=false)));
+    end LPTV1_HazardFunctionCumul_Sec;
+
+    model LPTV2_HazardFunctionCumul_Sec
+      Modelica.Blocks.Sources.CombiTimeTable LPTV2_CumulHazardFunction_Sec(table=[1,
+            0,0; 86400,6.25083e-11,6.25083e-11; 2592000,2.18672e-07,2.18735e-07;
+            5184000,9.32705e-07,1.15144e-06; 7776000,1.88743e-06,3.03887e-06;
+            10368000,3.00643e-06,6.0453e-06; 12960000,4.25514e-06,1.03004e-05;
+            15552000,5.61233e-06,1.59128e-05; 18144000,7.0632e-06,2.2976e-05;
+            20736000,8.59671e-06,3.15727e-05; 23328000,1.02041e-05,4.17768e-05;
+            25920000,1.18785e-05,5.36553e-05; 28512000,1.36137e-05,6.7269e-05;
+            31104000,1.5405e-05,8.2674e-05; 33696000,1.72479e-05,9.99219e-05;
+            36288000,1.91386e-05,0.000119061; 38880000,2.10739e-05,0.000140134;
+            41472000,2.30506e-05,0.000163185; 44064000,2.5066e-05,0.000188251;
+            46656000,2.71179e-05,0.000215369; 49248000,2.92038e-05,0.000244573;
+            51840000,3.13218e-05,0.000275894; 54432000,3.347e-05,0.000309364;
+            57024000,3.56466e-05,0.000345011; 59616000,3.785e-05,0.000382861;
+            62208000,4.00788e-05,0.00042294; 64800000,4.23315e-05,0.000465271;
+            67392000,4.46068e-05,0.000509878; 69984000,4.69035e-05,0.000556782;
+            72576000,4.92205e-05,0.000606002; 75168000,5.15566e-05,0.000657559;
+            77760000,5.39108e-05,0.00071147; 80352000,5.62821e-05,0.000767752;
+            82944000,5.86697e-05,0.000826421; 85536000,6.10726e-05,0.000887494;
+            88128000,6.34901e-05,0.000950984; 90720000,6.59213e-05,0.001016905;
+            93312000,6.83655e-05,0.001085271; 95904000,7.08219e-05,0.001156093;
+            98496000,7.329e-05,0.001229383; 101088000,7.5769e-05,0.001305152;
+            103680000,7.82584e-05,0.00138341; 106272000,8.07575e-05,0.001464168;
+            108864000,8.32657e-05,0.001547433; 111456000,8.57826e-05,
+            0.001633216; 114048000,8.83075e-05,0.001721523; 116640000,
+            9.08401e-05,0.001812364; 119232000,9.33798e-05,0.001905743;
+            121824000,9.59262e-05,0.00200167; 124416000,9.84788e-05,0.002100148;
+            127008000,0.000101037,0.002201185; 129600000,0.000103601,
+            0.002304786; 132192000,0.00010617,0.002410956; 134784000,
+            0.000108743,0.002519699; 137376000,0.000111321,0.00263102;
+            139968000,0.000113902,0.002744922; 142560000,0.000116487,
+            0.002861409; 145152000,0.000119075,0.002980484; 147744000,
+            0.000121667,0.003102151; 150336000,0.00012426,0.003226411;
+            152928000,0.000126857,0.003353268; 155520000,0.000129455,
+            0.003482723; 158112000,0.000132055,0.003614778; 160704000,
+            0.000134656,0.003749434; 163296000,0.000137259,0.003886693;
+            165888000,0.000139863,0.004026556; 168480000,0.000142467,
+            0.004169023; 171072000,0.000145072,0.004314095; 173664000,
+            0.000147677,0.004461772; 176256000,0.000150283,0.004612055;
+            178848000,0.000152888,0.004764943; 181440000,0.000155493,
+            0.004920437; 184032000,0.000158098,0.005078535; 186624000,
+            0.000160702,0.005239236; 189216000,0.000163305,0.005402541;
+            191808000,0.000165907,0.005568447; 194400000,0.000168507,
+            0.005736954; 196992000,0.000171107,0.005908061; 199584000,
+            0.000173704,0.006081765; 202176000,0.0001763,0.006258066; 204768000,
+            0.000178895,0.006436961; 207360000,0.000181487,0.006618448;
+            209952000,0.000184077,0.006802525; 212544000,0.000186665,0.00698919;
+            215136000,0.000189251,0.007178441; 217728000,0.000191834,
+            0.007370275; 220320000,0.000194414,0.007564689; 222912000,
+            0.000196992,0.00776168; 225504000,0.000199567,0.007961247;
+            228096000,0.000202138,0.008163385; 230688000,0.000204707,
+            0.008368092; 233280000,0.000207273,0.008575365; 235872000,
+            0.000209835,0.0087852; 238464000,0.000212394,0.008997593; 241056000,
+            0.000214949,0.009212542; 243648000,0.000217501,0.009430043;
+            246240000,0.000220049,0.009650092; 248832000,0.000222593,
+            0.009872686; 251424000,0.000225134,0.01009782; 254016000,
+            0.000227671,0.01032549; 256608000,0.000230203,0.010555694;
+            259200000,0.000232732,0.010788426; 261792000,0.000235257,
+            0.011023682; 264384000,0.000237777,0.011261459; 266976000,
+            0.000240293,0.011501752; 269568000,0.000242805,0.011744557;
+            272160000,0.000245312,0.011989869; 274752000,0.000247815,
+            0.012237684; 277344000,0.000250313,0.012487997; 279936000,
+            0.000252807,0.012740804; 282528000,0.000255296,0.0129961; 285120000,
+            0.000257781,0.013253881; 287712000,0.000260261,0.013514141;
+            290304000,0.000262736,0.013776877; 292896000,0.000265206,
+            0.014042083; 295488000,0.000267671,0.014309754; 298080000,
+            0.000270131,0.014579885; 300672000,0.000272587,0.014852472;
+            303264000,0.000275037,0.01512751; 305856000,0.000277483,0.015404993;
+            308448000,0.000279923,0.015684916; 311040000,0.000282358,
+            0.015967274; 313632000,0.000284789,0.016252063; 316224000,
+            0.000287214,0.016539276])
+        annotation (Placement(transformation(extent={{-12,-10},{8,10}})));
+      Modelica.Blocks.Interfaces.RealOutput HazardValue annotation (Placement(
+            transformation(extent={{80,-10},{100,10}}), iconTransformation(
+              extent={{80,-10},{100,10}})));
+    equation
+      connect(LPTV2_CumulHazardFunction_Sec.y[2], HazardValue)
+        annotation (Line(points={{9,0},{90,0}}, color={0,0,127}));
+      annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
+              Rectangle(
+              extent={{-100,100},{80,-100}},
+              lineColor={0,0,0}), Text(
+              extent={{-62,40},{46,-40}},
+              textColor={0,0,0},
+              textStyle={TextStyle.Bold},
+              textString="%LPTV2
+Hazard
+Table
+Sec.")}),  Diagram(coordinateSystem(preserveAspectRatio=false)));
+    end LPTV2_HazardFunctionCumul_Sec;
+
+    model systemDegradation_Model_Sec_FTOP_Only
+      Boolean sysFailIndex(start=false,fixed=true);
+      TCV_failToOperate_Model_Sec valveDegradation_Model1(randomSeed=
+            dataValveDegradationModel.TCV_randomSeed_failToOperate,
+          strategyChangeTime=dataValveDegradationModel.strategyChangeTime)
+        annotation (Placement(transformation(extent={{-94,22},{-74,42}})));
+      LPTV1_failToOperate_Model_Sec
+                                  valveDegradation_Model2(randomSeed=
+            dataValveDegradationModel.LPTBV1_randomSeed_failToOperate,
+          strategyChangeTime=dataValveDegradationModel.strategyChangeTime)
+        annotation (Placement(transformation(extent={{-94,-4},{-74,16}})));
+      LPTV2_failToOperate_Model_Sec
+                                  valveDegradation_Model3(randomSeed=
+            dataValveDegradationModel.LPTBV2_randomSeed_failToOperate,
+          strategyChangeTime=dataValveDegradationModel.strategyChangeTime)
+        annotation (Placement(transformation(extent={{-94,-30},{-74,-10}})));
+      Data.dataValveDegradationModel dataValveDegradationModel
+        annotation (Placement(transformation(extent={{60,64},{80,84}})));
+      Modelica.Blocks.Logical.Or or1
+        annotation (Placement(transformation(extent={{-42,14},{-22,34}})));
+      Modelica.Blocks.Logical.Or or2
+        annotation (Placement(transformation(extent={{6,-10},{26,10}})));
+      Modelica.Blocks.Interfaces.BooleanOutput y
+        annotation (Placement(transformation(extent={{90,-10},{110,10}})));
+    equation
+      if (pre(sysFailIndex) or y) then
+        sysFailIndex = true;
+      else
+        sysFailIndex = false;
+      end if;
+
+    //initial equation
+    //  sysFailIndex = false;
+
+      connect(valveDegradation_Model1.failreBooleanIndex, or1.u1) annotation (
+          Line(points={{-74,32},{-50,32},{-50,24},{-44,24}}, color={255,0,255}));
+      connect(valveDegradation_Model2.failreBooleanIndex, or1.u2) annotation (
+          Line(points={{-74,6},{-50,6},{-50,16},{-44,16}},   color={255,0,255}));
+      connect(or2.u1, or1.y) annotation (Line(points={{4,0},{-14,0},{-14,24},{
+              -21,24}},  color={255,0,255}));
+      connect(or2.u2, valveDegradation_Model3.failreBooleanIndex) annotation (
+          Line(points={{4,-8},{-14,-8},{-14,-20},{-74,-20}},
+                                                           color={255,0,255}));
+      connect(or2.y, y)
+        annotation (Line(points={{27,0},{100,0}}, color={255,0,255}));
+      annotation (
+        Icon(coordinateSystem(preserveAspectRatio=false), graphics={Rectangle(
+                extent={{-100,100},{100,-100}}, lineColor={0,0,0}), Text(
+              extent={{-64,64},{60,-58}},
+              textColor={0,0,0},
+              textString="%System
+Failure
+Index")}),
+        Diagram(coordinateSystem(preserveAspectRatio=false)),
+        experiment(StopTime=316227600, __Dymola_Algorithm="Dassl"));
     end systemDegradation_Model_Sec_FTOP_Only;
+
+    model LPTV1_failToOperate_Model_Sec "Separate_System_Failure_Modeling"
+      parameter Integer randomSeed = 1234 "random Seed";
+      parameter SI.Time strategyChangeTime "strategy Change Timing";
+      parameter SI.Time samplePeriod = 2592000 "2592000 sec = 720 hours";
+      Modelica.Blocks.Sources.Constant valvedelay6(k=strategyChangeTime)
+        annotation (Placement(transformation(extent={{-70,30},{-50,50}})));
+      Modelica.Blocks.Sources.ContinuousClock clock4(offset=0, startTime=0)
+        annotation (Placement(transformation(extent={{-70,0},{-50,20}})));
+      Modelica.Blocks.Noise.UniformNoise uniformNoise(
+        samplePeriod=samplePeriod,
+        y_min=0,
+        y_max=1)
+        annotation (Placement(transformation(extent={{12,-54},{32,-34}})));
+      valveFailProto                  system_failure
+        annotation (Placement(transformation(extent={{50,-8},{70,12}})));
+      Modelica.Blocks.Logical.Greater greater1
+        annotation (Placement(transformation(extent={{-28,30},{-8,10}})));
+      Modelica.Blocks.Logical.Switch degradationModeswitch
+        annotation (Placement(transformation(extent={{12,10},{32,30}})));
+      Modelica.Blocks.Sources.CombiTimeTable NoHazardFunction(table=[3600,0; 2595600,
+            0; 5187600,0; 7779600,0; 10371600,0; 12963600,0; 15555600,0; 18147600,0;
+            20739600,0; 23331600,0; 25923600,0; 28515600,0; 31107600,0; 33699600,0;
+            36291600,0; 38883600,0; 41475600,0; 44067600,0; 46659600,0; 49251600,0;
+            51843600,0; 54435600,0; 57027600,0; 59619600,0; 62211600,0; 64803600,0;
+            67395600,0; 69987600,0; 72579600,0; 75171600,0; 77763600,0; 80355600,0;
+            82947600,0; 85539600,0; 88131600,0; 90723600,0; 93315600,0; 95907600,0;
+            98499600,0; 101091600,0; 103683600,0; 106275600,0; 108867600,0; 111459600,
+            0; 114051600,0; 116643600,0; 119235600,0; 121827600,0; 124419600,0; 127011600,
+            0; 129603600,0; 132195600,0; 134787600,0; 137379600,0; 139971600,0; 142563600,
+            0; 145155600,0; 147747600,0; 150339600,0; 152931600,0; 155523600,0; 158115600,
+            0; 160707600,0; 163299600,0; 165891600,0; 168483600,0; 171075600,0; 173667600,
+            0; 176259600,0; 178851600,0; 181443600,0; 184035600,0; 186627600,0; 189219600,
+            0; 191811600,0; 194403600,0; 196995600,0; 199587600,0; 202179600,0; 204771600,
+            0; 207363600,0; 209955600,0; 212547600,0; 215139600,0; 217731600,0; 220323600,
+            0; 222915600,0; 225507600,0; 228099600,0; 230691600,0; 233283600,0; 235875600,
+            0; 238467600,0; 241059600,0; 243651600,0; 246243600,0; 248835600,0; 251427600,
+            0; 254019600,0; 256611600,0; 259203600,0; 261795600,0; 264387600,0; 266979600,
+            0; 269571600,0; 272163600,0; 274755600,0; 277347600,0; 279939600,0; 282531600,
+            0; 285123600,0; 287715600,0; 290307600,0; 292899600,0; 295491600,0; 298083600,
+            0; 300675600,0; 303267600,0; 305859600,0; 308451600,0; 311043600,0; 313635600,
+            0; 316227600,0])
+                  annotation (Placement(transformation(extent={{-28,38},{-8,58}})));
+      inner Modelica.Blocks.Noise.GlobalSeed globalSeed(fixedSeed=randomSeed)
+        annotation (Placement(transformation(extent={{-98,74},{-78,94}})));
+      Modelica.Blocks.Interfaces.BooleanOutput failreBooleanIndex
+        annotation (Placement(transformation(extent={{90,-10},{110,10}})));
+      LPTV1_HazardFunctionCumul_Sec
+                         hazardFunctionTable_Sec
+        annotation (Placement(transformation(extent={{-28,-26},{-6,-6}})));
+    equation
+      connect(uniformNoise.y, system_failure.random) annotation (Line(points={{33,-44},
+              {43,-44},{43,-2.2},{51.2,-2.2}}, color={0,0,127}));
+      connect(greater1.y, degradationModeswitch.u2)
+        annotation (Line(points={{-7,20},{10,20}}, color={255,0,255}));
+      connect(valvedelay6.y, greater1.u2) annotation (Line(points={{-49,40},{-38,40},
+              {-38,28},{-30,28}}, color={0,0,127}));
+      connect(clock4.y, greater1.u1) annotation (Line(points={{-49,10},{-38,10},{-38,
+              20},{-30,20}}, color={0,0,127}));
+      connect(NoHazardFunction.y[1], degradationModeswitch.u1)
+        annotation (Line(points={{-7,48},{10,48},{10,28}}, color={0,0,127}));
+      connect(degradationModeswitch.y, system_failure.hazard) annotation (Line(
+            points={{33,20},{42,20},{42,6.6},{51.2,6.6}}, color={0,0,127}));
+      connect(failreBooleanIndex, failreBooleanIndex)
+        annotation (Line(points={{100,0},{100,0}}, color={255,0,255}));
+      connect(system_failure.failreBooleanIndex, failreBooleanIndex)
+        annotation (Line(points={{69,0},{100,0}}, color={255,0,255}));
+      connect(degradationModeswitch.u3, hazardFunctionTable_Sec.HazardValue)
+        annotation (Line(points={{10,12},{0,12},{0,-16},{-7.1,-16}}, color={0,0,
+              127}));
+      annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
+              Rectangle(extent={{-100,100},{100,-100}}, lineColor={0,0,0}), Text(
+              extent={{-60,42},{62,-46}},
+              textColor={0,0,0},
+              textStyle={TextStyle.Bold},
+              textString="%LPTV1
+FailToOperate
+Model")}),     Diagram(coordinateSystem(preserveAspectRatio=false)));
+    end LPTV1_failToOperate_Model_Sec;
+
+    model LPTV2_failToOperate_Model_Sec "Separate_System_Failure_Modeling"
+      parameter Integer randomSeed = 1234 "random Seed";
+      parameter SI.Time strategyChangeTime "strategy Change Timing";
+      parameter SI.Time samplePeriod = 2592000 "2592000 sec = 720 hours";
+      Modelica.Blocks.Sources.Constant valvedelay6(k=strategyChangeTime)
+        annotation (Placement(transformation(extent={{-70,30},{-50,50}})));
+      Modelica.Blocks.Sources.ContinuousClock clock4(offset=0, startTime=0)
+        annotation (Placement(transformation(extent={{-70,0},{-50,20}})));
+      Modelica.Blocks.Noise.UniformNoise uniformNoise(
+        samplePeriod=samplePeriod,
+        y_min=0,
+        y_max=1)
+        annotation (Placement(transformation(extent={{12,-54},{32,-34}})));
+      valveFailProto                  system_failure
+        annotation (Placement(transformation(extent={{50,-8},{70,12}})));
+      Modelica.Blocks.Logical.Greater greater1
+        annotation (Placement(transformation(extent={{-28,30},{-8,10}})));
+      Modelica.Blocks.Logical.Switch degradationModeswitch
+        annotation (Placement(transformation(extent={{12,10},{32,30}})));
+      Modelica.Blocks.Sources.CombiTimeTable NoHazardFunction(table=[3600,0; 2595600,
+            0; 5187600,0; 7779600,0; 10371600,0; 12963600,0; 15555600,0; 18147600,0;
+            20739600,0; 23331600,0; 25923600,0; 28515600,0; 31107600,0; 33699600,0;
+            36291600,0; 38883600,0; 41475600,0; 44067600,0; 46659600,0; 49251600,0;
+            51843600,0; 54435600,0; 57027600,0; 59619600,0; 62211600,0; 64803600,0;
+            67395600,0; 69987600,0; 72579600,0; 75171600,0; 77763600,0; 80355600,0;
+            82947600,0; 85539600,0; 88131600,0; 90723600,0; 93315600,0; 95907600,0;
+            98499600,0; 101091600,0; 103683600,0; 106275600,0; 108867600,0; 111459600,
+            0; 114051600,0; 116643600,0; 119235600,0; 121827600,0; 124419600,0; 127011600,
+            0; 129603600,0; 132195600,0; 134787600,0; 137379600,0; 139971600,0; 142563600,
+            0; 145155600,0; 147747600,0; 150339600,0; 152931600,0; 155523600,0; 158115600,
+            0; 160707600,0; 163299600,0; 165891600,0; 168483600,0; 171075600,0; 173667600,
+            0; 176259600,0; 178851600,0; 181443600,0; 184035600,0; 186627600,0; 189219600,
+            0; 191811600,0; 194403600,0; 196995600,0; 199587600,0; 202179600,0; 204771600,
+            0; 207363600,0; 209955600,0; 212547600,0; 215139600,0; 217731600,0; 220323600,
+            0; 222915600,0; 225507600,0; 228099600,0; 230691600,0; 233283600,0; 235875600,
+            0; 238467600,0; 241059600,0; 243651600,0; 246243600,0; 248835600,0; 251427600,
+            0; 254019600,0; 256611600,0; 259203600,0; 261795600,0; 264387600,0; 266979600,
+            0; 269571600,0; 272163600,0; 274755600,0; 277347600,0; 279939600,0; 282531600,
+            0; 285123600,0; 287715600,0; 290307600,0; 292899600,0; 295491600,0; 298083600,
+            0; 300675600,0; 303267600,0; 305859600,0; 308451600,0; 311043600,0; 313635600,
+            0; 316227600,0])
+                  annotation (Placement(transformation(extent={{-28,38},{-8,58}})));
+      inner Modelica.Blocks.Noise.GlobalSeed globalSeed(fixedSeed=randomSeed)
+        annotation (Placement(transformation(extent={{-98,74},{-78,94}})));
+      Modelica.Blocks.Interfaces.BooleanOutput failreBooleanIndex
+        annotation (Placement(transformation(extent={{90,-10},{110,10}})));
+      LPTV2_HazardFunctionCumul_Sec
+                         hazardFunctionTable_Sec
+        annotation (Placement(transformation(extent={{-28,-26},{-6,-6}})));
+    equation
+      connect(uniformNoise.y, system_failure.random) annotation (Line(points={{33,-44},
+              {43,-44},{43,-2.2},{51.2,-2.2}}, color={0,0,127}));
+      connect(greater1.y, degradationModeswitch.u2)
+        annotation (Line(points={{-7,20},{10,20}}, color={255,0,255}));
+      connect(valvedelay6.y, greater1.u2) annotation (Line(points={{-49,40},{-38,40},
+              {-38,28},{-30,28}}, color={0,0,127}));
+      connect(clock4.y, greater1.u1) annotation (Line(points={{-49,10},{-38,10},{-38,
+              20},{-30,20}}, color={0,0,127}));
+      connect(NoHazardFunction.y[1], degradationModeswitch.u1)
+        annotation (Line(points={{-7,48},{10,48},{10,28}}, color={0,0,127}));
+      connect(degradationModeswitch.y, system_failure.hazard) annotation (Line(
+            points={{33,20},{42,20},{42,6.6},{51.2,6.6}}, color={0,0,127}));
+      connect(failreBooleanIndex, failreBooleanIndex)
+        annotation (Line(points={{100,0},{100,0}}, color={255,0,255}));
+      connect(system_failure.failreBooleanIndex, failreBooleanIndex)
+        annotation (Line(points={{69,0},{100,0}}, color={255,0,255}));
+      connect(degradationModeswitch.u3, hazardFunctionTable_Sec.HazardValue)
+        annotation (Line(points={{10,12},{0,12},{0,-16},{-7.1,-16}}, color={0,0,
+              127}));
+      annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
+              Rectangle(extent={{-100,100},{100,-100}}, lineColor={0,0,0}), Text(
+              extent={{-60,42},{62,-46}},
+              textColor={0,0,0},
+              textStyle={TextStyle.Bold},
+              textString="%LPTV2
+FailToOperate
+Model")}),     Diagram(coordinateSystem(preserveAspectRatio=false)));
+    end LPTV2_failToOperate_Model_Sec;
   end Component_Degradation;
 
   model HTGR_Rankine_Cycle_Transient_TCV_Control_PumpDegradation_type2
@@ -12314,18 +13086,18 @@ Hr")}));
       LPT1_lambda=0.00000001,
       LPT2_lambda=0.00000001)
       annotation (Placement(transformation(extent={{120,122},{140,142}})));
-    Component_Degradation.valve_degradation_Sec valve_degradation annotation (
-        Placement(transformation(
+    Component_Degradation.TCV_valve_degradation_Sec valve_degradation
+      annotation (Placement(transformation(
           extent={{6,-6},{-6,6}},
           rotation=90,
           origin={-4,60})));
-    Component_Degradation.valve_degradation_Sec valve_degradation1 annotation (
-        Placement(transformation(
+    Component_Degradation.TCV_valve_degradation_Sec valve_degradation1
+      annotation (Placement(transformation(
           extent={{6,-6},{-6,6}},
           rotation=90,
           origin={110,2})));
-    Component_Degradation.valve_degradation_Sec valve_degradation2 annotation (
-        Placement(transformation(
+    Component_Degradation.TCV_valve_degradation_Sec valve_degradation2
+      annotation (Placement(transformation(
           extent={{-6,-6},{6,6}},
           rotation=180,
           origin={206,16})));
@@ -12913,18 +13685,18 @@ Hr")}));
       LPT1_lambda=0.00000001,
       LPT2_lambda=0.00000001)
       annotation (Placement(transformation(extent={{120,122},{140,142}})));
-    Component_Degradation.valve_degradation_Sec valve_degradation annotation (
-        Placement(transformation(
+    Component_Degradation.TCV_valve_degradation_Sec valve_degradation
+      annotation (Placement(transformation(
           extent={{6,-6},{-6,6}},
           rotation=90,
           origin={-4,60})));
-    Component_Degradation.valve_degradation_Sec valve_degradation1 annotation (
-        Placement(transformation(
+    Component_Degradation.TCV_valve_degradation_Sec valve_degradation1
+      annotation (Placement(transformation(
           extent={{6,-6},{-6,6}},
           rotation=90,
           origin={110,2})));
-    Component_Degradation.valve_degradation_Sec valve_degradation2 annotation (
-        Placement(transformation(
+    Component_Degradation.TCV_valve_degradation_Sec valve_degradation2
+      annotation (Placement(transformation(
           extent={{-6,-6},{6,6}},
           rotation=180,
           origin={206,16})));
@@ -13503,18 +14275,18 @@ Hr")}));
       LPT1_lambda=0.00000001,
       LPT2_lambda=0.00000001)
       annotation (Placement(transformation(extent={{120,122},{140,142}})));
-    Component_Degradation.valve_degradation_Sec valve_degradation annotation (
-        Placement(transformation(
+    Component_Degradation.TCV_valve_degradation_Sec valve_degradation
+      annotation (Placement(transformation(
           extent={{6,-6},{-6,6}},
           rotation=90,
           origin={-4,60})));
-    Component_Degradation.valve_degradation_Sec valve_degradation1 annotation (
-        Placement(transformation(
+    Component_Degradation.TCV_valve_degradation_Sec valve_degradation1
+      annotation (Placement(transformation(
           extent={{6,-6},{-6,6}},
           rotation=90,
           origin={110,2})));
-    Component_Degradation.valve_degradation_Sec valve_degradation2 annotation (
-        Placement(transformation(
+    Component_Degradation.TCV_valve_degradation_Sec valve_degradation2
+      annotation (Placement(transformation(
           extent={{-6,-6},{6,6}},
           rotation=180,
           origin={206,16})));
@@ -14073,21 +14845,18 @@ Hr")}));
       LPT1_lambda=0.00000001,
       LPT2_lambda=0.00000001)
       annotation (Placement(transformation(extent={{120,122},{140,142}})));
-    Component_Degradation.valve_degradation_Sec valve_degradation
-                                                                 annotation (
-        Placement(transformation(
+    Component_Degradation.TCV_valve_degradation_Sec valve_degradation
+      annotation (Placement(transformation(
           extent={{6,-6},{-6,6}},
           rotation=90,
           origin={-4,60})));
-    Component_Degradation.valve_degradation_Sec valve_degradation1
-                                                                  annotation (
-        Placement(transformation(
+    Component_Degradation.TCV_valve_degradation_Sec valve_degradation1
+      annotation (Placement(transformation(
           extent={{6,-6},{-6,6}},
           rotation=90,
           origin={110,2})));
-    Component_Degradation.valve_degradation_Sec valve_degradation2
-                                                                  annotation (
-        Placement(transformation(
+    Component_Degradation.TCV_valve_degradation_Sec valve_degradation2
+      annotation (Placement(transformation(
           extent={{-6,-6},{6,6}},
           rotation=180,
           origin={206,16})));
@@ -15224,21 +15993,18 @@ Hr")}));
       LPT1_lambda=0.0000000001,
       LPT2_lambda=0.0000000001)
       annotation (Placement(transformation(extent={{120,122},{140,142}})));
-    Component_Degradation.valve_degradation_Sec valve_degradation
-                                                                 annotation (
-        Placement(transformation(
+    Component_Degradation.TCV_valve_degradation_Sec valve_degradation
+      annotation (Placement(transformation(
           extent={{6,-6},{-6,6}},
           rotation=90,
           origin={-4,60})));
-    Component_Degradation.valve_degradation_Sec valve_degradation1
-                                                                  annotation (
-        Placement(transformation(
+    Component_Degradation.TCV_valve_degradation_Sec valve_degradation1
+      annotation (Placement(transformation(
           extent={{6,-6},{-6,6}},
           rotation=90,
           origin={110,2})));
-    Component_Degradation.valve_degradation_Sec valve_degradation2
-                                                                  annotation (
-        Placement(transformation(
+    Component_Degradation.TCV_valve_degradation_Sec valve_degradation2
+      annotation (Placement(transformation(
           extent={{-6,-6},{6,6}},
           rotation=180,
           origin={206,16})));
@@ -15817,21 +16583,18 @@ Hr")}));
       LPT1_lambda=0.0000000001,
       LPT2_lambda=0.0000000001)
       annotation (Placement(transformation(extent={{120,122},{140,142}})));
-    Component_Degradation.valve_degradation_Sec valve_degradation
-                                                                 annotation (
-        Placement(transformation(
+    Component_Degradation.TCV_valve_degradation_Sec TCV_againgModel annotation
+      (Placement(transformation(
           extent={{6,-6},{-6,6}},
           rotation=90,
           origin={-4,60})));
-    Component_Degradation.valve_degradation_Sec valve_degradation1
-                                                                  annotation (
-        Placement(transformation(
+    Component_Degradation.LPTV1_valve_degradation_Sec LPTV1_againgModel
+      annotation (Placement(transformation(
           extent={{6,-6},{-6,6}},
           rotation=90,
           origin={110,2})));
-    Component_Degradation.valve_degradation_Sec valve_degradation2
-                                                                  annotation (
-        Placement(transformation(
+    Component_Degradation.LPTV2_valve_degradation_Sec LPTV2_againgModel
+      annotation (Placement(transformation(
           extent={{-6,-6},{6,6}},
           rotation=180,
           origin={206,16})));
@@ -15841,14 +16604,17 @@ Hr")}));
     parameter Real lambda_LPT2=componentDegradation.LPT2_lambda;
     parameter SI.Time Strategy_Change_Time=5e+5
       "Operational Strategy Change Time";
+    Component_Degradation.systemDegradation_Model_Sec_FTOP_Only
+      systemDegradation_Model_Sec_FTOP_Only
+      annotation (Placement(transformation(extent={{152,118},{172,138}})));
   initial equation
 
   equation
     port_e.W = generator.power;
     HPT_entropy_a = HPT.Medium.specificEntropy(HPT.state_a);
-    HPT_entropy_b = HPT.Medium.specificEntropy(HPT.state_b);
+    HPT_entropy_b = HPT.Medium.specificEntropy(LPT1.state_a);
     LPT1_entropy_a = HPT.Medium.specificEntropy(LPT1.state_a);
-    LPT1_entropy_b = HPT.Medium.specificEntropy(LPT1.state_b);
+    LPT1_entropy_b = HPT.Medium.specificEntropy(LPT2.state_a);
     LPT2_entropy_a = HPT.Medium.specificEntropy(LPT2.state_a);
     LPT2_entropy_b = HPT.Medium.specificEntropy(LPT2.state_b);
 
@@ -15969,10 +16735,9 @@ Hr")}));
             {238.1,34},{218,34}}, color={0,0,0}));
     connect(sensor_T2.port_a, pump.port_b)
       annotation (Line(points={{-98,-58},{-44,-58}}, color={0,127,255}));
-    connect(TCV.opening, valve_degradation.open_out)
+    connect(TCV.opening, TCV_againgModel.open_out)
       annotation (Line(points={{-4,46.4},{-4,54.6}}, color={0,0,127}));
-    connect(actuatorBus.opening_TCV, valve_degradation.open_in) annotation (
-        Line(
+    connect(actuatorBus.opening_TCV, TCV_againgModel.open_in) annotation (Line(
         points={{30.1,100.1},{-4,100.1},{-4,65.28}},
         color={111,216,99},
         pattern=LinePattern.Dash,
@@ -15981,9 +16746,9 @@ Hr")}));
         index=-1,
         extent={{6,3},{6,3}},
         horizontalAlignment=TextAlignment.Left));
-    connect(valve_degradation1.open_out, LPT1_Bypass.opening) annotation (Line(
+    connect(LPTV1_againgModel.open_out, LPT1_Bypass.opening) annotation (Line(
           points={{110,-3.4},{110,-16},{102,-16}}, color={0,0,127}));
-    connect(actuatorBus.openingLPTv, valve_degradation1.open_in) annotation (
+    connect(actuatorBus.openingLPTv, LPTV1_againgModel.open_in) annotation (
         Line(
         points={{30,100},{110,100},{110,7.28}},
         color={111,216,99},
@@ -15993,9 +16758,9 @@ Hr")}));
         index=-1,
         extent={{-6,3},{-6,3}},
         horizontalAlignment=TextAlignment.Right));
-    connect(LPT2_Bypass.opening, valve_degradation2.open_out)
+    connect(LPT2_Bypass.opening, LPTV2_againgModel.open_out)
       annotation (Line(points={{186,16},{200.6,16}}, color={0,0,127}));
-    connect(actuatorBus.Divert_Valve_Position, valve_degradation2.open_in)
+    connect(actuatorBus.Divert_Valve_Position, LPTV2_againgModel.open_in)
       annotation (Line(
         points={{30,100},{224,100},{224,16},{211.28,16}},
         color={111,216,99},

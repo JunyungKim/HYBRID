@@ -92,7 +92,7 @@ model CS
     annotation (Placement(transformation(extent={{-28,-44},{-20,-36}})));
   Modelica.Blocks.Sources.Constant constant_0(k=0)
     annotation (Placement(transformation(extent={{-72,40},{-54,58}})));
-  Modelica.Blocks.Sources.Constant valvedelay6(k=componentDegradation.Strategy_Change_Time)
+  Modelica.Blocks.Sources.Constant StrategyChangeTiming(k=componentDegradation.Strategy_Change_Time)
     annotation (Placement(transformation(extent={{-258,128},{-238,148}})));
   Modelica.Blocks.Sources.Constant soPower(k=44e6)
     annotation (Placement(transformation(extent={{-222,140},{-202,160}})));
@@ -239,8 +239,8 @@ equation
       horizontalAlignment=TextAlignment.Left));
   connect(constant_0.y, PID.u_ff) annotation (Line(points={{-53.1,49},{-52,49},
           {-52,48},{-12,48},{-12,34},{-6,34}}, color={0,0,127}));
-  connect(valvedelay6.y, greater4.u2) annotation (Line(points={{-237,138},{-234,
-          138},{-234,128},{-224,128}}, color={0,0,127}));
+  connect(StrategyChangeTiming.y, greater4.u2) annotation (Line(points={{-237,
+          138},{-234,138},{-234,128},{-224,128}}, color={0,0,127}));
   connect(clock4.y, greater4.u1) annotation (Line(points={{-237,98},{-234,98},{
           -234,120},{-224,120}}, color={0,0,127}));
   connect(soPower.y, electricDemand.u1) annotation (Line(points={{-201,150},{-190,
