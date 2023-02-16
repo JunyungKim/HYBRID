@@ -203,8 +203,8 @@ model SteamTurbine_L3_HTGR_v1_1_Suc
         extent={{10,10},{-10,-10}},
         rotation=90,
         origin={178,16})));
-  Data.DataInitial_HTGR_BoP_3stage dataInitial_HTGR_BoP_3stage(LPT1_T_outlet=
-        473.15, LPT2_T_inlet=473.15)
+  Data.HTGR_3_BOP_Init dataInitial_HTGR_BoP_3stage(LPT1_T_outlet=473.15,
+      LPT2_T_inlet=473.15)
     annotation (Placement(transformation(extent={{90,122},{110,142}})));
   StagebyStageTurbineSecondary.StagebyStageTurbine.BaseClasses.TRANSFORMMoistureSeparator_MIKK
     Moisture_Separator2(

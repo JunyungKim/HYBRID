@@ -142,8 +142,8 @@ model SteamTurbine_L3_HTGR_v1_3
     p_nominal=5500000,
     allowFlowReversal=false)
     annotation (Placement(transformation(extent={{216,-92},{196,-72}})));
-  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow1(redeclare package Medium
-      = Modelica.Media.Water.StandardWater)            annotation (Placement(
+  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow1(redeclare package Medium =
+        Modelica.Media.Water.StandardWater)            annotation (Placement(
         transformation(
         extent={{7,-8},{-7,8}},
         rotation=90,
@@ -203,8 +203,8 @@ model SteamTurbine_L3_HTGR_v1_3
         extent={{10,10},{-10,-10}},
         rotation=180,
         origin={112,-48})));
-  Data.DataInitial_HTGR_BoP_3stage dataInitial_HTGR_BoP_3stage(LPT1_T_outlet=
-        473.15, LPT2_T_inlet=473.15)
+  Data.HTGR_3_BOP_Init dataInitial_HTGR_BoP_3stage(LPT1_T_outlet=473.15,
+      LPT2_T_inlet=473.15)
     annotation (Placement(transformation(extent={{90,122},{110,142}})));
   StagebyStageTurbineSecondary.StagebyStageTurbine.BaseClasses.TRANSFORMMoistureSeparator_MIKK
     Moisture_Separator2(
@@ -220,8 +220,8 @@ model SteamTurbine_L3_HTGR_v1_3
     T=573.15,
     nPorts=1)
     annotation (Placement(transformation(extent={{-152,-10},{-132,10}})));
-  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium
-      = Modelica.Media.Water.StandardWater)            annotation (Placement(
+  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium =
+        Modelica.Media.Water.StandardWater)            annotation (Placement(
         transformation(
         extent={{-10,10},{10,-10}},
         rotation=180,
@@ -239,7 +239,6 @@ model SteamTurbine_L3_HTGR_v1_3
         TRANSFORM.Fluid.ClosureRelations.PressureLoss.Models.DistributedPipe_1D.SinglePhase_Developed_2Region_NumStable,
     redeclare model FlowModel_tube =
         TRANSFORM.Fluid.ClosureRelations.PressureLoss.Models.DistributedPipe_1D.TwoPhase_Developed_2Region_NumStable,
-
     p_b_start_shell=10000,
     p_a_start_tube=5500000,
     p_b_start_tube=5500000,
@@ -255,7 +254,6 @@ model SteamTurbine_L3_HTGR_v1_3
     redeclare package Material_tubeWall = TRANSFORM.Media.Solids.SS304,
     redeclare model HeatTransfer_tube =
         TRANSFORM.Fluid.ClosureRelations.HeatTransfer.Models.DistributedPipe_1D_MultiTransferSurface.Nus_SinglePhase_2Region_modelBased,
-
     p_a_start_shell=10000,
     T_a_start_shell=643.15,
     T_b_start_shell=523.15,
