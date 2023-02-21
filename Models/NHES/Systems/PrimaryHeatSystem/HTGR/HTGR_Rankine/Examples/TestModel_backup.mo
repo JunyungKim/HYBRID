@@ -70,11 +70,11 @@ model TestModel_backup
     LPTV1_againgModel(strChangeTime(k=k)),
     LPTV2_againgModel(strChangeTime(k=k)),
     systemDegradation_Model_Sec_FTOP_Only(
-      valveDegradation_Model1(strategyChangeTime=Strategy_Change_Time,
+      valveDegradation_TCV(   strategyChangeTime=Strategy_Change_Time,
           uniformNoise(samplePeriod=samplePeriod_data)),
-      valveDegradation_Model2(strategyChangeTime=Strategy_Change_Time,
+      valveDegradation_LPTV1( strategyChangeTime=Strategy_Change_Time,
           uniformNoise(samplePeriod=samplePeriod_data)),
-      valveDegradation_Model3(strategyChangeTime=Strategy_Change_Time,
+      valveDegradation_LPTV2( strategyChangeTime=Strategy_Change_Time,
           uniformNoise(samplePeriod=samplePeriod_data))))
     annotation (Placement(transformation(extent={{-6,-10},{62,38}})));
   TRANSFORM.Electrical.Sources.FrequencySource
@@ -101,7 +101,7 @@ model TestModel_backup
   parameter Real k=Strategy_Change_Time "Constant output value";
   parameter SI.Time strategyChangeTime=BOP.systemDegradation_Model_Sec_FTOP_Only.dataValveDegradationModel.strategyChangeTime
     "strategy Change Timing";
-  parameter SI.Period samplePeriod=BOP.systemDegradation_Model_Sec_FTOP_Only.valveDegradation_Model1.samplePeriod
+  parameter SI.Period samplePeriod=BOP.systemDegradation_Model_Sec_FTOP_Only.valveDegradation_TCV.samplePeriod
     "Period for sampling the raw random numbers";
 equation
   hTGR_PebbleBed_Primary_Loop.input_steam_pressure =BOP.sensor_p.p;

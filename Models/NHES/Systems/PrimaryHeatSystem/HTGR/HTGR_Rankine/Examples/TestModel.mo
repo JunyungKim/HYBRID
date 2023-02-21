@@ -54,10 +54,14 @@ model TestModel
   Real healthLevel_LPT2;
 
   Boolean systemFailIndex;
+  Boolean TCVFailIndex;
+  Boolean LPTV1FailIndex;
+  Boolean LPTV2FailIndex;
+
 
   parameter SI.Time samplePeriod_data = 7200 "Every 2hour trial";
   parameter Real SteadyOperation_Power = 30E6 "Steady Operation Power Level";
-  parameter SI.Time Strategy_Change_Time = 16040400 "Operational Strategy Change Time";
+  parameter SI.Time Strategy_Change_Time = 160704000 "Operational Strategy Change Time";
   /*  6 month =  16,070,400
      12 month =  32,140,800
      48 month = 128,580,000
@@ -66,7 +70,7 @@ model TestModel
   parameter Real k=Strategy_Change_Time "Constant output value";
   parameter SI.Time strategyChangeTime=BOP.systemDegradation_Model_Sec_FTOP_Only.dataValveDegradationModel.strategyChangeTime
     "strategy Change Timing";
-  parameter SI.Period samplePeriod=BOP.systemDegradation_Model_Sec_FTOP_Only.valveDegradation_Model1.samplePeriod
+  parameter SI.Period samplePeriod=BOP.systemDegradation_Model_Sec_FTOP_Only.valveDegradation_TCV.samplePeriod
     "Period for sampling the raw random numbers";
   Real opStatus;
 
@@ -82,11 +86,11 @@ model TestModel
     LPTV1_againgModel(strChangeTime(k=k)),
     LPTV2_againgModel(strChangeTime(k=k)),
     systemDegradation_Model_Sec_FTOP_Only(
-      valveDegradation_Model1(strategyChangeTime=Strategy_Change_Time,
+      valveDegradation_TCV(   strategyChangeTime=Strategy_Change_Time,
           uniformNoise(samplePeriod=samplePeriod_data)),
-      valveDegradation_Model2(strategyChangeTime=Strategy_Change_Time,
+      valveDegradation_LPTV1( strategyChangeTime=Strategy_Change_Time,
           uniformNoise(samplePeriod=samplePeriod_data)),
-      valveDegradation_Model3(strategyChangeTime=Strategy_Change_Time,
+      valveDegradation_LPTV2( strategyChangeTime=Strategy_Change_Time,
           uniformNoise(samplePeriod=samplePeriod_data))))
     annotation (Placement(transformation(extent={{-6,-10},{62,38}})));
   TRANSFORM.Electrical.Sources.FrequencySource
@@ -117,7 +121,10 @@ equation
     Electrical_Power = 0;
   end if;
 
-  systemFailIndex = BOP.systemDegradation_Model_Sec_FTOP_Only.sysFailIndex;
+  systemFailIndex   = BOP.systemDegradation_Model_Sec_FTOP_Only.sysFailIndex;
+  TCVFailIndex      = BOP.systemDegradation_Model_Sec_FTOP_Only.valveDegradation_TCV.valveFailIndex;
+  LPTV1FailIndex    = BOP.systemDegradation_Model_Sec_FTOP_Only.valveDegradation_LPTV1.valveFailIndex;
+  LPTV2FailIndex    = BOP.systemDegradation_Model_Sec_FTOP_Only.valveDegradation_LPTV2.valveFailIndex;
 
   if not systemFailIndex then
     if (time > Strategy_Change_Time) then
@@ -141,14 +148,14 @@ equation
   sub2_TCV_press = BOP.HPT.portHP.p;                     // sub 2
   sub2_TCV_temp = BOP.TCV.port_a_T;                      // sub 2
 
-  sub3_HPT_mass = BOP.HPT.m_flow*0.99999;                 // sub 3 *
+  sub3_HPT_mass = BOP.HPT.m_flow*0.99999;                // sub 3 *
   sub3_HPT_entropyA = BOP.HPT_entropy_a;                 // sub 3
   sub3_HPT_entropyB = BOP.HPT_entropy_b;                 // sub 3
   sub3_HPT_enthalpyA = BOP.HPT.portHP.h_outflow;         // sub 3
   sub3_HPT_enthalpyB = BOP.HPT.portLP.h_outflow;         // sub 3
 
   sub4_T1_mass = BOP.LPT1.portHP.m_flow + BOP.tee1.port_3.m_flow;  // sub 4
-  sub4_LPTV1_mass = BOP.tee1.port_3.m_flow;                        // sub 4
+  sub4_LPTV1_mass = -BOP.tee1.port_3.m_flow;                       // sub 4
   sub4_LPTV1_press = BOP.tee1.medium.p*0.99999;                    // sub 4 BOP.tee1.medium.p exists
   sub4_LPTV1_temp = BOP.LPT1_Bypass.port_b_T;                      // sub 4
 
@@ -158,7 +165,7 @@ equation
   sub5_LPT1_enthalpyA = BOP.tee1.medium.h*0.99999;       // sub 5  BOP.tee1.medium.h exists
   sub5_LPT1_enthalpyB = BOP.tee2.medium.h*0.99999;       // sub 5  BOP.tee2.medium.h exists
 
-  sub6_T2_mass = BOP.Moisture_Separator2.port_b.m_flow;  // sub 6
+  sub6_T2_mass = -BOP.Moisture_Separator2.port_b.m_flow; // sub 6
   sub6_LPTV2_mass = BOP.LPT2_Bypass.port_a.m_flow;       // sub 6
   sub6_LPTV2_press = BOP.tee2.medium.p*0.99999;          // sub 6  BOP.tee2.medium.p
   sub6_LPTV2_temp = BOP.LPT2_Bypass.port_a_T;            // sub 6
@@ -173,9 +180,27 @@ equation
   sub8_port_b_press = BOP.pump.port_b.p*0.99999;         // sub 8 *
   sub8_port_b_temp = stateDisplay1.statePort.T;          // sub 8
 
-  healthLevel_TCV   = BOP.TCV_againgModel.TCV_HazardAfterSwitch.y;
-  healthLevel_LPTV1 = BOP.LPTV1_againgModel.LPTV1_HazardAfterSwitch.y;
-  healthLevel_LPTV2 = BOP.LPTV2_againgModel.LPTV2_HazardAfterSwitch.y;
+  if not TCVFailIndex then
+    healthLevel_TCV   = BOP.TCV_againgModel.TCV_HazardAfterSwitch.y;
+  else
+    healthLevel_TCV   = 1;
+  end if;
+
+  if not LPTV1FailIndex then
+    healthLevel_LPTV1 = BOP.LPTV1_againgModel.LPTV1_HazardAfterSwitch.y;
+  else
+    healthLevel_LPTV1   = 1;
+  end if;
+
+  if not LPTV2FailIndex then
+    healthLevel_LPTV2 = BOP.LPTV2_againgModel.LPTV2_HazardAfterSwitch.y;
+  else
+    healthLevel_LPTV2   = 1;
+  end if;
+
+  // healthLevel_TCV   = BOP.TCV_againgModel.TCV_HazardAfterSwitch.y;
+  // healthLevel_LPTV1 = BOP.LPTV1_againgModel.LPTV1_HazardAfterSwitch.y;
+  // healthLevel_LPTV2 = BOP.LPTV2_againgModel.LPTV2_HazardAfterSwitch.y;
 
   healthLevel_HPT   = BOP.HPT.eta_wetSteam.eta;
   healthLevel_LPT1  = BOP.LPT1.eta_wetSteam.eta;
@@ -196,8 +221,8 @@ equation
   connect(stateSensor2.statePort, stateDisplay1.statePort)
     annotation (Line(points={{-22.04,0.05},{-22,-21.1}}, color={0,0,0}));
   annotation (experiment(
-      StartTime=64095200,
-      StopTime=64281600,
+      StartTime=160517600,
+      StopTime=160704000,
       Interval=1000,
       Tolerance=0.001,
       __Dymola_Algorithm="Esdirk45a"), Documentation(info="<html>
@@ -226,5 +251,5 @@ equation
             method="Esdirk45a",
             tolerance=0.0001,
             fixedStepSize=0)))),
-    __Dymola_experimentSetupOutput(events=false));
+    __Dymola_experimentSetupOutput(events=false, onlyStopTime=true));
 end TestModel;

@@ -9760,6 +9760,9 @@ to Boolean")}));
       parameter Integer randomSeed = 1234 "random Seed";
       parameter SI.Time strategyChangeTime "strategy Change Timing";
       parameter SI.Time samplePeriod = 2592000 "2592000 sec = 720 hours";
+
+      Boolean valveFailIndex(start=false,fixed=true);
+
       Modelica.Blocks.Sources.Constant valvedelay6(k=strategyChangeTime)
         annotation (Placement(transformation(extent={{-70,30},{-50,50}})));
       Modelica.Blocks.Sources.ContinuousClock clock4(offset=0, startTime=0)
@@ -9806,6 +9809,13 @@ to Boolean")}));
                          hazardFunctionTable_Sec
         annotation (Placement(transformation(extent={{-28,-26},{-6,-6}})));
     equation
+
+      if (pre(valveFailIndex) or failreBooleanIndex) then
+        valveFailIndex = true;
+      else
+        valveFailIndex = false;
+      end if;
+
       connect(uniformNoise.y, system_failure.random) annotation (Line(points={{33,-44},
               {43,-44},{43,-2.2},{51.2,-2.2}}, color={0,0,127}));
       connect(greater1.y, degradationModeswitch.u2)
@@ -10946,17 +10956,15 @@ Sec.")}),  Diagram(coordinateSystem(preserveAspectRatio=false)));
 
     model systemDegradation_Model_Sec_FTOP_Only
       Boolean sysFailIndex(start=false,fixed=true);
-      TCV_failToOperate_Model_Sec valveDegradation_Model1(randomSeed=
+      TCV_failToOperate_Model_Sec valveDegradation_TCV(randomSeed=
             dataValveDegradationModel.TCV_randomSeed_failToOperate,
           strategyChangeTime=dataValveDegradationModel.strategyChangeTime)
         annotation (Placement(transformation(extent={{-94,22},{-74,42}})));
-      LPTV1_failToOperate_Model_Sec
-                                  valveDegradation_Model2(randomSeed=
+      LPTV1_failToOperate_Model_Sec valveDegradation_LPTV1(randomSeed=
             dataValveDegradationModel.LPTBV1_randomSeed_failToOperate,
           strategyChangeTime=dataValveDegradationModel.strategyChangeTime)
         annotation (Placement(transformation(extent={{-94,-4},{-74,16}})));
-      LPTV2_failToOperate_Model_Sec
-                                  valveDegradation_Model3(randomSeed=
+      LPTV2_failToOperate_Model_Sec valveDegradation_LPTV2(randomSeed=
             dataValveDegradationModel.LPTBV2_randomSeed_failToOperate,
           strategyChangeTime=dataValveDegradationModel.strategyChangeTime)
         annotation (Placement(transformation(extent={{-94,-30},{-74,-10}})));
@@ -10978,15 +10986,14 @@ Sec.")}),  Diagram(coordinateSystem(preserveAspectRatio=false)));
     //initial equation
     //  sysFailIndex = false;
 
-      connect(valveDegradation_Model1.failreBooleanIndex, or1.u1) annotation (
-          Line(points={{-74,32},{-50,32},{-50,24},{-44,24}}, color={255,0,255}));
-      connect(valveDegradation_Model2.failreBooleanIndex, or1.u2) annotation (
-          Line(points={{-74,6},{-50,6},{-50,16},{-44,16}},   color={255,0,255}));
+      connect(valveDegradation_TCV.failreBooleanIndex, or1.u1) annotation (Line(
+            points={{-74,32},{-50,32},{-50,24},{-44,24}}, color={255,0,255}));
+      connect(valveDegradation_LPTV1.failreBooleanIndex, or1.u2) annotation (
+          Line(points={{-74,6},{-50,6},{-50,16},{-44,16}}, color={255,0,255}));
       connect(or2.u1, or1.y) annotation (Line(points={{4,0},{-14,0},{-14,24},{
               -21,24}},  color={255,0,255}));
-      connect(or2.u2, valveDegradation_Model3.failreBooleanIndex) annotation (
-          Line(points={{4,-8},{-14,-8},{-14,-20},{-74,-20}},
-                                                           color={255,0,255}));
+      connect(or2.u2, valveDegradation_LPTV2.failreBooleanIndex) annotation (
+          Line(points={{4,-8},{-14,-8},{-14,-20},{-74,-20}}, color={255,0,255}));
       connect(or2.y, y)
         annotation (Line(points={{27,0},{100,0}}, color={255,0,255}));
       annotation (
@@ -11005,6 +11012,9 @@ Index")}),
       parameter Integer randomSeed = 1234 "random Seed";
       parameter SI.Time strategyChangeTime "strategy Change Timing";
       parameter SI.Time samplePeriod = 2592000 "2592000 sec = 720 hours";
+
+      Boolean valveFailIndex(start=false,fixed=true);
+
       Modelica.Blocks.Sources.Constant valvedelay6(k=strategyChangeTime)
         annotation (Placement(transformation(extent={{-70,30},{-50,50}})));
       Modelica.Blocks.Sources.ContinuousClock clock4(offset=0, startTime=0)
@@ -11051,6 +11061,13 @@ Index")}),
                          hazardFunctionTable_Sec
         annotation (Placement(transformation(extent={{-28,-26},{-6,-6}})));
     equation
+
+      if (pre(valveFailIndex) or failreBooleanIndex) then
+        valveFailIndex = true;
+      else
+        valveFailIndex = false;
+      end if;
+
       connect(uniformNoise.y, system_failure.random) annotation (Line(points={{33,-44},
               {43,-44},{43,-2.2},{51.2,-2.2}}, color={0,0,127}));
       connect(greater1.y, degradationModeswitch.u2)
@@ -11084,6 +11101,8 @@ Model")}),     Diagram(coordinateSystem(preserveAspectRatio=false)));
       parameter Integer randomSeed = 1234 "random Seed";
       parameter SI.Time strategyChangeTime "strategy Change Timing";
       parameter SI.Time samplePeriod = 2592000 "2592000 sec = 720 hours";
+
+      Boolean valveFailIndex(start=false,fixed=true);
       Modelica.Blocks.Sources.Constant valvedelay6(k=strategyChangeTime)
         annotation (Placement(transformation(extent={{-70,30},{-50,50}})));
       Modelica.Blocks.Sources.ContinuousClock clock4(offset=0, startTime=0)
@@ -11130,6 +11149,13 @@ Model")}),     Diagram(coordinateSystem(preserveAspectRatio=false)));
                          hazardFunctionTable_Sec
         annotation (Placement(transformation(extent={{-28,-26},{-6,-6}})));
     equation
+
+      if (pre(valveFailIndex) or failreBooleanIndex) then
+        valveFailIndex = true;
+      else
+        valveFailIndex = false;
+      end if;
+
       connect(uniformNoise.y, system_failure.random) annotation (Line(points={{33,-44},
               {43,-44},{43,-2.2},{51.2,-2.2}}, color={0,0,127}));
       connect(greater1.y, degradationModeswitch.u2)
@@ -16513,11 +16539,11 @@ Model")}),     Diagram(coordinateSystem(preserveAspectRatio=false)));
       T=573.15,
       nPorts=1)
       annotation (Placement(transformation(extent={{-116,62},{-96,82}})));
-    TRANSFORM.Fluid.Interfaces.FluidPort_Flow port_a(redeclare package Medium
-        = Modelica.Media.Water.StandardWater)
+    TRANSFORM.Fluid.Interfaces.FluidPort_Flow port_a(redeclare package Medium =
+          Modelica.Media.Water.StandardWater)
       annotation (Placement(transformation(extent={{-150,38},{-130,58}})));
-    TRANSFORM.Fluid.Interfaces.FluidPort_State port_b(redeclare package Medium
-        = Modelica.Media.Water.StandardWater)
+    TRANSFORM.Fluid.Interfaces.FluidPort_State port_b(redeclare package Medium =
+          Modelica.Media.Water.StandardWater)
       annotation (Placement(transformation(extent={{-150,-68},{-130,-48}})));
     TRANSFORM.Electrical.Interfaces.ElectricalPowerPort_Flow port_e
       annotation (Placement(transformation(extent={{130,-10},{150,10}}),
@@ -16572,8 +16598,8 @@ Model")}),     Diagram(coordinateSystem(preserveAspectRatio=false)));
       T=573.15,
       nPorts=1)
       annotation (Placement(transformation(extent={{-104,-42},{-84,-22}})));
-    TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium
-        = Modelica.Media.Water.StandardWater)            annotation (Placement(
+    TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium =
+          Modelica.Media.Water.StandardWater)            annotation (Placement(
           transformation(
           extent={{-10,-10},{10,10}},
           rotation=180,
@@ -16583,8 +16609,8 @@ Model")}),     Diagram(coordinateSystem(preserveAspectRatio=false)));
       LPT1_lambda=0.0000000001,
       LPT2_lambda=0.0000000001)
       annotation (Placement(transformation(extent={{120,122},{140,142}})));
-    Component_Degradation.TCV_valve_degradation_Sec TCV_againgModel annotation
-      (Placement(transformation(
+    Component_Degradation.TCV_valve_degradation_Sec TCV_againgModel annotation (
+       Placement(transformation(
           extent={{6,-6},{-6,6}},
           rotation=90,
           origin={-4,60})));
