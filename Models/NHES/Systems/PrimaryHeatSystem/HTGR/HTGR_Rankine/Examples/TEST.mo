@@ -1,10 +1,9 @@
 within NHES.Systems.PrimaryHeatSystem.HTGR.HTGR_Rankine.Examples;
-model Rankine_HTGR_ThreeStageTurbine_Transient
+model TEST
   extends Modelica.Icons.Example;
 
   Real Thermal_Power_Norm;
-  BalanceOfPlant.Turbine.SteamTurbine_L3_CloseFeedHeat
-    hTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_comp(redeclare
+  BalanceOfPlant.Turbine.SteamTurbine_L3_CloseFeedHeat BOP(redeclare
       NHES.Systems.BalanceOfPlant.Turbine.ControlSystems.CS_threeStagedTurbine_HTGR
       CS) annotation (Placement(transformation(extent={{-6,-10},{62,38}})));
   TRANSFORM.Electrical.Sources.FrequencySource
@@ -25,19 +24,15 @@ model Rankine_HTGR_ThreeStageTurbine_Transient
   Fluid.Sensors.stateDisplay stateDisplay1
     annotation (Placement(transformation(extent={{-42,-10},{-2,-40}})));
 equation
-  hTGR_PebbleBed_Primary_Loop.input_steam_pressure =
-    hTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_comp.sensor_p.p;
+  hTGR_PebbleBed_Primary_Loop.input_steam_pressure =BOP.sensor_p.p;
   Thermal_Power_Norm = hTGR_PebbleBed_Primary_Loop.Thermal_Power.y/2.26177E8;
-  connect(sinkElec.port,
-    hTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_comp.port_e)
+  connect(sinkElec.port, BOP.port_e)
     annotation (Line(points={{84,14},{62,14}}, color={255,0,0}));
   connect(hTGR_PebbleBed_Primary_Loop.port_b, stateSensor1.port_a) annotation (
       Line(points={{-40.87,25.21},{-40.87,26},{-30,26}}, color={0,127,255}));
-  connect(stateSensor1.port_b,
-    hTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_comp.port_a)
+  connect(stateSensor1.port_b, BOP.port_a)
     annotation (Line(points={{-14,26},{-6,26},{-6,25.52}}, color={0,127,255}));
-  connect(stateSensor2.port_a,
-    hTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_comp.port_b)
+  connect(stateSensor2.port_a, BOP.port_b)
     annotation (Line(points={{-14,0},{-6,0.08}}, color={0,127,255}));
   connect(hTGR_PebbleBed_Primary_Loop.port_a, stateSensor2.port_b) annotation (
       Line(points={{-40.87,1.43},{-40.87,0},{-30,0}}, color={0,127,255}));
@@ -46,7 +41,7 @@ equation
   connect(stateSensor2.statePort, stateDisplay1.statePort)
     annotation (Line(points={{-22.04,0.05},{-22,-21.1}}, color={0,0,0}));
   annotation (experiment(
-      StopTime=1070000,
+      StopTime=300000,
       Interval=1000,
       __Dymola_Algorithm="Esdirk45a"), Documentation(info="<html>
 <p>Test of Pebble_Bed_Three-Stage_Rankine. The simulation should experience transient where external electricity demand is oscilating and control valves are opening and closing corresponding to the required power demand. </p>
@@ -80,4 +75,4 @@ equation
             tolerance=0.0001,
             fixedStepSize=0)))),
     __Dymola_experimentSetupOutput(events=false));
-end Rankine_HTGR_ThreeStageTurbine_Transient;
+end TEST;
