@@ -138,8 +138,8 @@ model SteamTurbine_L3_CloseFeedHeat_withPorts_v1
     p_nominal=data.pump_feedWater_nominal_pressure,
     allowFlowReversal=false)
     annotation (Placement(transformation(extent={{160,-130},{140,-110}})));
-  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow1(redeclare package Medium
-      = Modelica.Media.Water.StandardWater)            annotation (Placement(
+  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow1(redeclare package Medium =
+        Modelica.Media.Water.StandardWater)            annotation (Placement(
         transformation(
         extent={{7,-8},{-7,8}},
         rotation=90,
@@ -204,8 +204,8 @@ model SteamTurbine_L3_CloseFeedHeat_withPorts_v1
     redeclare model Geometry =
         TRANSFORM.Fluid.ClosureRelations.Geometry.Models.LumpedVolume.GenericVolume)
     annotation (Placement(transformation(extent={{140,40},{160,60}})));
-  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium
-      = Modelica.Media.Water.StandardWater)            annotation (Placement(
+  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium =
+        Modelica.Media.Water.StandardWater)            annotation (Placement(
         transformation(
         extent={{-10,10},{10,-10}},
         rotation=180,

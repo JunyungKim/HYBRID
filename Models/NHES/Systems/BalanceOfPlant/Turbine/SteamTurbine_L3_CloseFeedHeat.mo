@@ -138,8 +138,8 @@ model SteamTurbine_L3_CloseFeedHeat
     p_nominal=data.pump_feedWater_nominal_pressure,
     allowFlowReversal=false)
     annotation (Placement(transformation(extent={{160,-130},{140,-110}})));
-  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow1(redeclare package Medium
-      = Modelica.Media.Water.StandardWater)            annotation (Placement(
+  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow1(redeclare package Medium =
+        Modelica.Media.Water.StandardWater)            annotation (Placement(
         transformation(
         extent={{7,-8},{-7,8}},
         rotation=90,
@@ -216,8 +216,8 @@ model SteamTurbine_L3_CloseFeedHeat
     T=573.15,
     nPorts=1)
     annotation (Placement(transformation(extent={{-152,-10},{-132,10}})));
-  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium
-      = Modelica.Media.Water.StandardWater)            annotation (Placement(
+  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium =
+        Modelica.Media.Water.StandardWater)            annotation (Placement(
         transformation(
         extent={{-10,10},{10,-10}},
         rotation=180,
@@ -376,8 +376,8 @@ equation
     annotation (Line(points={{218,40},{242,40},{242,-12}}, color={0,127,255}));
   connect(tee2.port_3, LPT2_Bypass_1.port_a)
     annotation (Line(points={{178,40},{178,26}}, color={0,127,255}));
-  connect(actuatorBus.Divert_Valve_Position, LPT2_Bypass_1.opening) annotation
-    (Line(
+  connect(actuatorBus.Divert_Valve_Position, LPT2_Bypass_1.opening) annotation (
+     Line(
       points={{30,100},{248,100},{248,16},{186,16}},
       color={111,216,99},
       pattern=LinePattern.Dash,
@@ -437,12 +437,12 @@ equation
     annotation (Line(points={{169,-28},{162,-28},{162,-44}}, color={0,0,127}));
   connect(R_InternalBypass.port_a, Condenser.port_a)
     annotation (Line(points={{243,-83.9},{243,-92}}, color={0,127,255}));
-  connect(sensor_m_flow1.port_b, volume2.port_b[1]) annotation (Line(points={{
-          242,-26},{242,-52},{242.5,-52}}, color={0,127,255}));
+  connect(sensor_m_flow1.port_b, volume2.port_b[1]) annotation (Line(points={{242,-26},
+          {242,-52},{242.25,-52}},         color={0,127,255}));
   connect(volume2.port_a[1], R_InternalBypass.port_b) annotation (Line(points={
           {242,-64},{242,-74.1},{243,-74.1}}, color={0,127,255}));
   connect(LPT2_Bypass_2.port_b, volume2.port_b[2])
-    annotation (Line(points={{172,-52},{241.5,-52}}, color={0,127,255}));
+    annotation (Line(points={{172,-52},{241.75,-52}},color={0,127,255}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-140,
             -100},{140,100}}),                                  graphics={
         Rectangle(

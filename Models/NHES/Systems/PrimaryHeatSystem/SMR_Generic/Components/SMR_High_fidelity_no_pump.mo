@@ -6,7 +6,8 @@ model SMR_High_fidelity_no_pump
   extends SMR_Generic.BaseClasses.Partial_SubSystem_A(
     replaceable package Medium = Modelica.Media.Water.StandardWater,
     allowFlowReversal=system.allowFlowReversal,
-    redeclare replaceable CS_Dummy CS,
+    redeclare replaceable CS_SMR_highfidelity
+                                   CS,
     redeclare replaceable ED_Dummy ED,
     redeclare Data.Data_GenericModule_NuScale data(
       Q_total=200e6,
@@ -466,8 +467,8 @@ equation
           -73},{76,-74},{88,-74},{88,-6},{104,-6}}, color={0,127,255}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-160,
             -120},{100,160}}),
-                         graphics={Bitmap(extent={{-114,-90},{110,90}},fileName=
-             "modelica://NHES/Resources/Images/Systems/PHS/Schematic-of-a-NuScale-power-module.png")}),
+                         graphics={Bitmap(extent={{-114,-90},{110,90}},fileName
+            ="modelica://NHES/Resources/Images/Systems/PHS/Schematic-of-a-NuScale-power-module.png")}),
                                                                  Diagram(
         coordinateSystem(preserveAspectRatio=false, extent={{-160,-120},{100,
             160}})),
