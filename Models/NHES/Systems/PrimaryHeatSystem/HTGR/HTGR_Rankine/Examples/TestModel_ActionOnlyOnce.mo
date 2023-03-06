@@ -1,5 +1,5 @@
 within NHES.Systems.PrimaryHeatSystem.HTGR.HTGR_Rankine.Examples;
-model TestModel
+model TestModel_ActionOnlyOnce
   extends Modelica.Icons.Example;
 
   Real Thermal_Power_Norm;
@@ -57,7 +57,6 @@ model TestModel
   Boolean TCVFailIndex;
   Boolean LPTV1FailIndex;
   Boolean LPTV2FailIndex;
-
 
   parameter SI.Time samplePeriod_data = 7200 "Every 2hour trial";
   parameter Real SteadyOperation_Power = 30E6 "Steady Operation Power Level";
@@ -252,4 +251,4 @@ equation
             tolerance=0.0001,
             fixedStepSize=0)))),
     __Dymola_experimentSetupOutput(events=false, onlyStopTime=true));
-end TestModel;
+end TestModel_ActionOnlyOnce;
