@@ -1,13 +1,6 @@
 within NHES.Systems.BalanceOfPlant.Turbine.Examples;
-model L3_test
+model L2_testclosed
   extends Modelica.Icons.Example;
-  NHES.Systems.BalanceOfPlant.Turbine.SteamTurbine_L3_LPOFWH pHTGR_BOPinit2_1
-    annotation (Placement(transformation(extent={{-40,-40},{40,40}})));
-  TRANSFORM.Fluid.BoundaryConditions.Boundary_pT bypassdump(
-    redeclare package Medium = Modelica.Media.Water.StandardWater,
-    p=280000,
-    nPorts=1)
-    annotation (Placement(transformation(extent={{-78,-10},{-58,10}})));
   TRANSFORM.Fluid.BoundaryConditions.Boundary_pT steamdump(
     redeclare package Medium = Modelica.Media.Water.StandardWater,
     p=3400000,
@@ -24,7 +17,8 @@ model L3_test
     use_HeatTransfer=true,
     redeclare model InternalHeatGen =
         TRANSFORM.Fluid.ClosureRelations.InternalVolumeHeatGeneration.Models.DistributedVolume_1D.GenericHeatGeneration
-        (Q_gen=15e6)) annotation (Placement(transformation(
+        (Q_gen=100e6))
+                      annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={-92,0})));
@@ -35,8 +29,6 @@ equation
           -40,-24},{-92,-24},{-92,-10}}, color={0,127,255}));
   connect(pipe.port_b, pHTGR_BOPinit2_1.port_a_steam)
     annotation (Line(points={{-92,10},{-92,24},{-40,24}}, color={0,127,255}));
-  connect(bypassdump.ports[1], pHTGR_BOPinit2_1.port_b_bypass)
-    annotation (Line(points={{-58,0},{-40,0}}, color={0,127,255}));
   connect(steamdump.ports[1], pHTGR_BOPinit2_1.prt_b_steamdump)
     annotation (Line(points={{-60,40},{-40,40}}, color={0,127,255}));
   connect(boundary.port, pHTGR_BOPinit2_1.port_a_elec)
@@ -48,4 +40,4 @@ equation
       StopTime=20000,
       Interval=20,
       __Dymola_Algorithm="Esdirk45a"));
-end L3_test;
+end L2_testclosed;
