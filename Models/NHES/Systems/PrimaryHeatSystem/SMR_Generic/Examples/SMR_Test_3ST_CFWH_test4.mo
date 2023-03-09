@@ -2,7 +2,8 @@ within NHES.Systems.PrimaryHeatSystem.SMR_Generic.Examples;
 model SMR_Test_3ST_CFWH_test4
   extends Modelica.Icons.Example;
 
-  BalanceOfPlant.Turbine.SteamTurbine_L3_HPCFWH_v3 BOP(
+  BalanceOfPlant.Turbine.SteamTurbine_L3_HPCFWH_v4_biggerBVarea
+                                                   BOP(
     redeclare replaceable
       NHES.Systems.BalanceOfPlant.Turbine.ControlSystems.CS_L3_SMR3 CS(data(
         Power_nom=80e6,
@@ -29,10 +30,12 @@ model SMR_Test_3ST_CFWH_test4
       mdot_hpt=65,
       mdot_lpt1=65,
       mdot_lpt2=53.4891209,
-      BypassFeedHeater_NTU=4),
+      BypassFeedHeater_NTU=4.5),
     OFWH_1(T_start=333.15),
-    HPT_bypass_valve(dp_nominal=40000),
-    dataInitial(BypassFeedHeater_Q_init=1.5e6))
+    HPT_bypass_valve(dp_nominal=500000),
+    dataInitial(BypassFeedHeater_Q_init=1.5e6),
+    resistance1(R=0.1e5),
+    BypassFeedwaterHeater(dp_general=500000))
     annotation (Placement(transformation(extent={{20,-20},{100,60}})));
   TRANSFORM.Fluid.BoundaryConditions.Boundary_pT bypassdump(
     redeclare package Medium = Modelica.Media.Water.StandardWater,

@@ -1,5 +1,5 @@
 within NHES.Systems.BalanceOfPlant.Turbine;
-model SteamTurbine_L3_HPCFWH_v2
+model SteamTurbine_L3_HPCFWH_v4_biggerBVarea
   "Three Stage Turbine with open feed water heating using high pressure steam"
   extends NHES.Systems.BalanceOfPlant.Turbine.BaseClasses.Partial_SubSystem(
     redeclare replaceable
@@ -66,14 +66,6 @@ model SteamTurbine_L3_HPCFWH_v2
     T_nominal=384.45,
     d_nominal=data.d_LPT2_in)
     annotation (Placement(transformation(extent={{60,44},{80,64}})));
-  TRANSFORM.Fluid.Volumes.SimpleVolume SteamHeader(redeclare package Medium =
-        Modelica.Media.Water.StandardWater,
-    p_start=data.HPT_p_in - 5,
-    T_start=data.Tin,
-    redeclare model Geometry =
-        TRANSFORM.Fluid.ClosureRelations.Geometry.Models.LumpedVolume.GenericVolume
-        (V=2))
-    annotation (Placement(transformation(extent={{-96,50},{-76,70}})));
   TRANSFORM.Fluid.Volumes.Separator moistureSeperator(
     redeclare package Medium = Modelica.Media.Water.StandardWater,
     p_start=data.LPT2_p_out - 2,
@@ -116,13 +108,13 @@ model SteamTurbine_L3_HPCFWH_v2
         origin={100,44})));
   TRANSFORM.Electrical.Interfaces.ElectricalPowerPort_Flow port_a_elec
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
-  Fluid.Machines.Pump_Pressure                  pump(redeclare package Medium =
-        Modelica.Media.Water.StandardWater,
+  Fluid.Machines.Pump_Pressure                  pump(redeclare package Medium
+      = Modelica.Media.Water.StandardWater,
     p_nominal=data.p_i2,
     eta=data.eta_p)
     annotation (Placement(transformation(extent={{54,-66},{42,-54}})));
-  Fluid.Machines.Pump_Pressure                  pump1(redeclare package Medium =
-        Modelica.Media.Water.StandardWater,
+  Fluid.Machines.Pump_Pressure                  pump1(redeclare package Medium
+      = Modelica.Media.Water.StandardWater,
     use_input=false,
     p_nominal=data.HPT_p_in - 0.5e5,
     eta=data.eta_p)
@@ -137,7 +129,7 @@ model SteamTurbine_L3_HPCFWH_v2
   TRANSFORM.Fluid.Valves.ValveLinear HPT_bypass_valve(
     redeclare package Medium = Modelica.Media.Water.StandardWater,
     dp_nominal=50000,
-    m_flow_nominal=data.mdot_fh*1.5)
+    m_flow_nominal=data.mdot_fh*20)
                         annotation (Placement(transformation(
         extent={{5,5},{-5,-5}},
         rotation=180,
@@ -164,7 +156,7 @@ model SteamTurbine_L3_HPCFWH_v2
     annotation (Placement(transformation(extent={{-82,32},{-102,12}})));
   TRANSFORM.Fluid.Sensors.Pressure sensor_p(redeclare package Medium =
         Modelica.Media.Water.StandardWater)
-    annotation (Placement(transformation(extent={{-84,32},{-104,52}})));
+    annotation (Placement(transformation(extent={{-100,52},{-120,32}})));
   TRANSFORM.Electrical.Sensors.PowerSensor sensorW annotation (Placement(
         transformation(
         extent={{6,6},{-6,-6}},
@@ -195,7 +187,7 @@ model SteamTurbine_L3_HPCFWH_v2
     h_start_shell_outlet=dataInitial.BypassFeedHeater_h_start_shell_outlet,
     dp_init_tube=dataInitial.BypassFeedHeater_dp_init_tube,
     dp_init_shell=dataInitial.BypassFeedHeater_dp_init_shell,
-    Q_init=2*dataInitial.BypassFeedHeater_Q_init,
+    Q_init=dataInitial.BypassFeedHeater_Q_init,
     m_start_tube=dataInitial.BypassFeedHeater_m_start_tube,
     m_start_shell=dataInitial.BypassFeedHeater_m_start_shell)
     annotation (Placement(transformation(extent={{-38,-46},{-18,-66}})));
@@ -224,11 +216,19 @@ model SteamTurbine_L3_HPCFWH_v2
     annotation (Placement(transformation(extent={{-6,-7},{6,7}},
         rotation=180,
         origin={56,-11})));
+  TRANSFORM.Fluid.Sensors.Temperature Steam_T1(redeclare package Medium =
+        Modelica.Media.Water.StandardWater)
+    annotation (Placement(transformation(extent={{-16,-52},{-4,-42}})));
+  TRANSFORM.Fluid.Sensors.Temperature Steam_T2(redeclare package Medium =
+        Modelica.Media.Water.StandardWater)
+    annotation (Placement(transformation(extent={{-16,-60},{-4,-70}})));
+  NonLinear_Break nonLinear_Break(redeclare package Medium =
+        Modelica.Media.Water.StandardWater) annotation (Placement(
+        transformation(
+        extent={{4,-6},{-4,6}},
+        rotation=90,
+        origin={-74,-8})));
 equation
-  connect(TBV.port_a, SteamHeader.port_b)
-    annotation (Line(points={{-71,72},{-71,60},{-80,60}}, color={0,127,255}));
-  connect(SteamHeader.port_a, port_a_steam_in)
-    annotation (Line(points={{-92,60},{-100,60}}, color={0,127,255}));
   connect(TBV.port_b, prt_b_steamdump) annotation (Line(points={{-71,86},{-71,
           100},{-100,100}}, color={0,127,255}));
   connect(LPT1_bypass.port_3, LPT1_bypass_valve.port_a)
@@ -270,8 +270,6 @@ equation
       horizontalAlignment=TextAlignment.Left));
   connect(HPT.portHP, TCV.port_b)
     annotation (Line(points={{-46,60},{-54,60}}, color={0,127,255}));
-  connect(TCV.port_a, SteamHeader.port_b)
-    annotation (Line(points={{-66,60},{-80,60}}, color={0,127,255}));
   connect(actuatorBus.opening_TCV, TCV.opening) annotation (Line(
       points={{30.1,100.1},{30.1,74},{-60,74},{-60,64.8}},
       color={111,216,99},
@@ -301,8 +299,6 @@ equation
       horizontalAlignment=TextAlignment.Left));
   connect(FWCP.port_b, Feed_T.port)
     annotation (Line(points={{-68,-60},{-80,-60}}, color={0,127,255}));
-  connect(SteamHeader.port_a, Steam_T.port)
-    annotation (Line(points={{-92,60},{-92,32}}, color={0,127,255}));
   connect(sensorBus.Steam_Temperature, Steam_T.T) annotation (Line(
       points={{-30,100},{-30,144},{-120,144},{-120,22},{-98,22}},
       color={239,82,82},
@@ -322,7 +318,8 @@ equation
       extent={{-3,6},{-3,6}},
       horizontalAlignment=TextAlignment.Right));
   connect(sensor_p.port, Steam_T.port)
-    annotation (Line(points={{-94,32},{-92,32}}, color={0,127,255}));
+    annotation (Line(points={{-110,52},{-92,52},{-92,32}},
+                                                 color={0,127,255}));
   connect(sensorBus.W_total, sensorW.W) annotation (Line(
       points={{-29.9,100.1},{-29.9,122},{-30,122},{-30,144},{120,144},{120,22},
           {106.6,22}},
@@ -334,7 +331,7 @@ equation
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
   connect(sensorBus.Steam_Pressure, sensor_p.p) annotation (Line(
-      points={{-30,100},{-30,144},{-120,144},{-120,42},{-100,42}},
+      points={{-30,100},{-30,144},{-120,144},{-120,42},{-116,42}},
       color={239,82,82},
       pattern=LinePattern.Dash,
       thickness=0.5), Text(
@@ -364,9 +361,6 @@ equation
           255}));
   connect(moistureSeperator.port_b[1], LPT2.portHP) annotation (Line(points={{43.6,60},
           {60,60}},                         color={0,127,255}));
-  connect(SteamHeader.port_b, HPT_bypass_valve.port_a) annotation (Line(
-        points={{-80,60},{-74,60},{-74,-19},{-62,-19}},
-        color={0,127,255}));
   connect(pump1.port_b, BypassFeedwaterHeater.Tube_in)
     annotation (Line(points={{-2,-60},{-18,-60}}, color={0,127,255}));
   connect(BypassFeedwaterHeater.Tube_out, FWCP.port_a)
@@ -384,8 +378,22 @@ equation
           -11},{60.2,-12},{84,-12},{84,-14},{82.875,-14},{82.875,-16}}, color={
           0,127,255}));
   connect(BypassFeedwaterHeater.Shell_out, resistance1.port_b) annotation (Line(
-        points={{-18,-54},{-6,-54},{-6,-50},{44,-50},{44,-11},{51.8,-11}},
+        points={{-18,-54},{44,-54},{44,-11},{51.8,-11}},
         color={0,127,255}));
+  connect(Steam_T1.port, BypassFeedwaterHeater.Shell_out) annotation (Line(
+        points={{-10,-52},{-10,-54},{-18,-54}}, color={0,127,255}));
+  connect(pump1.port_b, Steam_T2.port)
+    annotation (Line(points={{-2,-60},{-10,-60}}, color={0,127,255}));
+  connect(nonLinear_Break.port_b, HPT_bypass_valve.port_a) annotation (Line(
+        points={{-74,-12},{-74,-19},{-62,-19}}, color={0,127,255}));
+  connect(port_a_steam_in, TCV.port_a)
+    annotation (Line(points={{-100,60},{-66,60}}, color={0,127,255}));
+  connect(port_a_steam_in, nonLinear_Break.port_a)
+    annotation (Line(points={{-100,60},{-74,60},{-74,-4}}, color={0,127,255}));
+  connect(Steam_T.port, port_a_steam_in)
+    annotation (Line(points={{-92,32},{-92,60},{-100,60}}, color={0,127,255}));
+  connect(sensor_p.port, port_a_steam_in) annotation (Line(points={{-110,52},{
+          -92,52},{-92,60},{-100,60}}, color={0,127,255}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
         Rectangle(
           extent={{-2.09756,2},{83.9024,-2}},
@@ -538,4 +546,4 @@ equation
           fillPattern=FillPattern.HorizontalCylinder,
           fillColor={255,255,255})}),                            Diagram(
         coordinateSystem(preserveAspectRatio=false)));
-end SteamTurbine_L3_HPCFWH_v2;
+end SteamTurbine_L3_HPCFWH_v4_biggerBVarea;
