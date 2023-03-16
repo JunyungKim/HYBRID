@@ -57,7 +57,8 @@ model CS_L3
     offset=0,
     startTime=8000)
     annotation (Placement(transformation(extent={{-66,-210},{-46,-190}})));
-  Modelica.Blocks.Math.Add add
+  Modelica.Blocks.Math.Product
+                           product1
     annotation (Placement(transformation(extent={{96,-172},{116,-152}})));
   Modelica.Blocks.Sources.RealExpression T_in_set1(y=data.mdot_hpt)
     annotation (Placement(transformation(extent={{4,64},{24,84}})));
@@ -146,9 +147,9 @@ equation
           -174},{10,-158},{18,-158}}, color={0,0,127}));
   connect(switch1.u1, P_dump_open1.y) annotation (Line(points={{18,-142},{6,
           -142},{6,-136},{1,-136}}, color={0,0,127}));
-  connect(ramp.y, add.u2) annotation (Line(points={{-45,-200},{86,-200},{86,
-          -168},{94,-168}}, color={0,0,127}));
-  connect(actuatorBus.TBV, add.y) annotation (Line(
+  connect(ramp.y, product1.u2) annotation (Line(points={{-45,-200},{86,-200},{
+          86,-168},{94,-168}}, color={0,0,127}));
+  connect(actuatorBus.TBV, product1.y) annotation (Line(
       points={{30,-100},{30,-136},{117,-136},{117,-162}},
       color={111,216,99},
       pattern=LinePattern.Dash,
@@ -157,8 +158,8 @@ equation
       index=-1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
-  connect(switch1.y, add.u1) annotation (Line(points={{41,-150},{84,-150},{
-          84,-156},{94,-156}}, color={0,0,127}));
+  connect(switch1.y, product1.u1) annotation (Line(points={{41,-150},{84,-150},
+          {84,-156},{94,-156}}, color={0,0,127}));
   connect(FeedPump_PID.y, switch2.u1)
     annotation (Line(points={{11,90},{36,90}}, color={0,0,127}));
   connect(switch2.u3, T_in_set1.y)

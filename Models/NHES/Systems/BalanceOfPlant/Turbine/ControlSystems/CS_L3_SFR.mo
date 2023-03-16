@@ -1,5 +1,5 @@
 within NHES.Systems.BalanceOfPlant.Turbine.ControlSystems;
-model CS_L3_SMR
+model CS_L3_SFR
 
   extends NHES.Systems.BalanceOfPlant.Turbine.BaseClasses.Partial_ControlSystem;
 
@@ -57,8 +57,7 @@ model CS_L3_SMR
     offset=0,
     startTime=8000)
     annotation (Placement(transformation(extent={{-66,-210},{-46,-190}})));
-  Modelica.Blocks.Math.Product
-                           product1
+  Modelica.Blocks.Math.Add add
     annotation (Placement(transformation(extent={{96,-172},{116,-152}})));
   Modelica.Blocks.Sources.RealExpression T_in_set1(y=data.mdot_hpt)
     annotation (Placement(transformation(extent={{4,64},{24,84}})));
@@ -68,28 +67,18 @@ model CS_L3_SMR
     annotation (Placement(transformation(extent={{-10,114},{10,134}})));
   Modelica.Blocks.Logical.Switch switch3
     annotation (Placement(transformation(extent={{-54,60},{-34,80}})));
+  Modelica.Blocks.Sources.BooleanStep booleanStep1(startTime=40000)
+    annotation (Placement(transformation(extent={{150,72},{170,92}})));
+  Modelica.Blocks.Logical.Switch switch5
+    annotation (Placement(transformation(extent={{198,30},{218,50}})));
+  Modelica.Blocks.Sources.RealExpression T_in_set2(y=1)
+    annotation (Placement(transformation(extent={{164,22},{184,42}})));
+  Modelica.Blocks.Logical.Switch switch4
+    annotation (Placement(transformation(extent={{106,18},{126,38}})));
 equation
 
   connect(T_feed_set.y, LPT2_BV_PID.u_s)
     annotation (Line(points={{-79,50},{-12,50}}, color={0,0,127}));
-  connect(actuatorBus.LPT2_BV, LPT2_BV_PID.y) annotation (Line(
-      points={{30,-100},{30,50},{11,50}},
-      color={111,216,99},
-      pattern=LinePattern.Dash,
-      thickness=0.5), Text(
-      string="%first",
-      index=-1,
-      extent={{6,3},{6,3}},
-      horizontalAlignment=TextAlignment.Left));
-  connect(sensorBus.Feedwater_Temp, LPT2_BV_PID.u_m) annotation (Line(
-      points={{-30,-100},{-30,30},{0,30},{0,38}},
-      color={239,82,82},
-      pattern=LinePattern.Dash,
-      thickness=0.5), Text(
-      string="%first",
-      index=-1,
-      extent={{-3,-6},{-3,-6}},
-      horizontalAlignment=TextAlignment.Right));
   connect(Power_set.y, LPT1_BV_PID.u_s)
     annotation (Line(points={{-79,-30},{-12,-30}}, color={0,0,127}));
   connect(sensorBus.W_total, LPT1_BV_PID.u_m) annotation (Line(
@@ -147,9 +136,9 @@ equation
           -174},{10,-158},{18,-158}}, color={0,0,127}));
   connect(switch1.u1, P_dump_open1.y) annotation (Line(points={{18,-142},{6,
           -142},{6,-136},{1,-136}}, color={0,0,127}));
-  connect(ramp.y, product1.u2) annotation (Line(points={{-45,-200},{86,-200},{
-          86,-168},{94,-168}}, color={0,0,127}));
-  connect(actuatorBus.TBV, product1.y) annotation (Line(
+  connect(ramp.y, add.u2) annotation (Line(points={{-45,-200},{86,-200},{86,
+          -168},{94,-168}}, color={0,0,127}));
+  connect(actuatorBus.TBV, add.y) annotation (Line(
       points={{30,-100},{30,-136},{117,-136},{117,-162}},
       color={111,216,99},
       pattern=LinePattern.Dash,
@@ -158,8 +147,8 @@ equation
       index=-1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
-  connect(switch1.y, product1.u1) annotation (Line(points={{41,-150},{84,-150},
-          {84,-156},{94,-156}}, color={0,0,127}));
+  connect(switch1.y, add.u1) annotation (Line(points={{41,-150},{84,-150},{
+          84,-156},{94,-156}}, color={0,0,127}));
   connect(FeedPump_PID.y, switch2.u1)
     annotation (Line(points={{11,90},{36,90}}, color={0,0,127}));
   connect(switch2.u3, T_in_set1.y)
@@ -167,7 +156,7 @@ equation
   connect(booleanStep.y, switch2.u2) annotation (Line(points={{11,124},{36,
           124},{36,82}}, color={255,0,255}));
   connect(actuatorBus.Feed_Pump_Speed, switch2.y) annotation (Line(
-      points={{30,-100},{30,44},{74,44},{74,82},{59,82}},
+      points={{30,-100},{30,-24},{66,-24},{66,54},{74,54},{74,82},{59,82}},
       color={111,216,99},
       pattern=LinePattern.Dash,
       thickness=0.5), Text(
@@ -191,9 +180,41 @@ equation
       horizontalAlignment=TextAlignment.Right));
   connect(T_in_set.y, switch3.u3) annotation (Line(points={{-79,90},{-64,90},
           {-64,62},{-56,62}}, color={0,0,127}));
+  connect(booleanStep1.y,switch5. u2)
+    annotation (Line(points={{171,82},{196,82},{196,40}}, color={255,0,255}));
+  connect(booleanStep1.y,switch4. u2) annotation (Line(points={{171,82},{176,82},
+          {176,48},{94,48},{94,28},{104,28}},   color={255,0,255}));
+  connect(LPT2_BV_PID.y,switch5. u1) annotation (Line(points={{11,50},{30,50},{
+          30,42},{96,42},{96,58},{196,58},{196,48}},
+                              color={0,0,127}));
+  connect(T_in_set2.y,switch5. u3)
+    annotation (Line(points={{185,32},{196,32}}, color={0,0,127}));
+  connect(actuatorBus.LPT2_BV,switch5. y) annotation (Line(
+      points={{30,-100},{30,12},{226,12},{226,40},{219,40}},
+      color={111,216,99},
+      pattern=LinePattern.Dash,
+      thickness=0.5), Text(
+      string="%first",
+      index=-1,
+      extent={{-3,-6},{-3,-6}},
+      horizontalAlignment=TextAlignment.Right));
+  connect(sensorBus.Feedwater_Temp,switch4. u1) annotation (Line(
+      points={{-30,-100},{-30,30},{94,30},{94,36},{104,36}},
+      color={239,82,82},
+      pattern=LinePattern.Dash,
+      thickness=0.5), Text(
+      string="%first",
+      index=-1,
+      extent={{-6,3},{-6,3}},
+      horizontalAlignment=TextAlignment.Right));
+  connect(T_feed_set.y,switch4. u3) annotation (Line(points={{-79,50},{-20,50},
+          {-20,26},{94,26},{94,20},{104,20}},
+                              color={0,0,127}));
+  connect(switch4.y, LPT2_BV_PID.u_m) annotation (Line(points={{127,28},{132,28},
+          {132,44},{16,44},{16,28},{0,28},{0,38}}, color={0,0,127}));
 annotation(defaultComponentName="changeMe_CS", Icon(graphics),
     experiment(
       StopTime=1000,
       Interval=5,
       __Dymola_Algorithm="Esdirk45a"));
-end CS_L3_SMR;
+end CS_L3_SFR;
