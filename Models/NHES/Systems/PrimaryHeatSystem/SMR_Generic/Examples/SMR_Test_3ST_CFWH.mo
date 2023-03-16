@@ -1,8 +1,8 @@
 within NHES.Systems.PrimaryHeatSystem.SMR_Generic.Examples;
-model SMR_Test_3ST_CFWH_test
+model SMR_Test_3ST_CFWH "This is the model for benchmarking OFWH model."
   extends Modelica.Icons.Example;
 
-  BalanceOfPlant.Turbine.SteamTurbine_L3_HPCFWH_v1 BOP(
+  BalanceOfPlant.Turbine.SteamTurbine_L3_HPCFWH BOP(
     redeclare replaceable
       NHES.Systems.BalanceOfPlant.Turbine.ControlSystems.CS_L3_SMR3 CS(data(
         Power_nom=80e6,
@@ -28,9 +28,13 @@ model SMR_Test_3ST_CFWH_test
       mdpt_HPFH=5,
       mdot_hpt=65,
       mdot_lpt1=65,
-      mdot_lpt2=53.4891209),
+      mdot_lpt2=53.4891209,
+      BypassFeedHeater_Q_init=1.5e6,
+      BypassFeedHeater_NTU=4.5),
     OFWH_1(T_start=333.15),
-    HPT_bypass_valve(dp_nominal=40000))
+    HPT_bypass_valve(dp_nominal=500000),
+    resistance1(R=0.1e5),
+    BypassFeedwaterHeater(dp_general=500000))
     annotation (Placement(transformation(extent={{20,-20},{100,60}})));
   TRANSFORM.Fluid.BoundaryConditions.Boundary_pT bypassdump(
     redeclare package Medium = Modelica.Media.Water.StandardWater,
@@ -86,4 +90,4 @@ equation
       __Dymola_Algorithm="Esdirk45a"),
     __Dymola_experimentSetupOutput(events=false),
     Icon(coordinateSystem(extent={{-100,-80},{100,100}})));
-end SMR_Test_3ST_CFWH_test;
+end SMR_Test_3ST_CFWH;

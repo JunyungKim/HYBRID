@@ -51,6 +51,29 @@ model Data_L3_CFWH
   annotation (Dialog(tab="Heat Exchangers", group="Bypass Feedwater Heater"));
 
 
+  //Bypass Feedwater Heater
+  parameter Modelica.Units.SI.Pressure BypassFeedHeater_tube_p_start = 55e5 "Initial Tube pressure of bypass feedwater heater"   annotation (Dialog(tab="Initialization", group="Heat Exchanger"));
+  parameter Modelica.Units.SI.Pressure BypassFeedHeater_shell_p_start = 10e5 "Initial Shell pressure of bypass feedwater heater"  annotation (Dialog(tab="Initialization", group="Heat Exchanger"));
+
+  parameter Modelica.Units.SI.SpecificEnthalpy BypassFeedHeater_h_start_tube_inlet = 1e6 "Initial Tube inlet specific enthalpy of main feedwater heater"  annotation (Dialog(tab="Initialization", group="Heat Exchanger"));
+  parameter Modelica.Units.SI.SpecificEnthalpy BypassFeedHeater_h_start_tube_outlet = 1.05e6 "Initial Tube outlet specific enthalpy of main feedwater heater"  annotation (Dialog(tab="Initialization", group="Heat Exchanger"));
+  parameter Modelica.Units.SI.SpecificEnthalpy BypassFeedHeater_h_start_shell_inlet = 3e6 "Initial Shell inlet specific enthalpy of main feedwater heater"  annotation (Dialog(tab="Initialization", group="Heat Exchanger"));
+  parameter Modelica.Units.SI.SpecificEnthalpy BypassFeedHeater_h_start_shell_outlet = 2.9e6 "Initial Shell outlet specific enthalpy of main feedwater heater"  annotation (Dialog(tab="Initialization", group="Heat Exchanger"));
+  parameter Modelica.Units.SI.Temperature BypassFeedHeater_tube_T_start_inlet = 45+273 "Initial Tube inlet temperature of bypass feedwater heater"  annotation (Dialog(tab="Initialization", group="Heat Exchanger"));
+  parameter Modelica.Units.SI.Temperature BypassFeedHeater_tube_T_start_outlet = 200+273 "Initial Tube outlet temperature of bypass feedwater heater"  annotation (Dialog(tab="Initialization", group="Heat Exchanger"));
+  parameter Modelica.Units.SI.Temperature BypassFeedHeater_shell_T_start_inlet = 370+273 "Initial Tube inlet temperature of bypass feedwater heater"  annotation (Dialog(tab="Initialization", group="Heat Exchanger"));
+  parameter Modelica.Units.SI.Temperature BypassFeedHeater_shell_T_start_outlet = 250+273 "Initial Tube outlet temperature of bypass feedwater heater"  annotation (Dialog(tab="Initialization", group="Heat Exchanger"));
+  parameter Modelica.Units.SI.Pressure BypassFeedHeater_dp_init_tube = 0 "Initial Tube pressure drop of bypass feedwater heater"  annotation (Dialog(tab="Initialization", group="Heat Exchanger"));
+  parameter Modelica.Units.SI.Pressure BypassFeedHeater_dp_init_shell = 100000 "Initial Shell pressure drop of bypass feedwater heater"  annotation (Dialog(tab="Initialization", group="Heat Exchanger"));
+  parameter Modelica.Units.SI.MassFlowRate BypassFeedHeater_m_start_tube = 72 "Initial tube mass flow rate in bypass feedwater heater"  annotation (Dialog(tab="Initialization", group="Heat Exchanger"));
+  parameter Modelica.Units.SI.MassFlowRate BypassFeedHeater_m_start_shell = 10 "Initial shell mass flow rate in main feedwater heater"  annotation (Dialog(tab="Initialization", group="Heat Exchanger"));
+  parameter Modelica.Units.SI.Power  BypassFeedHeater_Q_init = 1e6 "Initial Heat Flow in main feedwater heater"  annotation (Dialog(tab="Initialization", group="Heat Exchanger"));
+
+  parameter Modelica.Units.SI.Volume  V_condensor_liquid_start = 1.2 "Condensor volume"  annotation (Dialog(tab="Initialization", group = "Condensor"));
+
+
+
+
   annotation (
     defaultComponentName="data",
     Icon(coordinateSystem(preserveAspectRatio=false), graphics={Text(

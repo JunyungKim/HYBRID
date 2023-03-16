@@ -1,5 +1,5 @@
 within NHES.Systems.PrimaryHeatSystem.SMR_Generic.Examples;
-model SMR_Test_3ST_CFWH_test4
+model SMR_Test_3ST_CFWH_test4 "two Data Package BOP model is used."
   extends Modelica.Icons.Example;
 
   BalanceOfPlant.Turbine.SteamTurbine_L3_HPCFWH_v4_biggerBVarea

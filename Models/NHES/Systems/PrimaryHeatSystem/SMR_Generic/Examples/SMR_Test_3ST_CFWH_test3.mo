@@ -1,8 +1,8 @@
 within NHES.Systems.PrimaryHeatSystem.SMR_Generic.Examples;
-model SMR_Test_3ST_CFWH_test2
+model SMR_Test_3ST_CFWH_test3
   extends Modelica.Icons.Example;
 
-  BalanceOfPlant.Turbine.SteamTurbine_L3_HPCFWH_v1 BOP(
+  BalanceOfPlant.Turbine.SteamTurbine_L3_HPCFWH_v2 BOP(
     redeclare replaceable
       NHES.Systems.BalanceOfPlant.Turbine.ControlSystems.CS_L3_SMR3 CS(data(
         Power_nom=80e6,
@@ -29,7 +29,7 @@ model SMR_Test_3ST_CFWH_test2
       mdot_hpt=65,
       mdot_lpt1=65,
       mdot_lpt2=53.4891209,
-      BypassFeedHeater_NTU=40),
+      BypassFeedHeater_NTU=4),
     OFWH_1(T_start=333.15),
     HPT_bypass_valve(dp_nominal=40000),
     dataInitial(BypassFeedHeater_Q_init=1.5e6))
@@ -88,4 +88,4 @@ equation
       __Dymola_Algorithm="Esdirk45a"),
     __Dymola_experimentSetupOutput(events=false),
     Icon(coordinateSystem(extent={{-100,-80},{100,100}})));
-end SMR_Test_3ST_CFWH_test2;
+end SMR_Test_3ST_CFWH_test3;
