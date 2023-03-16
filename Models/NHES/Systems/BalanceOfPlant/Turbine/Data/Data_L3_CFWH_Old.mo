@@ -1,5 +1,5 @@
 within NHES.Systems.BalanceOfPlant.Turbine.Data;
-model Data_L3_CFWH
+model Data_L3_CFWH_Old
   "Density inputs have large effects on nominal turbine pressures"
   extends NHES.Systems.PrimaryHeatSystem.SFR.BaseClasses.Record_Data;
   parameter Modelica.Units.SI.Power Power_nom=5e6 "Electrical Power Nominal";
@@ -32,13 +32,12 @@ model Data_L3_CFWH
   parameter Modelica.Units.SI.MassFlowRate mdot_hpt= 5.5 "Nominal Mass Flow Rate" annotation(Dialog(group="Flow Rate Sets"));
   parameter Modelica.Units.SI.MassFlowRate mdot_lpt1= 5.5 "Nominal Mass Flow Rate" annotation(Dialog(group="Flow Rate Sets"));
   parameter Modelica.Units.SI.MassFlowRate mdot_lpt2= 4.794 "Nominal Mass Flow Rate" annotation(Dialog(group="Flow Rate Sets"));
-  parameter Modelica.Units.SI.MassFlowRate m_ext =1 annotation(Dialog(group="Flow Rate Sets"));
 
   parameter Real eta_t=0.93 "Isentropic Efficiency of the Turbines" annotation(Dialog(group="Efficiency Sets"));
   parameter Real eta_mech=1 "Mechincal Effieiency of the Turbines"  annotation(Dialog(group="Efficiency Sets"));
   parameter Real eta_p=0.9 "Isentropic Efficiency of the Pumps" annotation(Dialog(group="Efficiency Sets"));
 
-    //Heat Exchangers
+  //Heat Exchangers
     //Bypass Feedwater Heater
   parameter Real BypassFeedHeater_NTU = 20 "NTU of bypass feedwater heater"
   annotation (Dialog(tab="Heat Exchangers", group="Bypass Feedwater Heater"));
@@ -80,4 +79,4 @@ model Data_L3_CFWH
     Diagram(coordinateSystem(preserveAspectRatio=false)),
     Documentation(info="<html>
 </html>"));
-end Data_L3_CFWH;
+end Data_L3_CFWH_Old;

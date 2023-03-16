@@ -15,8 +15,8 @@ model SMR_Test_3ST_CFWH "This is the model for benchmarking OFWH model."
         mdot_hpt=65,
         mdot_lpt1=65,
         mdot_lpt2=59.5)),
-    redeclare replaceable NHES.Systems.BalanceOfPlant.Turbine.Data.Data_L3_CFWH
-      data(
+    redeclare replaceable
+      NHES.Systems.BalanceOfPlant.Turbine.Data.Data_L3_CFWH_Old data(
       Power_nom=80e6,
       HPT_p_in=3450000,
       Tin=579.25,

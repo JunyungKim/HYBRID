@@ -2,13 +2,10 @@ within NHES.Systems.BalanceOfPlant.Turbine;
 model SteamTurbine_L3_HPCFWH_v1
   "Three Stage Turbine with open feed water heating using high pressure steam"
   extends NHES.Systems.BalanceOfPlant.Turbine.BaseClasses.Partial_SubSystem(
-    redeclare replaceable
-      ControlSystems.CS_L3_SMR3
-      CS,
+    redeclare replaceable ControlSystems.CS_L3_SMR3 CS,
     redeclare replaceable
       NHES.Systems.BalanceOfPlant.Turbine.ControlSystems.ED_Dummy ED,
-    redeclare replaceable Data.Data_L3_CFWH                                data(
-        BypassFeedHeater_NTU=25));
+    redeclare replaceable Data.Data_L3_CFWH_Old data(BypassFeedHeater_NTU=25));
   TRANSFORM.Fluid.Interfaces.FluidPort_Flow port_a_steam_in(redeclare package
       Medium =         Modelica.Media.Water.StandardWater)
     annotation (Placement(transformation(extent={{-110,50},{-90,70}})));

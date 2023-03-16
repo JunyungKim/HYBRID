@@ -3,8 +3,8 @@ model CS_L3_SMR3
 
   extends NHES.Systems.BalanceOfPlant.Turbine.BaseClasses.Partial_ControlSystem;
 
-  replaceable Data.Data_L3_CFWH                                data
-    constrainedby NHES.Systems.BalanceOfPlant.Turbine.Data.Data_L3
+  replaceable Data.Data_L3_CFWH_Old data constrainedby
+    NHES.Systems.BalanceOfPlant.Turbine.Data.Data_L3
     annotation (Placement(transformation(extent={{-100,-100},{-80,-80}})));
   Modelica.Blocks.Sources.RealExpression T_in_set(y=data.Tin)
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
