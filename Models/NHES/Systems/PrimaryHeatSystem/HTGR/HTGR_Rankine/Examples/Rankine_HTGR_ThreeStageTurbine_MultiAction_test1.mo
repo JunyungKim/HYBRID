@@ -66,7 +66,8 @@ model Rankine_HTGR_ThreeStageTurbine_MultiAction_test1
     HPT(eta_mech=eta_mech_HPT),
     LPT1(eta_mech=eta_mech_LPT1),
     LPT2(eta_mech=eta_mech_LPT2),
-    LPT1_Bypass(m_flow_nominal=250))
+    LPT1_Bypass(m_flow_nominal=250),
+    boundary2(p=2500000))
     annotation (Placement(transformation(extent={{-6,-10},{62,38}})));
   TRANSFORM.Electrical.Sources.FrequencySource
                                      sinkElec(f=60)
