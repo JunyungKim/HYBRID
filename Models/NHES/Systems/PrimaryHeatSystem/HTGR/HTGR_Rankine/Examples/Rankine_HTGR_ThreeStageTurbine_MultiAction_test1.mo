@@ -1,5 +1,5 @@
 within NHES.Systems.PrimaryHeatSystem.HTGR.HTGR_Rankine.Examples;
-model Rankine_HTGR_ThreeStageTurbine_MultiAction
+model Rankine_HTGR_ThreeStageTurbine_MultiAction_test1
   extends Modelica.Icons.Example;
 
   Real Thermal_Power_Norm;
@@ -28,6 +28,14 @@ model Rankine_HTGR_ThreeStageTurbine_MultiAction
     annotation (Placement(transformation(extent={{-42,34},{-2,64}})));
   Fluid.Sensors.stateDisplay stateDisplay1
     annotation (Placement(transformation(extent={{-42,-10},{-2,-40}})));
+  Modelica.Blocks.Logical.Timer timer
+    annotation (Placement(transformation(extent={{-132,62},{-112,82}})));
+  Modelica.Blocks.Sources.ContinuousClock clock4(offset=0, startTime=0)
+    annotation (Placement(transformation(extent={{-204,50},{-184,70}})));
+  Modelica.Blocks.Sources.Constant initialTime(k=1e5)
+    annotation (Placement(transformation(extent={{-204,78},{-184,98}})));
+  Modelica.Blocks.Logical.Greater greater4
+    annotation (Placement(transformation(extent={{-164,82},{-144,62}})));
 equation
   hTGR_PebbleBed_Primary_Loop.input_steam_pressure =BOP.sensor_p.p;
   Thermal_Power_Norm = hTGR_PebbleBed_Primary_Loop.Thermal_Power.y/2.26177E8;
@@ -45,9 +53,14 @@ equation
         points={{-21.96,26.05},{-22,26.05},{-22,45.1}}, color={0,0,0}));
   connect(stateSensor2.statePort, stateDisplay1.statePort)
     annotation (Line(points={{-22.04,0.05},{-22,-21.1}}, color={0,0,0}));
+  connect(clock4.y, greater4.u1) annotation (Line(points={{-183,60},{-174,60},{
+          -174,72},{-166,72}}, color={0,0,127}));
+  connect(initialTime.y, greater4.u2) annotation (Line(points={{-183,88},{-172,
+          88},{-172,80},{-166,80}}, color={0,0,127}));
+  connect(greater4.y, timer.u)
+    annotation (Line(points={{-143,72},{-134,72}}, color={255,0,255}));
   annotation (experiment(
-      StartTime=107000000,
-      StopTime=108000000,
+      StopTime=186400,
       Interval=1000,
       Tolerance=0.001,
       __Dymola_Algorithm="Esdirk45a"), Documentation(info="<html>
@@ -82,4 +95,4 @@ equation
             tolerance=0.0001,
             fixedStepSize=0)))),
     __Dymola_experimentSetupOutput(events=false));
-end Rankine_HTGR_ThreeStageTurbine_MultiAction;
+end Rankine_HTGR_ThreeStageTurbine_MultiAction_test1;

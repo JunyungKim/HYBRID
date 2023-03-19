@@ -95,26 +95,6 @@ model CS_threeStagedTurbine_HTGR
     initType=Modelica.Blocks.Types.Init.InitialState,
     xi_start=0.2)
     annotation (Placement(transformation(extent={{-56,112},{-40,128}})));
-  Modelica.Blocks.Sources.Constant const_LTV1bypass_power(k=44e6)
-    annotation (Placement(transformation(extent={{-148,86},{-132,102}})));
-  Modelica.Blocks.Sources.Trapezoid trap_LTV1bypass_massflow(
-    amplitude=30,
-    rising=5e4,
-    width=5e4,
-    falling=5e4,
-    period=20e4,
-    nperiod=-1,
-    offset=15,
-    startTime=1e5 + 900)
-    annotation (Placement(transformation(extent={{-202,112},{-186,128}})));
-  Modelica.Blocks.Sources.Ramp ramp_LTV1bypass_massflow(
-    height=-15,
-    duration=5e4,
-    offset=15,
-    startTime=1e5 + 900)
-    annotation (Placement(transformation(extent={{-202,62},{-186,78}})));
-  Modelica.Blocks.Sources.Constant const_LTV1bypass_massflow(k=30)
-    annotation (Placement(transformation(extent={{-202,86},{-186,102}})));
   Modelica.Blocks.Sources.Trapezoid trap_LTV1bypass_power(
     amplitude=-16e6,
     rising=7200,
@@ -124,7 +104,7 @@ model CS_threeStagedTurbine_HTGR
     nperiod=-1,
     offset=44e6,
     startTime=1e5)
-    annotation (Placement(transformation(extent={{-150,112},{-134,128}})));
+    annotation (Placement(transformation(extent={{-88,112},{-72,128}})));
   Modelica.Blocks.Sources.Constant RPM_TEST(k=1000)
     annotation (Placement(transformation(extent={{42,90},{50,98}})));
   Modelica.Blocks.Sources.Constant const12(k=data.p_steam_vent)
@@ -275,8 +255,6 @@ equation
     annotation (Line(points={{-19.6,-40},{-12,-40}}, color={0,0,127}));
   connect(const4.y, add.u1)
     annotation (Line(points={{50.4,76},{62,76}}, color={0,0,127}));
-  connect(trap_LTV1bypass_power.y, LTV1_Divert_Valve1.u_s)
-    annotation (Line(points={{-133.2,120},{-57.6,120}}, color={0,0,127}));
   connect(actuatorBus.opening_TCV, add1.y) annotation (Line(
       points={{30.1,-99.9},{30.1,-34},{11,-34}},
       color={111,216,99},
@@ -288,5 +266,7 @@ equation
       horizontalAlignment=TextAlignment.Left));
   connect(constant_0.y, PID.u_ff) annotation (Line(points={{-127.2,32},{-76,32},
           {-76,40},{-14,40},{-14,34},{-6,34}}, color={0,0,127}));
+  connect(trap_LTV1bypass_power.y, LTV1_Divert_Valve1.u_s)
+    annotation (Line(points={{-71.2,120},{-57.6,120}}, color={0,0,127}));
 annotation(defaultComponentName="changeMe_CS", Icon(graphics));
 end CS_threeStagedTurbine_HTGR;
