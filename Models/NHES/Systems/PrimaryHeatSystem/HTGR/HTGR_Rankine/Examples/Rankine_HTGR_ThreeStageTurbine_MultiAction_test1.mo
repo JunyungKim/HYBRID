@@ -3,13 +3,70 @@ model Rankine_HTGR_ThreeStageTurbine_MultiAction_test1
   extends Modelica.Icons.Example;
 
   Real Thermal_Power_Norm;
+
+  Modelica.Units.SI.MassFlowRate sub1_port_a_mass;     // sub 1
+  Modelica.Units.SI.Pressure sub1_port_a_press;        // sub 1
+  Modelica.Units.SI.Temperature sub1_port_a_temp;      // sub 1
+
+  Modelica.Units.SI.MassFlowRate sub2_TCV_mass;        // sub 2
+  Modelica.Units.SI.Pressure sub2_TCV_press;           // sub 2
+  Modelica.Units.SI.Temperature sub2_TCV_temp;         // sub 2
+
+  Modelica.Units.SI.MassFlowRate sub3_HPT_mass;        // sub 3
+  Modelica.Units.SI.Entropy sub3_HPT_entropyA;         // sub 3
+  Modelica.Units.SI.Entropy sub3_HPT_entropyB;         // sub 3
+  Modelica.Units.SI.Enthalpy sub3_HPT_enthalpyA;       // sub 3
+  Modelica.Units.SI.Enthalpy sub3_HPT_enthalpyB;       // sub 3
+
+  Modelica.Units.SI.MassFlowRate sub4_T1_mass;         // sub 4
+  Modelica.Units.SI.MassFlowRate sub4_LPTV1_mass;      // sub 4
+  Modelica.Units.SI.Pressure sub4_LPTV1_press;         // sub 4
+  Modelica.Units.SI.Temperature sub4_LPTV1_temp;       // sub 4
+
+  Modelica.Units.SI.MassFlowRate sub5_LPT1_mass;        // sub 5
+  Modelica.Units.SI.Entropy sub5_LPT1_entropyA;         // sub 5
+  Modelica.Units.SI.Entropy sub5_LPT1_entropyB;         // sub 5
+  Modelica.Units.SI.Enthalpy sub5_LPT1_enthalpyA;       // sub 5
+  Modelica.Units.SI.Enthalpy sub5_LPT1_enthalpyB;       // sub 5
+
+  Modelica.Units.SI.MassFlowRate sub6_T2_mass;         // sub 6
+  Modelica.Units.SI.MassFlowRate sub6_LPTV2_mass;      // sub 6
+  Modelica.Units.SI.Pressure sub6_LPTV2_press;         // sub 6
+  Modelica.Units.SI.Temperature sub6_LPTV2_temp;       // sub 6
+
+  Modelica.Units.SI.MassFlowRate sub7_LPT2_mass;        // sub 7
+  Modelica.Units.SI.Entropy sub7_LPT2_entropyA;         // sub 7
+  Modelica.Units.SI.Entropy sub7_LPT2_entropyB;         // sub 7
+  Modelica.Units.SI.Enthalpy sub7_LPT2_enthalpyA;       // sub 7
+  Modelica.Units.SI.Enthalpy sub7_LPT2_enthalpyB;       // sub 7
+
+  Modelica.Units.SI.MassFlowRate sub8_port_b_mass;     // sub 8
+  Modelica.Units.SI.Pressure sub8_port_b_press;        // sub 8
+  Modelica.Units.SI.Temperature sub8_port_b_temp;      // sub 8
+
+  Real   healthLevel_HPT;
+  Real   healthLevel_LPT1;
+  Real   healthLevel_LPT2;
+
   BalanceOfPlant.Turbine.SteamTurbine_L3_HTGR_MultiAction BOP(
     redeclare
       NHES.Systems.BalanceOfPlant.Turbine.ControlSystems.CS_threeStagedTurbine_HTGR_MultiAction
-      CS,
+      CS(data(OpTime=OpTime, initTime=initTime),
+      p0to3(indicator=5),
+      p3to6(indicator=4),
+      p6to9(indicator=3),
+      p9to12(indicator=2),
+      p12to15(indicator=1),
+      p15to18(indicator=2),
+      p18to21(indicator=3),
+      p21to24(indicator=5)),
     lambda_HPT=3e-10,
     lambda_LPT1=3e-10,
-    lambda_LPT2=3e-10)
+    lambda_LPT2=3e-10,
+    HPT(eta_mech=eta_mech_HPT),
+    LPT1(eta_mech=eta_mech_LPT1),
+    LPT2(eta_mech=eta_mech_LPT2),
+    LPT1_Bypass(m_flow_nominal=250))
     annotation (Placement(transformation(extent={{-6,-10},{62,38}})));
   TRANSFORM.Electrical.Sources.FrequencySource
                                      sinkElec(f=60)
@@ -32,13 +89,67 @@ model Rankine_HTGR_ThreeStageTurbine_MultiAction_test1
     annotation (Placement(transformation(extent={{-132,62},{-112,82}})));
   Modelica.Blocks.Sources.ContinuousClock clock4(offset=0, startTime=0)
     annotation (Placement(transformation(extent={{-204,50},{-184,70}})));
-  Modelica.Blocks.Sources.Constant initialTime(k=1e5)
+  Modelica.Blocks.Sources.Constant initialTime(k=OpTime + initTime)
     annotation (Placement(transformation(extent={{-204,78},{-184,98}})));
   Modelica.Blocks.Logical.Greater greater4
     annotation (Placement(transformation(extent={{-164,82},{-144,62}})));
+  parameter Real OpTime=0     "Operational time when making decision (unit seconds)";
+  parameter Real initTime=3600*12 "Time needed for initialization";
+  parameter Real eta_mech_HPT =0.85
+                                   "Mechanical efficiency";
+  parameter Real eta_mech_LPT1=0.85
+                                   "Mechanical efficiency";
+  parameter Real eta_mech_LPT2=0.85
+                                   "Mechanical efficiency";
 equation
   hTGR_PebbleBed_Primary_Loop.input_steam_pressure =BOP.sensor_p.p;
   Thermal_Power_Norm = hTGR_PebbleBed_Primary_Loop.Thermal_Power.y/2.26177E8;
+
+  sub1_port_a_mass = stateDisplay2.statePort.m_flow;     // sub 1
+  sub1_port_a_press = BOP.sensor_p.y;                    // sub 1
+  sub1_port_a_temp = stateDisplay2.statePort.T;          // sub 1
+
+  sub2_TCV_mass = BOP.TCV.m_flow;                        // sub 2
+  sub2_TCV_press = BOP.HPT.portHP.p;                     // sub 2
+  sub2_TCV_temp = BOP.TCV.port_a_T;                      // sub 2
+
+  sub3_HPT_mass = BOP.HPT.m_flow*0.99999;                // sub 3 *
+  sub3_HPT_entropyA = BOP.HPT_entropy_a;                 // sub 3
+  sub3_HPT_entropyB = BOP.HPT_entropy_b;                 // sub 3
+  sub3_HPT_enthalpyA = BOP.HPT.portHP.h_outflow;         // sub 3
+  sub3_HPT_enthalpyB = BOP.HPT.portLP.h_outflow;         // sub 3
+
+  sub4_T1_mass = BOP.LPT1.portHP.m_flow + BOP.tee1.port_3.m_flow;  // sub 4
+  sub4_LPTV1_mass = -BOP.tee1.port_3.m_flow;                       // sub 4
+  sub4_LPTV1_press = BOP.tee1.medium.p*0.99999;                    // sub 4 BOP.tee1.medium.p exists
+  sub4_LPTV1_temp = BOP.LPT1_Bypass.port_b_T;                      // sub 4
+
+  sub5_LPT1_mass = BOP.LPT1.m_flow;                      // sub 5
+  sub5_LPT1_entropyA = BOP.LPT1_entropy_a;               // sub 5
+  sub5_LPT1_entropyB = BOP.LPT1_entropy_b;               // sub 5
+  sub5_LPT1_enthalpyA = BOP.tee1.medium.h*0.999999;       // sub 5  BOP.tee1.medium.h exists
+  sub5_LPT1_enthalpyB = BOP.tee2.medium.h*0.999999;       // sub 5  BOP.tee2.medium.h exists
+
+  sub6_T2_mass = -BOP.Moisture_Separator2.port_b.m_flow; // sub 6
+  sub6_LPTV2_mass = BOP.LPT2_Bypass.port_a.m_flow;       // sub 6
+  sub6_LPTV2_press = BOP.tee2.medium.p*0.99999;          // sub 6  BOP.tee2.medium.p
+  sub6_LPTV2_temp = BOP.LPT2_Bypass.port_a_T;            // sub 6
+
+  sub7_LPT2_mass = BOP.LPT2.m_flow;                      // sub 7
+  sub7_LPT2_entropyA = BOP.LPT2_entropy_a;               // sub 7
+  sub7_LPT2_entropyB = BOP.LPT2_entropy_b;               // sub 7
+  sub7_LPT2_enthalpyA = BOP.tee2.medium.h*0.999999;       // sub 7  BOP.tee2.medium.h exists
+  sub7_LPT2_enthalpyB = BOP.LPT2.h_is*0.99999;           // sub 7
+
+  sub8_port_b_mass = stateDisplay1.statePort.m_flow;     // sub 8
+  sub8_port_b_press = BOP.FWCP.port_b.p*0.999999;         // sub 8 *
+  sub8_port_b_temp = stateDisplay1.statePort.T;          // sub 8
+
+  healthLevel_HPT   = BOP.HPT.eta_wetSteam.eta;
+  healthLevel_LPT1  = BOP.LPT1.eta_wetSteam.eta;
+  healthLevel_LPT2  = BOP.LPT2.eta_wetSteam.eta;
+
+
   connect(sinkElec.port, BOP.port_e)
     annotation (Line(points={{84,14},{62,14}}, color={255,0,0}));
   connect(hTGR_PebbleBed_Primary_Loop.port_b, stateSensor1.port_a) annotation (

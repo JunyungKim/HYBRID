@@ -106,9 +106,9 @@ model CS_threeStagedTurbine_HTGR_MultiAction
     annotation (Placement(transformation(extent={{-28,-44},{-20,-36}})));
   Modelica.Blocks.Sources.Constant constant_0(k=0)
     annotation (Placement(transformation(extent={{-144,24},{-128,40}})));
-  Modelica.Blocks.Sources.Constant const6(k=36.6e6)
+  Modelica.Blocks.Sources.Constant const6(k=35e6)
     annotation (Placement(transformation(extent={{-684,-142},{-666,-124}})));
-  Modelica.Blocks.Sources.Constant initialTime(k=1e5)
+  Modelica.Blocks.Sources.Constant initialTime(k=data.OpTime + data.initTime)
     annotation (Placement(transformation(extent={{-724,-88},{-704,-68}})));
   Modelica.Blocks.Sources.ContinuousClock clock4(offset=0, startTime=0)
     annotation (Placement(transformation(extent={{-724,-128},{-704,-108}})));
@@ -118,7 +118,7 @@ model CS_threeStagedTurbine_HTGR_MultiAction
     annotation (Placement(transformation(extent={{-644,-108},{-624,-88}})));
   PrimaryHeatSystem.HTGR.HTGR_Rankine.Examples.MultiSwitch p0to3(indicator=9)
     annotation (Placement(transformation(extent={{-684,-72},{-664,-52}})));
-  Modelica.Blocks.Sources.Constant AM3(k=1e5 + 21600)
+  Modelica.Blocks.Sources.Constant AM3(k=data.OpTime + data.initTime + 10800)
     annotation (Placement(transformation(extent={{-684,14},{-664,34}})));
   Modelica.Blocks.Sources.ContinuousClock clock1(offset=0, startTime=0)
     annotation (Placement(transformation(extent={{-684,-26},{-664,-6}})));
@@ -128,7 +128,7 @@ model CS_threeStagedTurbine_HTGR_MultiAction
     annotation (Placement(transformation(extent={{-604,-56},{-584,-36}})));
   PrimaryHeatSystem.HTGR.HTGR_Rankine.Examples.MultiSwitch p3to6(indicator=2)
     annotation (Placement(transformation(extent={{-644,-20},{-624,0}})));
-  Modelica.Blocks.Sources.Constant AM6(k=1e5 + 32400)
+  Modelica.Blocks.Sources.Constant AM6(k=data.OpTime + data.initTime + 21600)
     annotation (Placement(transformation(extent={{-644,60},{-624,80}})));
   Modelica.Blocks.Sources.ContinuousClock clock2(offset=0, startTime=0)
     annotation (Placement(transformation(extent={{-644,20},{-624,40}})));
@@ -138,7 +138,7 @@ model CS_threeStagedTurbine_HTGR_MultiAction
     annotation (Placement(transformation(extent={{-604,26},{-584,46}})));
   Modelica.Blocks.Logical.Switch switch_P_setpoint_TCV2
     annotation (Placement(transformation(extent={{-564,-10},{-544,10}})));
-  Modelica.Blocks.Sources.Constant AM9(k=1e5 + 43200)
+  Modelica.Blocks.Sources.Constant AM9(k=data.OpTime + data.initTime + 32400)
     annotation (Placement(transformation(extent={{-604,102},{-584,122}})));
   Modelica.Blocks.Sources.ContinuousClock clock5(offset=0, startTime=0)
     annotation (Placement(transformation(extent={{-604,62},{-584,82}})));
@@ -148,27 +148,27 @@ model CS_threeStagedTurbine_HTGR_MultiAction
     annotation (Placement(transformation(extent={{-564,68},{-544,88}})));
   Modelica.Blocks.Logical.Switch switch_P_setpoint_TCV5
     annotation (Placement(transformation(extent={{-524,32},{-504,52}})));
-  Modelica.Blocks.Sources.Constant PM12(k=1e5 + 54000)
+  Modelica.Blocks.Sources.Constant PM12(k=data.OpTime + data.initTime + 43200)
     annotation (Placement(transformation(extent={{-564,150},{-544,170}})));
   Modelica.Blocks.Sources.ContinuousClock clock6(offset=0, startTime=0)
     annotation (Placement(transformation(extent={{-564,110},{-544,130}})));
-  PrimaryHeatSystem.HTGR.HTGR_Rankine.Examples.MultiSwitch p12to15(indicator=5)
+  PrimaryHeatSystem.HTGR.HTGR_Rankine.Examples.MultiSwitch p12to15(indicator=11)
     annotation (Placement(transformation(extent={{-524,116},{-504,136}})));
   Modelica.Blocks.Logical.Greater greater6
     annotation (Placement(transformation(extent={{-524,100},{-504,80}})));
   Modelica.Blocks.Logical.Switch switch_P_setpoint_TCV6
     annotation (Placement(transformation(extent={{-484,80},{-464,100}})));
-  Modelica.Blocks.Sources.Constant PM15(k=1e5 + 64800)
+  Modelica.Blocks.Sources.Constant PM15(k=data.OpTime + data.initTime + 54000)
     annotation (Placement(transformation(extent={{-524,196},{-504,216}})));
   Modelica.Blocks.Sources.ContinuousClock clock7(offset=0, startTime=0)
     annotation (Placement(transformation(extent={{-524,156},{-504,176}})));
-  PrimaryHeatSystem.HTGR.HTGR_Rankine.Examples.MultiSwitch p15to18(indicator=6)
+  PrimaryHeatSystem.HTGR.HTGR_Rankine.Examples.MultiSwitch p15to18(indicator=10)
     annotation (Placement(transformation(extent={{-484,162},{-464,182}})));
   Modelica.Blocks.Logical.Greater greater7
     annotation (Placement(transformation(extent={{-484,146},{-464,126}})));
   Modelica.Blocks.Logical.Switch switch_P_setpoint_TCV7
     annotation (Placement(transformation(extent={{-444,126},{-424,146}})));
-  Modelica.Blocks.Sources.Constant PM1(k=1e5 + 75600)
+  Modelica.Blocks.Sources.Constant PM1(k=data.OpTime + data.initTime + 64800)
     annotation (Placement(transformation(extent={{-484,236},{-464,256}})));
   Modelica.Blocks.Sources.ContinuousClock clock8(offset=0, startTime=0)
     annotation (Placement(transformation(extent={{-484,196},{-464,216}})));
@@ -178,7 +178,7 @@ model CS_threeStagedTurbine_HTGR_MultiAction
     annotation (Placement(transformation(extent={{-444,186},{-424,166}})));
   Modelica.Blocks.Logical.Switch switch_P_setpoint_TCV8
     annotation (Placement(transformation(extent={{-404,166},{-384,186}})));
-  Modelica.Blocks.Sources.Constant PM2(k=1e5 + 86400)
+  Modelica.Blocks.Sources.Constant PM2(k=data.OpTime + data.initTime + 75600)
     annotation (Placement(transformation(extent={{-444,278},{-424,298}})));
   Modelica.Blocks.Sources.ContinuousClock clock9(offset=0, startTime=0)
     annotation (Placement(transformation(extent={{-444,238},{-424,258}})));

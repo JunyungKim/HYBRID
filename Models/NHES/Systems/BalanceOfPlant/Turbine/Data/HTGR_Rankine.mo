@@ -4,7 +4,8 @@ model HTGR_Rankine
   parameter Modelica.Units.SI.Temperature T_Steam_Ref = 540+273.15 "Reference steam temperature";
   parameter Modelica.Units.SI.Power Q_Nom = 36e6 "Reference electrical power";
   parameter Modelica.Units.SI.Temperature T_Feedwater = 208+273.15 "Reference feedwater temperature";
-
+  parameter Real OpTime = 0 "Operational time when making decision (unit seconds)";
+  parameter Real initTime = 3600 * 12 "Time needed for initialization";
   extends BaseClasses.Record_Data;
 
   annotation (

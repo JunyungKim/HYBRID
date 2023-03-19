@@ -2,7 +2,7 @@ within NHES.Systems.BalanceOfPlant.Turbine;
 model SteamTurbine_L3_HTGR_MultiAction
   extends BaseClasses.Partial_SubSystem(
     redeclare replaceable
-      ControlSystems.CS_threeStagedTurbine_HTGR
+      ControlSystems.CS_threeStagedTurbine_HTGR_MultiAction
       CS,
     redeclare replaceable ControlSystems.ED_Dummy ED,
     redeclare Data.IdealTurbine data);
@@ -10,6 +10,14 @@ model SteamTurbine_L3_HTGR_MultiAction
   Real time_initialization = 7e4;
   Real electricity_generation_Norm;
   Real electricity_demand_Norm;
+
+  Modelica.Units.SI.SpecificEntropy HPT_entropy_a;
+  Modelica.Units.SI.SpecificEntropy HPT_entropy_b;
+  Modelica.Units.SI.SpecificEntropy LPT1_entropy_a;
+  Modelica.Units.SI.SpecificEntropy LPT1_entropy_b;
+  Modelica.Units.SI.SpecificEntropy LPT2_entropy_a;
+  Modelica.Units.SI.SpecificEntropy LPT2_entropy_b;
+
   PrimaryHeatSystem.HTGR.HTGR_Rankine.Data.DataInitial_HTGR_Pebble dataInitial(
       P_LP_Comp_Ref=4000000)
     annotation (Placement(transformation(extent={{64,122},{84,142}})));
@@ -125,7 +133,7 @@ model SteamTurbine_L3_HTGR_MultiAction
   TRANSFORM.Fluid.Valves.ValveLinear LPT1_Bypass(
     redeclare package Medium = Modelica.Media.Water.StandardWater,
     dp_nominal=100000,
-    m_flow_nominal=30)
+    m_flow_nominal=150)
                       annotation (Placement(transformation(
         extent={{10,10},{-10,-10}},
         rotation=90,
@@ -246,6 +254,12 @@ equation
   time_altered = time-time_initialization;
   electricity_generation_Norm = generator.power/44E+6;
   electricity_demand_Norm     = CS.trap_LTV1bypass_power.y/44E+6;
+  HPT_entropy_a = HPT.Medium.specificEntropy(HPT.state_a);
+  HPT_entropy_b = HPT.Medium.specificEntropy(LPT1.state_a);
+  LPT1_entropy_a = HPT.Medium.specificEntropy(LPT1.state_a);
+  LPT1_entropy_b = HPT.Medium.specificEntropy(LPT2.state_a);
+  LPT2_entropy_a = HPT.Medium.specificEntropy(LPT2.state_a);
+  LPT2_entropy_b = HPT.Medium.specificEntropy(LPT2.state_b);
 
   connect(HPT.portHP, sensor_T1.port_b) annotation (Line(
       points={{34,40},{24,40}},

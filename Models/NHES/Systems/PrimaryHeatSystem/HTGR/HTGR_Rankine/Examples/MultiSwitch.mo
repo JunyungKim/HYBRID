@@ -5,27 +5,27 @@ block MultiSwitch "Switch between two Real signals"
   Modelica.Blocks.Interfaces.RealOutput y "Connector of Real output signal"
     annotation (Placement(transformation(extent={{100,-10},{120,10}})));
 
-  Modelica.Blocks.Sources.Constant p1(k=25.0e6)
+  Modelica.Blocks.Sources.Constant p1(k=20.0e6)
     annotation (Placement(transformation(extent={{-78,66},{-58,86}})));
-  Modelica.Blocks.Sources.Constant p2(k=27.5e6)
+  Modelica.Blocks.Sources.Constant p2(k=22.0e6)
     annotation (Placement(transformation(extent={{-42,66},{-22,86}})));
-  Modelica.Blocks.Sources.Constant p3(k=30.0e6)
+  Modelica.Blocks.Sources.Constant p3(k=24.0e6)
     annotation (Placement(transformation(extent={{-10,66},{10,86}})));
-  Modelica.Blocks.Sources.Constant p4(k=32.5e6)
+  Modelica.Blocks.Sources.Constant p4(k=26.0e6)
     annotation (Placement(transformation(extent={{22,66},{42,86}})));
-  Modelica.Blocks.Sources.Constant p5(k=35.0e6)
+  Modelica.Blocks.Sources.Constant p5(k=28.0e6)
     annotation (Placement(transformation(extent={{56,66},{76,86}})));
-  Modelica.Blocks.Sources.Constant p6(k=37.5e6)
+  Modelica.Blocks.Sources.Constant p6(k=30.0e6)
     annotation (Placement(transformation(extent={{-78,32},{-58,52}})));
-  Modelica.Blocks.Sources.Constant p7(k=40.0e6)
+  Modelica.Blocks.Sources.Constant p7(k=32.0e6)
     annotation (Placement(transformation(extent={{-42,32},{-22,52}})));
-  Modelica.Blocks.Sources.Constant p8(k=42.5e6)
+  Modelica.Blocks.Sources.Constant p8(k=34.0e6)
     annotation (Placement(transformation(extent={{-10,32},{10,52}})));
-  Modelica.Blocks.Sources.Constant p9(k=45.0e6)
+  Modelica.Blocks.Sources.Constant p9(k=36.0e6)
     annotation (Placement(transformation(extent={{22,32},{42,52}})));
-  Modelica.Blocks.Sources.Constant p10(k=47.5e6)
+  Modelica.Blocks.Sources.Constant p10(k=38.0e6)
     annotation (Placement(transformation(extent={{56,32},{76,52}})));
-  Modelica.Blocks.Sources.Constant p11(k=50.0e6)
+  Modelica.Blocks.Sources.Constant p11(k=40.0e6)
     annotation (Placement(transformation(extent={{-78,0},{-58,20}})));
   parameter Real indicator = 1;
 equation

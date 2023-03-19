@@ -18,8 +18,7 @@ model SteamTurbine_L3_HTGR
     nUnits=1,
     eta_mech=0.85,
     redeclare model Eta_wetSteam =
-        TRANSFORM.Fluid.Machines.BaseClasses.WetSteamEfficiency.eta_Degradation_HPT
-        (lambda_HPT=lambda_HPT),
+        TRANSFORM.Fluid.Machines.BaseClasses.WetSteamEfficiency.eta_Constant,
     p_a_start=dataInitial_HTGR_BoP_3stage.HPT_P_inlet,
     p_b_start=dataInitial_HTGR_BoP_3stage.HPT_P_outlet,
     T_a_start=dataInitial_HTGR_BoP_3stage.HPT_T_inlet,
@@ -88,8 +87,7 @@ model SteamTurbine_L3_HTGR
     nUnits=1,
     eta_mech=0.85,
     redeclare model Eta_wetSteam =
-        TRANSFORM.Fluid.Machines.BaseClasses.WetSteamEfficiency.eta_Degradation_LPT1
-        (lambda_LPT1=lambda_LPT1),
+        TRANSFORM.Fluid.Machines.BaseClasses.WetSteamEfficiency.eta_Constant,
     p_a_start=3000000,
     p_b_start=1500000,
     T_a_start=573.15,
@@ -184,8 +182,7 @@ model SteamTurbine_L3_HTGR
     nUnits=1,
     eta_mech=0.85,
     redeclare model Eta_wetSteam =
-        TRANSFORM.Fluid.Machines.BaseClasses.WetSteamEfficiency.eta_Degradation_LPT2
-        (lambda_LPT2=lambda_LPT2),
+        TRANSFORM.Fluid.Machines.BaseClasses.WetSteamEfficiency.eta_Constant,
     p_a_start=1500000,
     p_b_start=8000,
     T_a_start=523.15,
@@ -236,9 +233,6 @@ model SteamTurbine_L3_HTGR
         extent={{-6,6},{6,-6}},
         rotation=180,
         origin={66,-32})));
-  parameter Real lambda_HPT=componentDegradation.HPT_lambda;
-  parameter Real lambda_LPT1=componentDegradation.LPT1_lambda;
-  parameter Real lambda_LPT2=componentDegradation.LPT2_lambda;
 initial equation
 
 equation
