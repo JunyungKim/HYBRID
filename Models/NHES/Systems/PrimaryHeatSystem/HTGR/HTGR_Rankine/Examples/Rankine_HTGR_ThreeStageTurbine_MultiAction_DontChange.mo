@@ -1,5 +1,5 @@
 within NHES.Systems.PrimaryHeatSystem.HTGR.HTGR_Rankine.Examples;
-model Rankine_HTGR_ThreeStageTurbine_MultiAction
+model Rankine_HTGR_ThreeStageTurbine_MultiAction_DontChange
   extends Modelica.Icons.Example;
 
   Real Thermal_Power_Norm;
@@ -40,14 +40,12 @@ model Rankine_HTGR_ThreeStageTurbine_MultiAction
   Modelica.Units.SI.Pressure port_b_press;        // sub 5
   Modelica.Units.SI.Temperature port_b_temp;      // sub 5
 
-  Real   opMode;
-
   Real   healthLevel_HPT;
   Real   healthLevel_LPT1;
   Real   healthLevel_LPT2;
 
-  parameter Real OpTime=0     "Operational time when making decision (unit seconds)";
-  //parameter Real OpTime=630720000     "Operational time when making decision (unit seconds)";
+  //parameter Real OpTime=0     "Operational time when making decision (unit seconds)";
+  parameter Real OpTime=630720000     "Operational time when making decision (unit seconds)";
   parameter Real initTime=3600*40 "Time needed for initialization";
   parameter Real eta_mech_HPT =0.85
                                    "Mechanical efficiency";
@@ -56,25 +54,23 @@ model Rankine_HTGR_ThreeStageTurbine_MultiAction
   parameter Real eta_mech_LPT2=0.85
                                    "Mechanical efficiency";
 
-  BalanceOfPlant.Turbine.SteamTurbine_L3_HTGR_MultiAction_genChanged
+  BalanceOfPlant.Turbine.SteamTurbine_L3_HTGR_MultiAction_genChanged_NoTBV
                                                           BOP(
     redeclare
       NHES.Systems.BalanceOfPlant.Turbine.ControlSystems.CS_threeStagedTurbine_HTGR_MultiAction
       CS(
-      p0to3(indicator=5),
-      p3to6(indicator=6),
-      p6to9(indicator=4),
-      p9to12(indicator=2),
+      p0to3(indicator=7),
+      p3to6(indicator=10),
+      p6to9(indicator=7),
+      p9to12(indicator=3),
       p12to15(indicator=1),
       p15to18(indicator=3),
-      p18to21(indicator=3),
-      p21to24(indicator=5),
-      data(OpTime=OpTime, initTime=initTime),
-      LTV1_Divert_Valve1(yMin=1e-6),
-      const6(k=36e6)),
-    lambda_HPT=5e-10,
-    lambda_LPT1=5e-10,
-    lambda_LPT2=5e-10,
+      p18to21(indicator=7),
+      p21to24(indicator=10),
+      data(OpTime=OpTime, initTime=initTime)),
+    lambda_HPT=9e-10,
+    lambda_LPT1=9e-10,
+    lambda_LPT2=9e-10,
     HPT(eta_mech=eta_mech_HPT),
     LPT1(eta_mech=eta_mech_LPT1),
     LPT2(eta_mech=eta_mech_LPT2),
@@ -116,9 +112,9 @@ model Rankine_HTGR_ThreeStageTurbine_MultiAction
   Modelica.Blocks.Logical.Greater greater4
     annotation (Placement(transformation(extent={{-64,40},{-48,24}})));
 
-  Modelica.Blocks.Sources.RealExpression LPTV1SteamMassflowExtracted(y=BOP.LPT1_Bypass.port_a.m_flow)
+  Modelica.Blocks.Sources.RealExpression SteamMassflowExtracted(y=BOP.LPT1_Bypass.port_a.m_flow)
     annotation (Placement(transformation(extent={{-96,72},{-78,90}})));
-  Modelica.Blocks.Continuous.Integrator LPTV1SteamMassCumulative(use_reset=true,
+  Modelica.Blocks.Continuous.Integrator SteamMassCumulative(use_reset=true,
       use_set=false)
     annotation (Placement(transformation(extent={{-58,74},{-44,88}})));
   Modelica.Blocks.Continuous.Integrator electCum_Joule(use_reset=true, use_set=false)
@@ -128,25 +124,17 @@ model Rankine_HTGR_ThreeStageTurbine_MultiAction
         origin={80,44})));
   Electrical.PowerSensor sensorW
     annotation (Placement(transformation(extent={{72,-32},{90,-50}})));
-  Modelica.Blocks.Sources.RealExpression TBVSteamMassflowExtracted(y=BOP.TBV.port_a.m_flow)
-    annotation (Placement(transformation(extent={{46,72},{64,90}})));
-  Modelica.Blocks.Continuous.Integrator TBVSteamMassCumulative(use_reset=true,
-      use_set=false)
-    annotation (Placement(transformation(extent={{74,74},{88,88}})));
 equation
   hTGR_PebbleBed_Primary_Loop.input_steam_pressure =BOP.sensor_p.p;
   Thermal_Power_Norm = hTGR_PebbleBed_Primary_Loop.Thermal_Power.y/2.26177E8;
 
   Time_shift = timer.y;                                  // Calibrated time
 
-
-  opMode  = 1;
-
   port_a_mass = stateDisplay2.statePort.m_flow;     // sub 1
   port_a_press = BOP.sensor_p.y;                    // sub 1
   port_a_temp = stateDisplay2.statePort.T;          // sub 1
 
-  electCum_MWh  = electCum_Joule.y*2.77777777777777778e-10;               // sub 2 Joule is now changed to MWh.
+  electCum_MWh  =electCum_Joule.y*2.77777777777777778e-10;               // sub 2 Joule is now changed to MWh.
   elect_MW      = BOP.generator.Q_elec;                                  // sub 2
   HPT_mass      = BOP.HPT.m_flow*0.99999;                                // sub 2
   HPT_entropyA  = BOP.HPT_entropy_a;                                     // sub 2
@@ -167,7 +155,7 @@ equation
   LPTV1_mass    = BOP.LPT1_Bypass.port_a.m_flow;                    // sub 3
   LPTV1_press   = BOP.tee1.medium.p*0.99999;                        // sub 3
   LPTV1_temp    = BOP.LPT1_Bypass.port_b_T;                         // sub 3
-  LPTV1_massCum =LPTV1SteamMassCumulative.y;                        // sub 3
+  LPTV1_massCum = SteamMassCumulative.y;                            // sub 3
 
   LPTV2_mass = BOP.LPT2_Bypass.port_a.m_flow;       // sub 4
   LPTV2_press = BOP.tee2.medium.p*0.99999;          // sub 4
@@ -207,10 +195,10 @@ equation
   connect(greater4.y, timer.u)
     annotation (Line(points={{-47.2,32},{-37.6,32}},
                                                    color={255,0,255}));
-  connect(LPTV1SteamMassflowExtracted.y, LPTV1SteamMassCumulative.u)
+  connect(SteamMassflowExtracted.y, SteamMassCumulative.u)
     annotation (Line(points={{-77.1,81},{-59.4,81}}, color={0,0,127}));
-  connect(greater4.y, LPTV1SteamMassCumulative.reset) annotation (Line(points={{
-          -47.2,32},{-46.8,32},{-46.8,72.6}}, color={255,0,255}));
+  connect(greater4.y, SteamMassCumulative.reset) annotation (Line(points={{-47.2,
+          32},{-46.8,32},{-46.8,72.6}}, color={255,0,255}));
   connect(sensorW.port_b, sinkElec.port) annotation (Line(points={{90,-40.82},{92,
           -40.82},{92,-41},{102,-41}}, color={255,0,0}));
   connect(BOP.port_e, sensorW.port_a)
@@ -219,10 +207,6 @@ equation
           -30},{80,-30},{80,36.8}}, color={0,0,127}));
   connect(greater4.y, electCum_Joule.reset) annotation (Line(points={{-47.2,32},
           {-46,32},{-46,47.6},{72.8,47.6}}, color={255,0,255}));
-  connect(TBVSteamMassflowExtracted.y, TBVSteamMassCumulative.u)
-    annotation (Line(points={{64.9,81},{72.6,81}}, color={0,0,127}));
-  connect(greater4.y, TBVSteamMassCumulative.reset) annotation (Line(points={{-47.2,
-          32},{-46,32},{-46,66},{85.2,66},{85.2,72.6}}, color={255,0,255}));
   annotation (experiment(
       StopTime=230000,
       Interval=1000,
@@ -259,4 +243,4 @@ equation
             tolerance=0.0001,
             fixedStepSize=0)))),
     __Dymola_experimentSetupOutput(events=false));
-end Rankine_HTGR_ThreeStageTurbine_MultiAction;
+end Rankine_HTGR_ThreeStageTurbine_MultiAction_DontChange;

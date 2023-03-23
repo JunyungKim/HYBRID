@@ -1,5 +1,5 @@
 within NHES.Systems.BalanceOfPlant.Turbine.ControlSystems;
-model CS_threeStagedTurbine_HTGR_MultiAction
+model CS_threeStagedTurbine_HTGR_MultiAction_6Decisions
 
   extends BaseClasses.Partial_ControlSystem;
 
@@ -116,9 +116,9 @@ model CS_threeStagedTurbine_HTGR_MultiAction
     annotation (Placement(transformation(extent={{-684,-88},{-664,-108}})));
   Modelica.Blocks.Logical.Switch switch_P_setpoint_TCV4
     annotation (Placement(transformation(extent={{-644,-108},{-624,-88}})));
-  PrimaryHeatSystem.HTGR.HTGR_Rankine.MultiSwitch_6 p0to3(indicator=9)
+  PrimaryHeatSystem.HTGR.HTGR_Rankine.MultiSwitch_6 p0to4(indicator=4)
     annotation (Placement(transformation(extent={{-684,-72},{-664,-52}})));
-  Modelica.Blocks.Sources.Constant AM3(k=data.OpTime + data.initTime + 10800)
+  Modelica.Blocks.Sources.Constant AM4(k=data.OpTime + data.initTime + 14400)
     annotation (Placement(transformation(extent={{-684,14},{-664,34}})));
   Modelica.Blocks.Sources.ContinuousClock clock1(offset=0, startTime=0)
     annotation (Placement(transformation(extent={{-684,-26},{-664,-6}})));
@@ -126,68 +126,48 @@ model CS_threeStagedTurbine_HTGR_MultiAction
     annotation (Placement(transformation(extent={{-644,-36},{-624,-56}})));
   Modelica.Blocks.Logical.Switch switch_P_setpoint_TCV1
     annotation (Placement(transformation(extent={{-604,-56},{-584,-36}})));
-  PrimaryHeatSystem.HTGR.HTGR_Rankine.MultiSwitch_6 p3to6(indicator=2)
+  PrimaryHeatSystem.HTGR.HTGR_Rankine.MultiSwitch_6 p4to8(indicator=6)
     annotation (Placement(transformation(extent={{-644,-20},{-624,0}})));
-  Modelica.Blocks.Sources.Constant AM6(k=data.OpTime + data.initTime + 21600)
+  Modelica.Blocks.Sources.Constant AM8(k=data.OpTime + data.initTime + 28800)
     annotation (Placement(transformation(extent={{-644,60},{-624,80}})));
   Modelica.Blocks.Sources.ContinuousClock clock2(offset=0, startTime=0)
     annotation (Placement(transformation(extent={{-644,20},{-624,40}})));
   Modelica.Blocks.Logical.Greater greater2
     annotation (Placement(transformation(extent={{-604,10},{-584,-10}})));
-  PrimaryHeatSystem.HTGR.HTGR_Rankine.MultiSwitch_6 p6to9(indicator=3)
+  PrimaryHeatSystem.HTGR.HTGR_Rankine.MultiSwitch_6 p8to12(indicator=6)
     annotation (Placement(transformation(extent={{-604,26},{-584,46}})));
   Modelica.Blocks.Logical.Switch switch_P_setpoint_TCV2
     annotation (Placement(transformation(extent={{-564,-10},{-544,10}})));
-  Modelica.Blocks.Sources.Constant AM9(k=data.OpTime + data.initTime + 32400)
-    annotation (Placement(transformation(extent={{-604,102},{-584,122}})));
+  Modelica.Blocks.Sources.Constant AM12(k=data.OpTime + data.initTime + 43200)
+    annotation (Placement(transformation(extent={{-604,100},{-584,120}})));
   Modelica.Blocks.Sources.ContinuousClock clock5(offset=0, startTime=0)
     annotation (Placement(transformation(extent={{-604,62},{-584,82}})));
   Modelica.Blocks.Logical.Greater greater5
     annotation (Placement(transformation(extent={{-564,52},{-544,32}})));
-  PrimaryHeatSystem.HTGR.HTGR_Rankine.MultiSwitch_6 p9to12(indicator=11)
+  PrimaryHeatSystem.HTGR.HTGR_Rankine.MultiSwitch_6 p12to16(indicator=6)
     annotation (Placement(transformation(extent={{-564,68},{-544,88}})));
   Modelica.Blocks.Logical.Switch switch_P_setpoint_TCV5
     annotation (Placement(transformation(extent={{-524,32},{-504,52}})));
-  Modelica.Blocks.Sources.Constant PM12(k=data.OpTime + data.initTime + 43200)
+  Modelica.Blocks.Sources.Constant PM16(k=data.OpTime + data.initTime + 57600)
     annotation (Placement(transformation(extent={{-564,150},{-544,170}})));
   Modelica.Blocks.Sources.ContinuousClock clock6(offset=0, startTime=0)
     annotation (Placement(transformation(extent={{-564,110},{-544,130}})));
-  PrimaryHeatSystem.HTGR.HTGR_Rankine.MultiSwitch_6 p12to15(indicator=11)
+  PrimaryHeatSystem.HTGR.HTGR_Rankine.MultiSwitch_6 p16to20(indicator=6)
     annotation (Placement(transformation(extent={{-524,116},{-504,136}})));
   Modelica.Blocks.Logical.Greater greater6
     annotation (Placement(transformation(extent={{-524,100},{-504,80}})));
   Modelica.Blocks.Logical.Switch switch_P_setpoint_TCV6
     annotation (Placement(transformation(extent={{-484,80},{-464,100}})));
-  Modelica.Blocks.Sources.Constant PM15(k=data.OpTime + data.initTime + 54000)
+  Modelica.Blocks.Sources.Constant PM20(k=data.OpTime + data.initTime + 72000)
     annotation (Placement(transformation(extent={{-524,196},{-504,216}})));
   Modelica.Blocks.Sources.ContinuousClock clock7(offset=0, startTime=0)
     annotation (Placement(transformation(extent={{-524,156},{-504,176}})));
-  PrimaryHeatSystem.HTGR.HTGR_Rankine.MultiSwitch_6 p15to18(indicator=10)
-    annotation (Placement(transformation(extent={{-484,162},{-464,182}})));
   Modelica.Blocks.Logical.Greater greater7
     annotation (Placement(transformation(extent={{-484,146},{-464,126}})));
   Modelica.Blocks.Logical.Switch switch_P_setpoint_TCV7
     annotation (Placement(transformation(extent={{-444,126},{-424,146}})));
-  Modelica.Blocks.Sources.Constant PM18(k=data.OpTime + data.initTime + 64800)
-    annotation (Placement(transformation(extent={{-484,236},{-464,256}})));
-  Modelica.Blocks.Sources.ContinuousClock clock8(offset=0, startTime=0)
-    annotation (Placement(transformation(extent={{-484,196},{-464,216}})));
-  PrimaryHeatSystem.HTGR.HTGR_Rankine.MultiSwitch_6 p18to21(indicator=2)
-    annotation (Placement(transformation(extent={{-444,202},{-424,222}})));
-  Modelica.Blocks.Logical.Greater greater8
-    annotation (Placement(transformation(extent={{-444,186},{-424,166}})));
-  Modelica.Blocks.Logical.Switch switch_P_setpoint_TCV8
-    annotation (Placement(transformation(extent={{-404,166},{-384,186}})));
-  Modelica.Blocks.Sources.Constant PM21(k=data.OpTime + data.initTime + 75600)
-    annotation (Placement(transformation(extent={{-444,278},{-424,298}})));
-  Modelica.Blocks.Sources.ContinuousClock clock9(offset=0, startTime=0)
-    annotation (Placement(transformation(extent={{-444,238},{-424,258}})));
-  PrimaryHeatSystem.HTGR.HTGR_Rankine.MultiSwitch_6 p21to24(indicator=8)
-    annotation (Placement(transformation(extent={{-404,244},{-384,264}})));
-  Modelica.Blocks.Logical.Greater greater9
-    annotation (Placement(transformation(extent={{-404,228},{-384,208}})));
-  Modelica.Blocks.Logical.Switch switch_P_setpoint_TCV9
-    annotation (Placement(transformation(extent={{-366,208},{-346,228}})));
+  PrimaryHeatSystem.HTGR.HTGR_Rankine.MultiSwitch_6 p20to24(indicator=6)
+    annotation (Placement(transformation(extent={{-484,164},{-464,184}})));
 equation
 
   connect(const5.y,LTV2_Divert_Valve. u_s)
@@ -311,37 +291,37 @@ equation
           -133},{-646,-133},{-646,-106}}, color={0,0,127}));
   connect(greater4.y,switch_P_setpoint_TCV4. u2)
     annotation (Line(points={{-663,-98},{-646,-98}}, color={255,0,255}));
-  connect(switch_P_setpoint_TCV4.u1, p0to3.y) annotation (Line(points={{-646,
+  connect(switch_P_setpoint_TCV4.u1,p0to4. y) annotation (Line(points={{-646,
           -90},{-656,-90},{-656,-62},{-663,-62}}, color={0,0,127}));
   connect(const2.y, PID.lowerlim) annotation (Line(points={{-55.6,182},{2,182},
           {2,46},{6,46},{6,37}}, color={0,0,127}));
   connect(const11.y, PID.prop_k) annotation (Line(points={{-55.6,218},{6,218},{
           6,48},{13.4,48},{13.4,37.4}}, color={0,0,127}));
-  connect(AM3.y, greater1.u2) annotation (Line(points={{-663,24},{-652,24},{
+  connect(AM4.y, greater1.u2) annotation (Line(points={{-663,24},{-652,24},{
           -652,-38},{-646,-38}}, color={0,0,127}));
   connect(clock1.y,greater1. u1) annotation (Line(points={{-663,-16},{-656,-16},
           {-656,-46},{-646,-46}}, color={0,0,127}));
   connect(greater1.y,switch_P_setpoint_TCV1. u2)
     annotation (Line(points={{-623,-46},{-606,-46}}, color={255,0,255}));
-  connect(switch_P_setpoint_TCV1.u1, p3to6.y) annotation (Line(points={{-606,
-          -38},{-606,-40},{-616,-40},{-616,-10},{-623,-10}}, color={0,0,127}));
+  connect(switch_P_setpoint_TCV1.u1, p4to8.y) annotation (Line(points={{-606,-38},
+          {-606,-40},{-616,-40},{-616,-10},{-623,-10}}, color={0,0,127}));
   connect(switch_P_setpoint_TCV4.y, switch_P_setpoint_TCV1.u3) annotation (Line(
         points={{-623,-98},{-623,-100},{-606,-100},{-606,-54}}, color={0,0,127}));
   connect(clock2.y, greater2.u1) annotation (Line(points={{-623,30},{-616,30},{
           -616,0},{-606,0}}, color={0,0,127}));
-  connect(AM6.y, greater2.u2) annotation (Line(points={{-623,70},{-618,70},{
+  connect(AM8.y, greater2.u2) annotation (Line(points={{-623,70},{-618,70},{
           -618,68},{-612,68},{-612,20},{-606,20},{-606,8}}, color={0,0,127}));
   connect(greater2.y, switch_P_setpoint_TCV2.u2)
     annotation (Line(points={{-583,0},{-566,0}}, color={255,0,255}));
-  connect(switch_P_setpoint_TCV2.u1, p6to9.y) annotation (Line(points={{-566,8},
+  connect(switch_P_setpoint_TCV2.u1, p8to12.y) annotation (Line(points={{-566,8},
           {-576,8},{-576,36},{-583,36}}, color={0,0,127}));
   connect(switch_P_setpoint_TCV2.u3, switch_P_setpoint_TCV1.y) annotation (Line(
         points={{-566,-8},{-576,-8},{-576,-46},{-583,-46}}, color={0,0,127}));
   connect(greater5.u1, clock5.y) annotation (Line(points={{-566,42},{-576,42},{
           -576,72},{-583,72}}, color={0,0,127}));
-  connect(greater5.u2, AM9.y) annotation (Line(points={{-566,50},{-576,50},{
-          -576,108},{-583,108},{-583,112}}, color={0,0,127}));
-  connect(p9to12.y, switch_P_setpoint_TCV5.u1)
+  connect(greater5.u2, AM12.y) annotation (Line(points={{-566,50},{-576,50},{
+          -576,108},{-583,108},{-583,110}}, color={0,0,127}));
+  connect(p12to16.y, switch_P_setpoint_TCV5.u1)
     annotation (Line(points={{-543,78},{-526,78},{-526,50}}, color={0,0,127}));
   connect(switch_P_setpoint_TCV5.u2, greater5.y)
     annotation (Line(points={{-526,42},{-543,42}}, color={255,0,255}));
@@ -349,46 +329,25 @@ equation
         points={{-526,34},{-536,34},{-536,0},{-543,0}}, color={0,0,127}));
   connect(clock6.y, greater6.u1) annotation (Line(points={{-543,120},{-536,120},
           {-536,90},{-526,90}}, color={0,0,127}));
-  connect(PM12.y, greater6.u2) annotation (Line(points={{-543,160},{-526,160},{
+  connect(PM16.y, greater6.u2) annotation (Line(points={{-543,160},{-526,160},{
           -526,98}}, color={0,0,127}));
-  connect(p12to15.y, switch_P_setpoint_TCV6.u1) annotation (Line(points={{-503,
+  connect(p16to20.y, switch_P_setpoint_TCV6.u1) annotation (Line(points={{-503,
           126},{-486,126},{-486,98}}, color={0,0,127}));
   connect(greater6.y, switch_P_setpoint_TCV6.u2)
     annotation (Line(points={{-503,90},{-486,90}}, color={255,0,255}));
   connect(switch_P_setpoint_TCV5.y, switch_P_setpoint_TCV6.u3) annotation (Line(
         points={{-503,42},{-496,42},{-496,82},{-486,82}}, color={0,0,127}));
-  connect(greater7.u2, PM15.y) annotation (Line(points={{-486,144},{-494,144},{
+  connect(greater7.u2,PM20. y) annotation (Line(points={{-486,144},{-494,144},{
           -494,208},{-503,208},{-503,206}}, color={0,0,127}));
   connect(greater7.u1, clock7.y) annotation (Line(points={{-486,136},{-494,136},
           {-494,162},{-503,162},{-503,166}}, color={0,0,127}));
   connect(greater7.y, switch_P_setpoint_TCV7.u2)
     annotation (Line(points={{-463,136},{-446,136}}, color={255,0,255}));
-  connect(switch_P_setpoint_TCV7.u1, p15to18.y) annotation (Line(points={{-446,
-          144},{-456,144},{-456,172},{-463,172}}, color={0,0,127}));
   connect(switch_P_setpoint_TCV6.y, switch_P_setpoint_TCV7.u3) annotation (Line(
         points={{-463,90},{-446,90},{-446,128}}, color={0,0,127}));
-  connect(clock8.y, greater8.u1) annotation (Line(points={{-463,206},{-460,206},
-          {-460,204},{-456,204},{-456,176},{-446,176}}, color={0,0,127}));
-  connect(greater8.u2, PM18.y) annotation (Line(points={{-446,184},{-448,184},{
-          -448,196},{-452,196},{-452,246},{-463,246}}, color={0,0,127}));
-  connect(greater8.y, switch_P_setpoint_TCV8.u2)
-    annotation (Line(points={{-423,176},{-406,176}}, color={255,0,255}));
-  connect(switch_P_setpoint_TCV8.u1, p18to21.y) annotation (Line(points={{-406,
-          184},{-416,184},{-416,212},{-423,212}}, color={0,0,127}));
-  connect(switch_P_setpoint_TCV8.u3, switch_P_setpoint_TCV7.y) annotation (Line(
-        points={{-406,168},{-416,168},{-416,136},{-423,136}}, color={0,0,127}));
-  connect(clock9.y, greater9.u1) annotation (Line(points={{-423,248},{-418,248},
-          {-418,218},{-406,218}}, color={0,0,127}));
-  connect(PM21.y, greater9.u2) annotation (Line(points={{-423,288},{-406,288},{
-          -406,226}}, color={0,0,127}));
-  connect(greater9.y, switch_P_setpoint_TCV9.u2)
-    annotation (Line(points={{-383,218},{-368,218}}, color={255,0,255}));
-  connect(switch_P_setpoint_TCV8.y, switch_P_setpoint_TCV9.u3) annotation (Line(
-        points={{-383,176},{-372,176},{-372,200},{-376,200},{-376,210},{-368,
-          210}}, color={0,0,127}));
-  connect(p21to24.y, switch_P_setpoint_TCV9.u1) annotation (Line(points={{-383,
-          254},{-368,254},{-368,226}}, color={0,0,127}));
-  connect(LTV1_Divert_Valve1.u_s, switch_P_setpoint_TCV9.y) annotation (Line(
-        points={{-57.6,120},{-332,120},{-332,218},{-345,218}}, color={0,0,127}));
+  connect(switch_P_setpoint_TCV7.y, LTV1_Divert_Valve1.u_s) annotation (Line(
+        points={{-423,136},{-68,136},{-68,120},{-57.6,120}}, color={0,0,127}));
+  connect(p20to24.y, switch_P_setpoint_TCV7.u1) annotation (Line(points={{-463,
+          174},{-456,174},{-456,144},{-446,144}}, color={0,0,127}));
 annotation(defaultComponentName="changeMe_CS", Icon(graphics));
-end CS_threeStagedTurbine_HTGR_MultiAction;
+end CS_threeStagedTurbine_HTGR_MultiAction_6Decisions;

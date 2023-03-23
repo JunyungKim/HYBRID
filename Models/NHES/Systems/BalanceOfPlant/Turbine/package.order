@@ -13,3 +13,5 @@ BaseClasses
 ObsoleteRankines
 HTGR_RankineCycles
 SteamTurbine_L3_HTGR_MultiAction
+SteamTurbine_L3_HTGR_MultiAction_genChanged
+SteamTurbine_L3_HTGR_MultiAction_genChanged_NoTBV

@@ -1,27 +1,24 @@
 within NHES.Systems.PrimaryHeatSystem.HTGR.HTGR_Rankine.Examples;
-model Rankine_HTGR_ThreeStageTurbine_MultiAction
+model Rankine_HTGR_ThreeStageTurbine_MultiAction_6decisions
   extends Modelica.Icons.Example;
 
   Real Thermal_Power_Norm;
   Modelica.Units.SI.Time Time_shift;
 
-  Modelica.Units.SI.MassFlowRate port_a_mass;     // sub 1
   Modelica.Units.SI.Pressure port_a_press;        // sub 1
   Modelica.Units.SI.Temperature port_a_temp;      // sub 1
 
-  Modelica.Units.SI.Power electCum_MWh;           // sub 2
-  Real elect_MW;                                   // sub 2
-  Modelica.Units.SI.MassFlowRate HPT_mass;        // sub 2
+  // Modelica.Units.SI.MassFlowRate HPT_mass;        // sub 2
   Modelica.Units.SI.Entropy HPT_entropyA;         // sub 2
   Modelica.Units.SI.Entropy HPT_entropyB;         // sub 2
   Modelica.Units.SI.Enthalpy HPT_enthalpyA;       // sub 2
   Modelica.Units.SI.Enthalpy HPT_enthalpyB;       // sub 2
-  Modelica.Units.SI.MassFlowRate LPT1_mass;         // sub 2
+  // Modelica.Units.SI.MassFlowRate LPT1_mass;         // sub 2
   Modelica.Units.SI.Entropy LPT1_entropyA;          // sub 2
   Modelica.Units.SI.Entropy LPT1_entropyB;          // sub 2
   Modelica.Units.SI.Enthalpy LPT1_enthalpyA;        // sub 2
   Modelica.Units.SI.Enthalpy LPT1_enthalpyB;        // sub 2
-  Modelica.Units.SI.MassFlowRate LPT2_mass;           // sub 2
+  // Modelica.Units.SI.MassFlowRate LPT2_mass;           // sub 2
   Modelica.Units.SI.Entropy LPT2_entropyA;            // sub 2
   Modelica.Units.SI.Entropy LPT2_entropyB;            // sub 2
   Modelica.Units.SI.Enthalpy LPT2_enthalpyA;          // sub 2
@@ -39,15 +36,16 @@ model Rankine_HTGR_ThreeStageTurbine_MultiAction
   Modelica.Units.SI.MassFlowRate port_b_mass;     // sub 5
   Modelica.Units.SI.Pressure port_b_press;        // sub 5
   Modelica.Units.SI.Temperature port_b_temp;      // sub 5
-
+  Real   TBVmassCum;
   Real   opMode;
 
-  Real   healthLevel_HPT;
-  Real   healthLevel_LPT1;
-  Real   healthLevel_LPT2;
+  Real electCum_MWh;                               // sub 6
+  Modelica.Units.SI.Power elect_MW;                // sub 6
 
-  parameter Real OpTime=0     "Operational time when making decision (unit seconds)";
-  //parameter Real OpTime=630720000     "Operational time when making decision (unit seconds)";
+  Real     healthLevel_Turb;
+
+  //parameter Real OpTime=0     "Operational time when making decision (unit seconds)";
+  parameter Real OpTime=630720000     "Operational time when making decision (unit seconds)";
   parameter Real initTime=3600*40 "Time needed for initialization";
   parameter Real eta_mech_HPT =0.85
                                    "Mechanical efficiency";
@@ -59,19 +57,17 @@ model Rankine_HTGR_ThreeStageTurbine_MultiAction
   BalanceOfPlant.Turbine.SteamTurbine_L3_HTGR_MultiAction_genChanged
                                                           BOP(
     redeclare
-      NHES.Systems.BalanceOfPlant.Turbine.ControlSystems.CS_threeStagedTurbine_HTGR_MultiAction
+      NHES.Systems.BalanceOfPlant.Turbine.ControlSystems.CS_threeStagedTurbine_HTGR_MultiAction_6Decisions
       CS(
-      p0to3(indicator=5),
-      p3to6(indicator=6),
-      p6to9(indicator=4),
-      p9to12(indicator=2),
-      p12to15(indicator=1),
-      p15to18(indicator=3),
-      p18to21(indicator=3),
-      p21to24(indicator=5),
       data(OpTime=OpTime, initTime=initTime),
+      p0to4(indicator=4),
+      const6(k=36e6),
+      p4to8(indicator=6),
+      p8to12(indicator=5),
+      p12to16(indicator=6),
+      p16to20(indicator=4),
       LTV1_Divert_Valve1(yMin=1e-6),
-      const6(k=36e6)),
+      p20to24(indicator=2)),
     lambda_HPT=5e-10,
     lambda_LPT1=5e-10,
     lambda_LPT2=5e-10,
@@ -81,7 +77,7 @@ model Rankine_HTGR_ThreeStageTurbine_MultiAction
     LPT1_Bypass(m_flow_nominal=100),
     boundary2(p=4000000),
     TBV(m_flow_nominal=50))
-    annotation (Placement(transformation(extent={{-8,-62},{60,-14}})));
+    annotation (Placement(transformation(extent={{-6,-62},{62,-14}})));
   TRANSFORM.Electrical.Sources.FrequencySource
                                      sinkElec(f=60)
     annotation (Placement(transformation(extent={{116,-48},{102,-34}})));
@@ -139,26 +135,24 @@ equation
 
   Time_shift = timer.y;                                  // Calibrated time
 
-
   opMode  = 1;
+  port_a_press = BOP.sensor_p.y;                     // sub 1 energy
+  port_a_temp  = stateDisplay2.statePort.T;          // sub 1 energy
+  TBVmassCum   = TBVSteamMassCumulative.y;           // sub 1 mass (kg)
 
-  port_a_mass = stateDisplay2.statePort.m_flow;     // sub 1
-  port_a_press = BOP.sensor_p.y;                    // sub 1
-  port_a_temp = stateDisplay2.statePort.T;          // sub 1
 
-  electCum_MWh  = electCum_Joule.y*2.77777777777777778e-10;               // sub 2 Joule is now changed to MWh.
-  elect_MW      = BOP.generator.Q_elec;                                  // sub 2
-  HPT_mass      = BOP.HPT.m_flow*0.99999;                                // sub 2
-  HPT_entropyA  = BOP.HPT_entropy_a;                                     // sub 2
-  HPT_entropyB  = BOP.HPT_entropy_b;                                     // sub 2
-  HPT_enthalpyA = BOP.HPT.portHP.h_outflow;                              // sub 2
-  HPT_enthalpyB = BOP.HPT.portLP.h_outflow;                              // sub 2
-  LPT1_mass = BOP.LPT1.m_flow;                        // sub 2
+  healthLevel_Turb   = BOP.HPT.eta_wetSteam.eta;     // sub 2 Health
+  //HPT_mass      = BOP.HPT.m_flow*0.99999;            // sub 2
+  HPT_entropyA  = BOP.HPT_entropy_a;                 // sub 2
+  HPT_entropyB  = BOP.HPT_entropy_b;                 // sub 2
+  HPT_enthalpyA = BOP.HPT.portHP.h_outflow;          // sub 2
+  HPT_enthalpyB = BOP.HPT.portLP.h_outflow;          // sub 2
+  //LPT1_mass = BOP.LPT1.m_flow;                        // sub 2
   LPT1_entropyA = BOP.LPT1_entropy_a;                 // sub 2
   LPT1_entropyB = BOP.LPT1_entropy_b;                 // sub 2
   LPT1_enthalpyA = BOP.tee1.medium.h*0.999999;        // sub 2
   LPT1_enthalpyB = BOP.tee2.medium.h*0.999999;        // sub 2
-  LPT2_mass = BOP.LPT2.m_flow;                      // sub 2
+  //LPT2_mass = BOP.LPT2.m_flow;                      // sub 2
   LPT2_entropyA = BOP.LPT2_entropy_a;               // sub 2
   LPT2_entropyB = BOP.LPT2_entropy_b;               // sub 2
   LPT2_enthalpyA = BOP.tee2.medium.h*0.999999;      // sub 2
@@ -177,18 +171,17 @@ equation
   port_b_press = BOP.FWCP.port_b.p*0.999999;         // sub 5
   port_b_temp  = stateDisplay1.statePort.T;          // sub 5
 
-  healthLevel_HPT   = BOP.HPT.eta_wetSteam.eta;
-  healthLevel_LPT1  = BOP.LPT1.eta_wetSteam.eta;
-  healthLevel_LPT2  = BOP.LPT2.eta_wetSteam.eta;
+  electCum_MWh  = electCum_Joule.y*2.77777777777777778e-10;              // sub 6 Joule is now changed to MWh.
+  elect_MW      = BOP.generator.Q_elec/1e6;                              // sub 6
 
   connect(hTGR_PebbleBed_Primary_Loop.port_b, stateSensor1.port_a) annotation (
       Line(points={{-40.87,-26.79},{-40.87,-26},{-30,-26}},
                                                          color={0,127,255}));
   connect(stateSensor1.port_b, BOP.port_a)
-    annotation (Line(points={{-14,-26},{-8,-26},{-8,-26.48}},
+    annotation (Line(points={{-14,-26},{-6,-26},{-6,-26.48}},
                                                            color={0,127,255}));
   connect(stateSensor2.port_a, BOP.port_b)
-    annotation (Line(points={{-14,-52},{-8,-51.92}},
+    annotation (Line(points={{-14,-52},{-6,-51.92}},
                                                  color={0,127,255}));
   connect(hTGR_PebbleBed_Primary_Loop.port_a, stateSensor2.port_b) annotation (
       Line(points={{-40.87,-50.57},{-40.87,-52},{-30,-52}},
@@ -214,7 +207,7 @@ equation
   connect(sensorW.port_b, sinkElec.port) annotation (Line(points={{90,-40.82},{92,
           -40.82},{92,-41},{102,-41}}, color={255,0,0}));
   connect(BOP.port_e, sensorW.port_a)
-    annotation (Line(points={{60,-41.84},{60,-41},{72,-41}}, color={255,0,0}));
+    annotation (Line(points={{62,-41.84},{62,-41},{72,-41}}, color={255,0,0}));
   connect(sensorW.W, electCum_Joule.u) annotation (Line(points={{81,-32.54},{81,
           -30},{80,-30},{80,36.8}}, color={0,0,127}));
   connect(greater4.y, electCum_Joule.reset) annotation (Line(points={{-47.2,32},
@@ -224,8 +217,9 @@ equation
   connect(greater4.y, TBVSteamMassCumulative.reset) annotation (Line(points={{-47.2,
           32},{-46,32},{-46,66},{85.2,66},{85.2,72.6}}, color={255,0,255}));
   annotation (experiment(
-      StopTime=230000,
-      Interval=1000,
+      StartTime=630720000,
+      StopTime=630950400,
+      Interval=3600,
       Tolerance=0.01,
       __Dymola_Algorithm="Esdirk45a"), Documentation(info="<html>
 <p>Test of Pebble_Bed_Three-Stage_Rankine. The simulation should experience transient where external electricity demand is oscilating and control valves are opening and closing corresponding to the required power demand. </p>
@@ -259,4 +253,4 @@ equation
             tolerance=0.0001,
             fixedStepSize=0)))),
     __Dymola_experimentSetupOutput(events=false));
-end Rankine_HTGR_ThreeStageTurbine_MultiAction;
+end Rankine_HTGR_ThreeStageTurbine_MultiAction_6decisions;
