@@ -1,5 +1,5 @@
 within NHES.Systems.BalanceOfPlant.Turbine;
-model SteamTurbine_L3_HTGR_MultiAction_genChanged_NoTBV
+model SteamTurbine_L3_HTGR_MultiAction_genChanged_final
   extends BaseClasses.Partial_SubSystem(
     redeclare replaceable
       ControlSystems.CS_threeStagedTurbine_HTGR_MultiAction
@@ -26,8 +26,8 @@ model SteamTurbine_L3_HTGR_MultiAction_genChanged_NoTBV
     nUnits=1,
     eta_mech=0.85,
     redeclare model Eta_wetSteam =
-        TRANSFORM.Fluid.Machines.BaseClasses.WetSteamEfficiency.eta_Degradation_HPT
-        (lambda_HPT=lambda_HPT),
+        NHES.Systems.PrimaryHeatSystem.HTGR.HTGR_Rankine.eta_Degradation_HPT (
+          lambda_HPT=lambda_HPT),
     p_a_start=dataInitial_HTGR_BoP_3stage.HPT_P_inlet,
     p_b_start=dataInitial_HTGR_BoP_3stage.HPT_P_outlet,
     T_a_start=dataInitial_HTGR_BoP_3stage.HPT_T_inlet,
@@ -96,8 +96,8 @@ model SteamTurbine_L3_HTGR_MultiAction_genChanged_NoTBV
     nUnits=1,
     eta_mech=0.85,
     redeclare model Eta_wetSteam =
-        TRANSFORM.Fluid.Machines.BaseClasses.WetSteamEfficiency.eta_Degradation_LPT1
-        (lambda_LPT1=lambda_LPT1),
+        NHES.Systems.PrimaryHeatSystem.HTGR.HTGR_Rankine.eta_Degradation_LPT1 (
+          lambda_LPT1=lambda_LPT1),
     p_a_start=3000000,
     p_b_start=1500000,
     T_a_start=573.15,
@@ -152,8 +152,8 @@ model SteamTurbine_L3_HTGR_MultiAction_genChanged_NoTBV
     p_nominal=5500000,
     allowFlowReversal=false)
     annotation (Placement(transformation(extent={{40,-92},{20,-72}})));
-  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow1(redeclare package Medium =
-        Modelica.Media.Water.StandardWater)            annotation (Placement(
+  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow1(redeclare package Medium
+      = Modelica.Media.Water.StandardWater)            annotation (Placement(
         transformation(
         extent={{7,-8},{-7,8}},
         rotation=90,
@@ -192,8 +192,8 @@ model SteamTurbine_L3_HTGR_MultiAction_genChanged_NoTBV
     nUnits=1,
     eta_mech=0.85,
     redeclare model Eta_wetSteam =
-        TRANSFORM.Fluid.Machines.BaseClasses.WetSteamEfficiency.eta_Degradation_LPT2
-        (lambda_LPT2=lambda_LPT2),
+        NHES.Systems.PrimaryHeatSystem.HTGR.HTGR_Rankine.eta_Degradation_LPT2 (
+          lambda_LPT2=lambda_LPT2),
     p_a_start=1500000,
     p_b_start=8000,
     T_a_start=523.15,
@@ -231,8 +231,8 @@ model SteamTurbine_L3_HTGR_MultiAction_genChanged_NoTBV
     T=573.15,
     nPorts=1)
     annotation (Placement(transformation(extent={{-104,-42},{-84,-22}})));
-  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium =
-        Modelica.Media.Water.StandardWater)            annotation (Placement(
+  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium
+      = Modelica.Media.Water.StandardWater)            annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=180,
@@ -254,8 +254,6 @@ model SteamTurbine_L3_HTGR_MultiAction_genChanged_NoTBV
     annotation (Placement(transformation(extent={{6,6},{-6,-6}},
         rotation=90,
         origin={202,-40})));
-  Modelica.Blocks.Sources.RealExpression realExpression
-    annotation (Placement(transformation(extent={{-128,88},{-108,108}})));
 initial equation
 
 equation
@@ -348,6 +346,10 @@ equation
                                        color={0,127,255}));
   connect(sensor_T2.port_b, port_b)
     annotation (Line(points={{-118,-58},{-140,-58}},color={0,127,255}));
+  connect(TBV.opening, actuatorBus.TBV) annotation (Line(points={{-74,78.4},{-74,
+          100},{30,100}},       color={111,216,99},
+      pattern=LinePattern.Dash,
+      thickness=0.5));
   connect(LPT1.shaft_b, LPT2.shaft_a)
     annotation (Line(points={{138,34},{198,34}}, color={0,0,0}));
   connect(tee2.port_1, LPT2.portHP) annotation (Line(points={{188,50},{192,50},{
@@ -412,8 +414,6 @@ equation
     annotation (Line(points={{202,-25.4},{202,-32.8}}, color={0,0,127}));
   connect(port_e, port_e)
     annotation (Line(points={{140,-16},{140,-16}}, color={255,0,0}));
-  connect(realExpression.y, TBV.opening)
-    annotation (Line(points={{-107,98},{-74,98},{-74,78.4}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-140,
             -100},{140,100}}),                                  graphics={
         Rectangle(
@@ -576,4 +576,4 @@ equation
 <p>A three-stage turbine rankine cycle with feedwater heating internal to the system</p>
 <p>Three bypass ways exist using TBV (Turbine bypass valve), LPTBV1 (Low-Pressure Turbine bypass valve-1), and LPTBV2 (Low-Pressure Turbine bypass valve-2).</p>
 </html>"));
-end SteamTurbine_L3_HTGR_MultiAction_genChanged_NoTBV;
+end SteamTurbine_L3_HTGR_MultiAction_genChanged_final;
