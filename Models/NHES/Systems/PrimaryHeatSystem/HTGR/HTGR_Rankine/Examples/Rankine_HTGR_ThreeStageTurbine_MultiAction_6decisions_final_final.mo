@@ -52,7 +52,7 @@ model Rankine_HTGR_ThreeStageTurbine_MultiAction_6decisions_final_final
 
   //parameter Real OpTime=0     "Operational time when making decision (unit seconds)";
   parameter Real OpTime=630720000     "Operational time when making decision (unit seconds)";
-  parameter Real initTime=3600*40 "Time needed for initialization";
+  parameter Real initTime=14400*10     "Time needed for initialization";
   parameter Real eta_mech_HPT =0.85
                                    "Mechanical efficiency";
   parameter Real eta_mech_LPT1=0.85
@@ -147,46 +147,46 @@ equation
   Time_shift = timer.y;                                  // Calibrated time
 
   opMode  = 1;
-  port_a_press = BOP.sensor_p.y;                     // sub 1 energy
+  port_a_press = BOP.sensor_p.y/10;             // sub 1 energy
   port_a_temp  = stateDisplay2.statePort.T;          // sub 1 energy
-  TBVmassCum   = TBVSteamMassCumulative.y;           // sub 1 mass (kg)
+  TBVmassCum   = TBVSteamMassCumulative.y*0.99999;   // sub 1 mass (kg)
 
-  healthLevel_Turb   = BOP.HPT.eta_wetSteam.eta;      // sub 2 health
-  turbine_massCum    = TurbineSteamMassCumulative.y;  // sub 2 mass
+  healthLevel_Turb   = BOP.HPT.eta_wetSteam.eta;               // sub 2 health
+  turbine_massCum    = TurbineSteamMassCumulative.y*0.999999;  // sub 2 mass
   //HPT_mass      = BOP.HPT.m_flow*0.99999;
   HPT_entropyA  = BOP.HPT_entropy_a;                 // sub 2 energy
   HPT_entropyB  = BOP.HPT_entropy_b;                 // sub 2 energy
-  HPT_enthalpyA = BOP.HPT.portHP.h_outflow;          // sub 2 energy
-  HPT_enthalpyB = BOP.HPT.portLP.h_outflow;          // sub 2 energy
-  HPT_outletTemp = BOP.HPT.state_b.T;                // sub 2 energy
-  HPT_outletPres = BOP.HPT.state_b.p;                // sub 2 energy
+  HPT_enthalpyA = BOP.HPT.portHP.h_outflow/1000;          // sub 2 energy
+  HPT_enthalpyB = BOP.HPT.portLP.h_outflow/1000;          // sub 2 energy
+  HPT_outletTemp = BOP.HPT.state_b.T*0.9999999;        // sub 2 energy
+  HPT_outletPres = BOP.HPT.state_b.p/1000000;        // sub 2 energy
   //LPT1_mass = BOP.LPT1.m_flow;
   LPT1_entropyA = BOP.LPT1_entropy_a;                 // sub 2 energy
   LPT1_entropyB = BOP.LPT1_entropy_b;                 // sub 2 energy
-  LPT1_enthalpyA = BOP.tee1.medium.h*0.999999;        // sub 2 energy
-  LPT1_enthalpyB = BOP.tee2.medium.h*0.999999;        // sub 2 energy
-  LPT1_outletTemp = BOP.LPT1.state_b.T;
-  LPT1_outletPres = BOP.LPT1.state_b.p;
+  LPT1_enthalpyA = BOP.tee1.medium.h/1000;        // sub 2 energy
+  LPT1_enthalpyB = BOP.tee2.medium.h/1000;        // sub 2 energy
+  LPT1_outletTemp = BOP.LPT1.state_b.T*0.9999999;
+  LPT1_outletPres = BOP.LPT1.state_b.p/1000000;
   //LPT2_mass = BOP.LPT2.m_flow;
   LPT2_entropyA = BOP.LPT2_entropy_a;               // sub 2 energy
   LPT2_entropyB = BOP.LPT2_entropy_b;               // sub 2 energy
-  LPT2_enthalpyA = BOP.tee2.medium.h*0.999999;      // sub 2 energy
-  LPT2_enthalpyB = BOP.LPT2.h_is*0.99999;           // sub 2 energy
-  LPT2_outletTemp = BOP.LPT2.state_b.T;             // sub 2 energy
-  LPT2_outletPres = BOP.LPT2.state_b.p;             // sub 2 energy
+  LPT2_enthalpyA = BOP.tee2.medium.h/1000;      // sub 2 energy
+  LPT2_enthalpyB = BOP.LPT2.h_is/1000;           // sub 2 energy
+  LPT2_outletTemp = BOP.LPT2.state_b.T*0.99999;     // sub 2 energy
+  LPT2_outletPres = BOP.LPT2.state_b.p/1000000;     // sub 2 energy
 
-  LPTV1_massCum =LPTV1SteamMassCumulative.y;                        // sub 3 mass
+  LPTV1_massCum =LPTV1SteamMassCumulative.y*0.99999;                // sub 3 mass
   // LPTV1_mass    = BOP.LPT1_Bypass.port_a.m_flow;
-  LPTV1_press   = BOP.tee1.medium.p*0.99999;                        // sub 3 energy
-  LPTV1_temp    = BOP.LPT1_Bypass.port_b_T;                         // sub 3 energy
+  LPTV1_press   = BOP.tee1.medium.p/1000000;                        // sub 3 energy
+  LPTV1_temp    = BOP.LPT1_Bypass.port_b_T*0.99999;                 // sub 3 energy
 
-  LPTV2_mass = BOP.LPT2_Bypass.port_a.m_flow;       // sub 4  massflow
-  LPTV2_press = BOP.tee2.medium.p*0.99999;          // sub 4  energy
-  LPTV2_temp = BOP.LPT2_Bypass.port_a_T;            // sub 4  energy
+  LPTV2_mass = BOP.LPT2_Bypass.port_a.m_flow*0.99999; // sub 4  massflow
+  LPTV2_press = BOP.tee2.medium.p/1000000;            // sub 4  energy
+  LPTV2_temp = BOP.LPT2_Bypass.port_a_T*0.99999;      // sub 4  energy
 
-  port_b_mass  = stateDisplay1.statePort.m_flow;     // sub 5 mass
-  port_b_press = BOP.FWCP.port_b.p*0.999999;         // sub 5 energy
-  port_b_temp  = BOP.sensor_T2.T;                    // sub 5 energy
+  port_b_mass  = stateDisplay1.statePort.m_flow*0.99999;    // sub 5 mass
+  port_b_press = BOP.FWCP.port_b.p/1000000;                // sub 5 energy
+  port_b_temp  = BOP.sensor_T2.T*0.99999;                   // sub 5 energy
 
   electCum_MWh  = electCum_Joule.y*2.77777777777777778e-10;              // sub 6 Joule is now changed to MWh.
   elect_MW      = BOP.generator.Q_elec/1e6;                              // sub 6
@@ -242,7 +242,7 @@ equation
   annotation (experiment(
       StartTime=630720000,
       StopTime=630950400,
-      Interval=3600,
+      Interval=14400,
       Tolerance=0.01,
       __Dymola_Algorithm="Esdirk45a"), Documentation(info="<html>
 <p>Test of Pebble_Bed_Three-Stage_Rankine. The simulation should experience transient where external electricity demand is oscilating and control valves are opening and closing corresponding to the required power demand. </p>
