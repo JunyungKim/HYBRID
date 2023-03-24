@@ -51,7 +51,8 @@ model Rankine_HTGR_ThreeStageTurbine_MultiAction_6decisions_final_final
   Modelica.Units.SI.Power elect_MW;                // sub 6
 
   //parameter Real OpTime=0     "Operational time when making decision (unit seconds)";
-  parameter Real OpTime=630720000     "Operational time when making decision (unit seconds)";
+  //parameter Real OpTime=630720000     "Operational time when making decision (unit seconds)";
+  parameter Real OpTime=315360000     "Operational time when making decision (unit seconds)";
   parameter Real initTime=14400*10     "Time needed for initialization";
   parameter Real eta_mech_HPT =0.85
                                    "Mechanical efficiency";
@@ -240,8 +241,8 @@ equation
   connect(greater4.y, TurbineSteamMassCumulative.reset) annotation (Line(points
         ={{-47.2,32},{-46,32},{-46,66},{89.2,66},{89.2,72.6}}, color={255,0,255}));
   annotation (experiment(
-      StartTime=630720000,
-      StopTime=630950400,
+      StartTime=315360000,
+      StopTime=315590400,
       Interval=14400,
       Tolerance=0.01,
       __Dymola_Algorithm="Esdirk45a"), Documentation(info="<html>
