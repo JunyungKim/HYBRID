@@ -363,18 +363,18 @@ equation
     annotation (Line(points={{-90,0},{-100,0}}, color={0,127,255}));
   connect(port_a_cond, pump.port_a) annotation (Line(points={{100,-40},{72,-40},
           {72,-60},{66,-60}}, color={0,127,255}));
-  connect(HPT_bypass_valve.port_b, BypassFeedwaterHeater.Shell_in) annotation (
-      Line(points={{-44,-20},{-44,-54},{-38,-54}}, color={0,127,255}));
   connect(pump1.port_b, BypassFeedwaterHeater.Tube_in)
     annotation (Line(points={{-2,-60},{-18,-60}}, color={0,127,255}));
-  connect(BypassFeedwaterHeater.Shell_out, resistance1.port_b) annotation (Line(
-        points={{-18,-54},{-6,-54},{-6,-28},{55.8,-28}}, color={0,127,255}));
   connect(resistance1.port_a, condenser.port_a) annotation (Line(points={{64.2,
           -28},{94,-28},{94,-43},{93,-43}}, color={0,127,255}));
   connect(SteamHeader.port_b, nonLinear_Break.port_a) annotation (Line(points={
           {-80,60},{-74,60},{-74,26},{-44,26},{-44,18}}, color={0,127,255}));
   connect(nonLinear_Break.port_b, HPT_bypass_valve.port_a)
     annotation (Line(points={{-44,10},{-44,-8}}, color={0,127,255}));
+  connect(HPT_bypass_valve.port_b, BypassFeedwaterHeater.Shell_in) annotation (
+      Line(points={{-44,-20},{-44,-54},{-38,-54}}, color={0,127,255}));
+  connect(BypassFeedwaterHeater.Shell_out, resistance1.port_b) annotation (Line(
+        points={{-18,-54},{-6,-54},{-6,-28},{55.8,-28}}, color={0,127,255}));
   connect(BypassFeedwaterHeater.Tube_out, FWCP.port_a)
     annotation (Line(points={{-38,-60},{-58,-60}}, color={0,127,255}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
