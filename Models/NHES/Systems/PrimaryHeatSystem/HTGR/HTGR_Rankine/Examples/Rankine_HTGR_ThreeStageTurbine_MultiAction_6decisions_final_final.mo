@@ -50,10 +50,16 @@ model Rankine_HTGR_ThreeStageTurbine_MultiAction_6decisions_final_final
   Real electCum_MWh;                               // sub 6
   Modelica.Units.SI.Power elect_MW;                // sub 6
 
+  parameter Real lambda_turbine = 7e-10;
+
+
   //parameter Real OpTime=0     "Operational time when making decision (unit seconds)";
-  //parameter Real OpTime=630720000     "Operational time when making decision (unit seconds)";
-  parameter Real OpTime=315360000     "Operational time when making decision (unit seconds)";
-  parameter Real initTime=14400*10     "Time needed for initialization";
+  //parameter Real OpTime=0     "Operational time when making decision (unit seconds)";
+  //parameter Real OpTime=315360000     "10 Yr Operational time when making decision (unit seconds)";
+  parameter Real OpTime=473040000     "15 Yr Operational time when making decision (unit seconds)";
+  //parameter Real OpTime=630720000     "20 Yr Operational time when making decision (unit seconds)";
+
+  parameter Real initTime=14400*5     "Time needed for initialization";
   parameter Real eta_mech_HPT =0.85
                                    "Mechanical efficiency";
   parameter Real eta_mech_LPT1=0.85
@@ -68,16 +74,16 @@ model Rankine_HTGR_ThreeStageTurbine_MultiAction_6decisions_final_final
       CS(
       data(OpTime=OpTime, initTime=initTime),
       p0to4(indicator=4),
-      const6(k=36e6),
+      const6(k=32e6),
       p4to8(indicator=6),
       p8to12(indicator=5),
       p12to16(indicator=6),
-      p16to20(indicator=4),
+      p16to20(indicator=3),
       LTV1_Divert_Valve1(yMin=1e-6),
-      p20to24(indicator=2)),
-    lambda_HPT=5e-10,
-    lambda_LPT1=5e-10,
-    lambda_LPT2=5e-10,
+      p20to24(indicator=1)),
+    lambda_HPT=lambda_turbine,
+    lambda_LPT1=lambda_turbine,
+    lambda_LPT2=lambda_turbine,
     HPT(eta_mech=eta_mech_HPT),
     LPT1(eta_mech=eta_mech_LPT1),
     LPT2(eta_mech=eta_mech_LPT2),
@@ -148,33 +154,33 @@ equation
   Time_shift = timer.y;                                  // Calibrated time
 
   opMode  = 1;
-  port_a_press = BOP.sensor_p.y/10;             // sub 1 energy
-  port_a_temp  = stateDisplay2.statePort.T;          // sub 1 energy
-  TBVmassCum   = TBVSteamMassCumulative.y*0.99999;   // sub 1 mass (kg)
+  port_a_press = BOP.sensor_p.y/10;                            // sub 1 energy
+  port_a_temp  = stateDisplay2.statePort.T;                    // sub 1 energy
+  TBVmassCum   = TBVSteamMassCumulative.y*0.99999;             // sub 1 mass (kg)
 
-  healthLevel_Turb   = BOP.HPT.eta_wetSteam.eta;               // sub 2 health
+  healthLevel_Turb   = lambda_turbine;                         // sub 2 health
   turbine_massCum    = TurbineSteamMassCumulative.y*0.999999;  // sub 2 mass
   //HPT_mass      = BOP.HPT.m_flow*0.99999;
-  HPT_entropyA  = BOP.HPT_entropy_a;                 // sub 2 energy
-  HPT_entropyB  = BOP.HPT_entropy_b;                 // sub 2 energy
-  HPT_enthalpyA = BOP.HPT.portHP.h_outflow/1000;          // sub 2 energy
-  HPT_enthalpyB = BOP.HPT.portLP.h_outflow/1000;          // sub 2 energy
-  HPT_outletTemp = BOP.HPT.state_b.T*0.9999999;        // sub 2 energy
-  HPT_outletPres = BOP.HPT.state_b.p/1000000;        // sub 2 energy
+  HPT_entropyA  = BOP.HPT_entropy_a;                           // sub 2 energy
+  HPT_entropyB  = BOP.HPT_entropy_b;                           // sub 2 energy
+  HPT_enthalpyA = BOP.HPT.portHP.h_outflow/1000;               // sub 2 energy
+  HPT_enthalpyB = BOP.HPT.portLP.h_outflow/1000;               // sub 2 energy
+  HPT_outletTemp = BOP.HPT.state_b.T*0.9999999;                // sub 2 energy
+  HPT_outletPres = BOP.HPT.state_b.p/1000000;                  // sub 2 energy
   //LPT1_mass = BOP.LPT1.m_flow;
-  LPT1_entropyA = BOP.LPT1_entropy_a;                 // sub 2 energy
-  LPT1_entropyB = BOP.LPT1_entropy_b;                 // sub 2 energy
-  LPT1_enthalpyA = BOP.tee1.medium.h/1000;        // sub 2 energy
-  LPT1_enthalpyB = BOP.tee2.medium.h/1000;        // sub 2 energy
+  LPT1_entropyA = BOP.LPT1_entropy_a;                          // sub 2 energy
+  LPT1_entropyB = BOP.LPT1_entropy_b;                          // sub 2 energy
+  LPT1_enthalpyA = BOP.tee1.medium.h/1000;                     // sub 2 energy
+  LPT1_enthalpyB = BOP.tee2.medium.h/1000;                     // sub 2 energy
   LPT1_outletTemp = BOP.LPT1.state_b.T*0.9999999;
   LPT1_outletPres = BOP.LPT1.state_b.p/1000000;
   //LPT2_mass = BOP.LPT2.m_flow;
-  LPT2_entropyA = BOP.LPT2_entropy_a;               // sub 2 energy
-  LPT2_entropyB = BOP.LPT2_entropy_b;               // sub 2 energy
-  LPT2_enthalpyA = BOP.tee2.medium.h/1000;      // sub 2 energy
-  LPT2_enthalpyB = BOP.LPT2.h_is/1000;           // sub 2 energy
-  LPT2_outletTemp = BOP.LPT2.state_b.T*0.99999;     // sub 2 energy
-  LPT2_outletPres = BOP.LPT2.state_b.p/1000000;     // sub 2 energy
+  LPT2_entropyA = BOP.LPT2_entropy_a;                          // sub 2 energy
+  LPT2_entropyB = BOP.LPT2_entropy_b;                          // sub 2 energy
+  LPT2_enthalpyA = BOP.tee2.medium.h/1000;                     // sub 2 energy
+  LPT2_enthalpyB = BOP.LPT2.h_is/1000;                         // sub 2 energy
+  LPT2_outletTemp = BOP.LPT2.state_b.T*0.99999;                // sub 2 energy
+  LPT2_outletPres = BOP.LPT2.state_b.p/1000000;                // sub 2 energy
 
   LPTV1_massCum =LPTV1SteamMassCumulative.y*0.99999;                // sub 3 mass
   // LPTV1_mass    = BOP.LPT1_Bypass.port_a.m_flow;
@@ -241,9 +247,9 @@ equation
   connect(greater4.y, TurbineSteamMassCumulative.reset) annotation (Line(points
         ={{-47.2,32},{-46,32},{-46,66},{89.2,66},{89.2,72.6}}, color={255,0,255}));
   annotation (experiment(
-      StartTime=315360000,
-      StopTime=315590400,
-      Interval=14400,
+      StartTime=473040000,
+      StopTime=473198400,
+      Interval=7200,
       Tolerance=0.01,
       __Dymola_Algorithm="Esdirk45a"), Documentation(info="<html>
 <p>Test of Pebble_Bed_Three-Stage_Rankine. The simulation should experience transient where external electricity demand is oscilating and control valves are opening and closing corresponding to the required power demand. </p>
