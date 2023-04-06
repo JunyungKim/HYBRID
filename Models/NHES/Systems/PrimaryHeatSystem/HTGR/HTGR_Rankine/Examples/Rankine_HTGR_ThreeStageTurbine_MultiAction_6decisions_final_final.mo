@@ -55,8 +55,8 @@ model Rankine_HTGR_ThreeStageTurbine_MultiAction_6decisions_final_final
 
   //parameter Real OpTime=0     "Operational time when making decision (unit seconds)";
   //parameter Real OpTime=0     "Operational time when making decision (unit seconds)";
-  //parameter Real OpTime=315360000     "10 Yr Operational time when making decision (unit seconds)";
-  parameter Real OpTime=473040000     "15 Yr Operational time when making decision (unit seconds)";
+  parameter Real OpTime=315360000     "10 Yr Operational time when making decision (unit seconds)";
+  //parameter Real OpTime=473040000     "15 Yr Operational time when making decision (unit seconds)";
   //parameter Real OpTime=630720000     "20 Yr Operational time when making decision (unit seconds)";
 
   parameter Real initTime=14400*5     "Time needed for initialization";
@@ -247,8 +247,8 @@ equation
   connect(greater4.y, TurbineSteamMassCumulative.reset) annotation (Line(points
         ={{-47.2,32},{-46,32},{-46,66},{89.2,66},{89.2,72.6}}, color={255,0,255}));
   annotation (experiment(
-      StartTime=473040000,
-      StopTime=473198400,
+      StartTime=315360000,
+      StopTime=315518400,
       Interval=7200,
       Tolerance=0.01,
       __Dymola_Algorithm="Esdirk45a"), Documentation(info="<html>
