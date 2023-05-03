@@ -115,13 +115,13 @@ model SteamTurbine_L3_HPCFWH_HTGR
         origin={100,44})));
   TRANSFORM.Electrical.Interfaces.ElectricalPowerPort_Flow port_a_elec
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
-  Fluid.Machines.Pump_Pressure                  pump(redeclare package Medium
-      = Modelica.Media.Water.StandardWater,
+  Fluid.Machines.Pump_Pressure                  pump(redeclare package Medium =
+        Modelica.Media.Water.StandardWater,
     p_nominal=data.p_i2,
     eta=data.eta_p)
     annotation (Placement(transformation(extent={{66,-70},{46,-50}})));
-  Fluid.Machines.Pump_Pressure                  pump1(redeclare package Medium
-      = Modelica.Media.Water.StandardWater,
+  Fluid.Machines.Pump_Pressure                  pump1(redeclare package Medium =
+        Modelica.Media.Water.StandardWater,
     use_input=false,
     p_nominal=data.HPT_p_in - 0.5e5,
     eta=data.eta_p)
@@ -172,8 +172,8 @@ model SteamTurbine_L3_HPCFWH_HTGR
   TRANSFORM.Fluid.Interfaces.FluidPort_Flow port_a_cond(redeclare package
       Medium = Modelica.Media.Water.StandardWater)
     annotation (Placement(transformation(extent={{90,-50},{110,-30}})));
-  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium
-      = Modelica.Media.Water.StandardWater)
+  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium =
+        Modelica.Media.Water.StandardWater)
     annotation (Placement(transformation(extent={{-70,-10},{-90,10}})));
   Fluid.HeatExchangers.Generic_HXs.NTU_HX_SinglePhase BypassFeedwaterHeater(
     NTU=data.BypassFeedHeater_NTU,
@@ -213,6 +213,18 @@ model SteamTurbine_L3_HPCFWH_HTGR
         extent={{4,-6},{-4,6}},
         rotation=90,
         origin={-44,14})));
+  NonLinear_Break nonLinear_Break2(redeclare package Medium =
+        Modelica.Media.Water.StandardWater) annotation (Placement(
+        transformation(
+        extent={{-4,6},{4,-6}},
+        rotation=0,
+        origin={10,-28})));
+  NonLinear_Break nonLinear_Break1(redeclare package Medium =
+        Modelica.Media.Water.StandardWater) annotation (Placement(
+        transformation(
+        extent={{-4,-6},{4,6}},
+        rotation=180,
+        origin={-48,-60})));
 equation
   connect(TBV.port_a, SteamHeader.port_b)
     annotation (Line(points={{-74,72},{-74,60},{-80,60}}, color={0,127,255}));
@@ -363,8 +375,6 @@ equation
     annotation (Line(points={{-90,0},{-100,0}}, color={0,127,255}));
   connect(port_a_cond, pump.port_a) annotation (Line(points={{100,-40},{72,-40},
           {72,-60},{66,-60}}, color={0,127,255}));
-  connect(pump1.port_b, BypassFeedwaterHeater.Tube_in)
-    annotation (Line(points={{-2,-60},{-18,-60}}, color={0,127,255}));
   connect(resistance1.port_a, condenser.port_a) annotation (Line(points={{64.2,
           -28},{94,-28},{94,-43},{93,-43}}, color={0,127,255}));
   connect(SteamHeader.port_b, nonLinear_Break.port_a) annotation (Line(points={
@@ -373,10 +383,16 @@ equation
     annotation (Line(points={{-44,10},{-44,-8}}, color={0,127,255}));
   connect(HPT_bypass_valve.port_b, BypassFeedwaterHeater.Shell_in) annotation (
       Line(points={{-44,-20},{-44,-54},{-38,-54}}, color={0,127,255}));
-  connect(BypassFeedwaterHeater.Shell_out, resistance1.port_b) annotation (Line(
-        points={{-18,-54},{-6,-54},{-6,-28},{55.8,-28}}, color={0,127,255}));
-  connect(BypassFeedwaterHeater.Tube_out, FWCP.port_a)
-    annotation (Line(points={{-38,-60},{-58,-60}}, color={0,127,255}));
+  connect(BypassFeedwaterHeater.Shell_out, nonLinear_Break2.port_a) annotation
+    (Line(points={{-18,-54},{-6,-54},{-6,-28},{6,-28}}, color={0,127,255}));
+  connect(nonLinear_Break2.port_b, resistance1.port_b)
+    annotation (Line(points={{14,-28},{55.8,-28}}, color={0,127,255}));
+  connect(BypassFeedwaterHeater.Tube_out, nonLinear_Break1.port_a)
+    annotation (Line(points={{-38,-60},{-44,-60}}, color={0,127,255}));
+  connect(nonLinear_Break1.port_b, FWCP.port_a)
+    annotation (Line(points={{-52,-60},{-58,-60}}, color={0,127,255}));
+  connect(BypassFeedwaterHeater.Tube_in, pump1.port_b)
+    annotation (Line(points={{-18,-60},{-2,-60}}, color={0,127,255}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
         Rectangle(
           extent={{-2.09756,2},{83.9024,-2}},

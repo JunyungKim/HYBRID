@@ -28,7 +28,8 @@ CS_L3_SMR3
 CS_L3_HTGR
 CS_L3_SFR
 CS_L2
-CS_L3_HTGR_extraction_old
+CS_L3_HTGR_extraction_v2
 CS_L3_HRSG
 CS_Rankine_Primary_SS_RX
 CS_L3_HTGR_extraction
+CS_L3_HTGR_extraction_logan

@@ -24,7 +24,7 @@ model Rankine_HTGR_ThreeStageTurbine_OFWHextraction_work_old
     annotation (Placement(transformation(extent={{-42,-10},{-2,-40}})));
   BalanceOfPlant.Turbine.SteamTurbine_L3_HPOFWH BOP(
     redeclare replaceable
-      NHES.Systems.BalanceOfPlant.Turbine.ControlSystems.CS_L3_HTGR_extraction_old
+      NHES.Systems.BalanceOfPlant.Turbine.ControlSystems.CS_L3_HTGR_extraction_v2
       CS(data(
         Power_nom=data.Power_nom,
         HPT_p_in=data.HPT_p_in,
@@ -114,8 +114,8 @@ model Rankine_HTGR_ThreeStageTurbine_OFWHextraction_work_old
     h=192e3,
     nPorts=1)
     annotation (Placement(transformation(extent={{180,-12},{160,8}})));
-  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium
-      = Modelica.Media.Water.StandardWater) annotation (Placement(
+  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium =
+        Modelica.Media.Water.StandardWater) annotation (Placement(
         transformation(
         extent={{10,10},{-10,-10}},
         rotation=90,
