@@ -1,6 +1,7 @@
 within NHES.Systems.Experiments.TEDS.Examples;
 model TEDSloop_allmodes_test
   "Test designed to ensure the TEDS loop can operate in all modes."
+  Real chargingIndex;
   TRANSFORM.Fluid.Pipes.GenericPipe_MultiTransferSurface Chromolox_Heater(
     redeclare package Medium =
         TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C,
@@ -381,6 +382,7 @@ model TEDSloop_allmodes_test
         2.0e4)
     annotation (Placement(transformation(extent={{-54,-180},{-32,-158}})));
 equation
+  chargingIndex = 1;
   connect(pipe4.port_b, sensor_T.port_a)
     annotation (Line(points={{-95,-38},{-95,45},{-80,45}},
                                                          color={0,127,255}));
