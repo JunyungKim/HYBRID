@@ -22,6 +22,7 @@ model TEDSloop_RTO
   SI.SpecificHeatCapacity Cp = Medium.specificHeatCapacityCp(mediums.state);
 
   SI.Power Q_BOP_cal;
+  SI.Power Q_BOP_acc;
 
   TRANSFORM.Fluid.Pipes.GenericPipe_MultiTransferSurface Chromolox_Heater(
     redeclare package Medium =
@@ -91,8 +92,8 @@ model TEDSloop_RTO
   Data.Data_TEDS data(T_hot_side=598.15, T_cold_side=498.15)
     annotation (Placement(transformation(extent={{-100,124},{-80,144}})));
 
-  TRANSFORM.Fluid.Sensors.TemperatureTwoPort sensor_T(redeclare package Medium
-      = TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
+  TRANSFORM.Fluid.Sensors.TemperatureTwoPort sensor_T(redeclare package Medium =
+        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
        3)
     annotation (Placement(transformation(extent={{-80,34},{-56,56}})));
   TRANSFORM.Fluid.Sensors.TemperatureTwoPort Chromolox_exit_temperature(
@@ -111,14 +112,14 @@ model TEDSloop_RTO
         extent={{6,6},{-6,-6}},
         rotation=0,
         origin={172,-142})));
-  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium
-      = TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
+  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium =
+        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
        3) annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={84,38})));
-  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow2(redeclare package Medium
-      = TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
+  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow2(redeclare package Medium =
+        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
        3) annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=-90,
@@ -175,14 +176,14 @@ model TEDSloop_RTO
         extent={{-6,-6},{6,6}},
         rotation=0,
         origin={132,76})));
-  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow4(redeclare package Medium
-      = TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
+  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow4(redeclare package Medium =
+        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
        3) annotation (Placement(transformation(
         extent={{-12,-10},{12,10}},
         rotation=-90,
         origin={80,-98})));
-  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow6(redeclare package Medium
-      = TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
+  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow6(redeclare package Medium =
+        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
        3) annotation (Placement(transformation(
         extent={{-11,-10},{11,10}},
         rotation=-90,
@@ -197,8 +198,8 @@ model TEDSloop_RTO
         extent={{-6,-6},{6,6}},
         rotation=0,
         origin={-38,-146})));
-  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow5(redeclare package Medium
-      = TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
+  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow5(redeclare package Medium =
+        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
        3) annotation (Placement(transformation(extent={{-62,-154},{-80,-138}})));
   Control_Systems.Control_System_Therminol_4_element_all_modes
     control_System_Therminol_4_element_all_modes(
@@ -211,8 +212,8 @@ model TEDSloop_RTO
     annotation (Placement(transformation(extent={{-42,94},{-20,118}})));
   BaseClasses.SignalSubBus_SensorOutput sensorSubBus
     annotation (Placement(transformation(extent={{-10,94},{12,118}})));
-  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow3(redeclare package Medium
-      = TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
+  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow3(redeclare package Medium =
+        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
        3) annotation (Placement(transformation(
         extent={{10,-10},{-10,10}},
         rotation=-90,
@@ -362,8 +363,8 @@ model TEDSloop_RTO
         extent={{-12,-13},{12,13}},
         rotation=90,
         origin={80,-63})));
-  TRANSFORM.Fluid.Sensors.MassFlowRate BOP_Mass_flow(redeclare package Medium
-      = TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
+  TRANSFORM.Fluid.Sensors.MassFlowRate BOP_Mass_flow(redeclare package Medium =
+        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
        3) annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
@@ -424,6 +425,18 @@ equation
   chargingIndex = (avgTemp - minTemp)/(maxTemp-minTemp);
 
   Q_BOP_cal = Glycol_HX.port_a_shell.m_flow * Cp * (T_inlet_HX.T - HX_exit_temperature_T66.T);
+  Q_BOP_acc = Glycol_HX.shell.heatTransfer.heatPorts[1, 1].Q_flow +
+              Glycol_HX.shell.heatTransfer.heatPorts[2, 1].Q_flow +
+              Glycol_HX.shell.heatTransfer.heatPorts[3, 1].Q_flow +
+              Glycol_HX.shell.heatTransfer.heatPorts[4, 1].Q_flow +
+              Glycol_HX.shell.heatTransfer.heatPorts[5, 1].Q_flow +
+              Glycol_HX.shell.heatTransfer.heatPorts[6, 1].Q_flow +
+              Glycol_HX.shell.heatTransfer.heatPorts[7, 1].Q_flow +
+              Glycol_HX.shell.heatTransfer.heatPorts[8, 1].Q_flow +
+              Glycol_HX.shell.heatTransfer.heatPorts[9, 1].Q_flow +
+              Glycol_HX.shell.heatTransfer.heatPorts[10, 1].Q_flow;
+
+
 
   connect(pipe4.port_b, sensor_T.port_a)
     annotation (Line(points={{-95,-38},{-95,45},{-80,45}},
