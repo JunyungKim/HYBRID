@@ -1990,9 +1990,14 @@ package Control_Systems "Range of all control Systems for TEDS"
     "Runs all Modes of the TEDS system with Milestone controllers (Manual inputs for load, hence why there are two controllers)"
 
     replaceable package Medium =
-        TRANSFORM.Media.Fluids.DOWTHERM.LinearDOWTHERM_A_95C constrainedby
+        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C constrainedby
       TRANSFORM.Media.Interfaces.Fluids.PartialMedium "Fluid Medium" annotation (
         choicesAllMatching=true);
+
+    //replaceable package Medium =
+    //    TRANSFORM.Media.Fluids.DOWTHERM.LinearDOWTHERM_A_95C constrainedby
+    //  TRANSFORM.Media.Interfaces.Fluids.PartialMedium "Fluid Medium" annotation (
+    //    choicesAllMatching=true);
     BaseClasses.SignalSubBus_ActuatorInput actuatorSubBus
       annotation (Placement(transformation(extent={{-58,-122},{-10,-76}})));
     BaseClasses.SignalSubBus_SensorOutput sensorSubBus
@@ -2246,11 +2251,15 @@ package Control_Systems "Range of all control Systems for TEDS"
       "Used in the Code section. "
       annotation (Placement(transformation(extent={{-170,-44},{-146,-24}})));
     Modelica.Blocks.Sources.CombiTimeTable Heater_Demand(table=[0.0,1; 1800,1;
-          3600,1; 4800,1; 7200,1; 9000,1; 9600,1; 10800,0; 12000,0; 14400,1;
+          3600,1; 4800,1; 7200,1; 9000,1; 9600,1; 10800,1; 12000,1; 14400,1;
           18000,1],                                             startTime=0)
       annotation (Placement(transformation(extent={{-168,-90},{-154,-76}})));
     Modelica.Blocks.Math.Gain Heater_Total_Demand(k=Heater_max)
       annotation (Placement(transformation(extent={{-144,-88},{-134,-78}})));
+    Modelica.Blocks.Sources.CombiTimeTable Heater_Demand_Origin(table=[0.0,1;
+          1800,1; 3600,1; 4800,1; 7200,1; 9000,1; 9600,1; 10800,0; 12000,0;
+          14400,1; 18000,1], startTime=0)
+      annotation (Placement(transformation(extent={{-204,-92},{-188,-76}})));
   initial equation
     Q_TES_discharge = 0.0;
     //storage_button=0;

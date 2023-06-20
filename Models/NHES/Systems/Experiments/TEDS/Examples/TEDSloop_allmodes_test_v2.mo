@@ -1,6 +1,9 @@
 within NHES.Systems.Experiments.TEDS.Examples;
-model TEDSloop_allmodes_test
+model TEDSloop_allmodes_test_v2
   "Test designed to ensure the TEDS loop can operate in all modes."
+  Modelica.Units.SI.Temperature avgTemp;
+  Modelica.Units.SI.Temperature maxTemp = 325+273;
+  Modelica.Units.SI.Temperature minTemp = 225+273;
   Real chargingIndex;
   TRANSFORM.Fluid.Pipes.GenericPipe_MultiTransferSurface Chromolox_Heater(
     redeclare package Medium =
@@ -89,7 +92,7 @@ model TEDSloop_allmodes_test
                     annotation (Placement(transformation(
         extent={{6,6},{-6,-6}},
         rotation=0,
-        origin={170,-142})));
+        origin={172,-142})));
   TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium =
         TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
        3) annotation (Placement(transformation(
@@ -106,7 +109,7 @@ model TEDSloop_allmodes_test
       Medium =
         TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C,
       precision=3)
-    annotation (Placement(transformation(extent={{132,-132},{106,-152}})));
+    annotation (Placement(transformation(extent={{138,-132},{118,-152}})));
   TRANSFORM.Fluid.Valves.ValveLinear Valve1(
     redeclare package Medium =
         TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C,
@@ -143,7 +146,7 @@ model TEDSloop_allmodes_test
     m_flow_nominal=0.840) annotation (Placement(transformation(
         extent={{-6,-6},{6,6}},
         rotation=-90,
-        origin={182,-128})));
+        origin={182,-108})));
   TRANSFORM.Fluid.Valves.ValveLinear Valve2(
     redeclare package Medium =
         TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C,
@@ -165,7 +168,7 @@ model TEDSloop_allmodes_test
        3) annotation (Placement(transformation(
         extent={{-11,-10},{11,10}},
         rotation=-90,
-        origin={154,-101})));
+        origin={182,-87})));
   TRANSFORM.Fluid.Valves.ValveLinear Valve6(
     redeclare package Medium =
         TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C,
@@ -286,7 +289,7 @@ model TEDSloop_allmodes_test
   TRANSFORM.Fluid.Sensors.TemperatureTwoPort HX_exit_temperature_T66(redeclare
       package Medium =
         TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
-       3) annotation (Placement(transformation(extent={{26,-132},{44,-152}})));
+       3) annotation (Placement(transformation(extent={{16,-132},{34,-152}})));
   Modelica.Blocks.Sources.Constant const(k=
         control_System_Therminol_4_element_all_modes.T_hot_design) annotation (
       Placement(transformation(
@@ -310,16 +313,16 @@ model TEDSloop_allmodes_test
     annotation (Placement(transformation(extent={{-94,54},{-74,74}})));
   TRANSFORM.HeatAndMassTransfer.BoundaryConditions.Heat.HeatFlow_multi
     boundary3(nPorts=Chromolox_Heater.geometry.nV, use_port=true)
-    annotation (Placement(transformation(extent={{-68,54},{-48,74}})));
+    annotation (Placement(transformation(extent={{-50,54},{-30,74}})));
   Modelica.Blocks.Math.Sum chromoloxHeater_Power(nin=Chromolox_Heater.geometry.nV)
     annotation (Placement(transformation(extent={{-72,86},{-60,98}})));
   TRANSFORM.Fluid.Sensors.TemperatureTwoPort T_charge_outlet(redeclare package
       Medium =
         TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C,
       precision=3) annotation (Placement(transformation(
-        extent={{-12,13},{12,-13}},
+        extent={{-10,10},{10,-10}},
         rotation=90,
-        origin={154,-63})));
+        origin={182,-60})));
   TRANSFORM.Fluid.Sensors.TemperatureTwoPort T_Charge_Inlet(redeclare package
       Medium =
         TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C,
@@ -353,7 +356,7 @@ model TEDSloop_allmodes_test
       precision=3) annotation (Placement(transformation(
         extent={{-10,12},{10,-12}},
         rotation=0,
-        origin={146,-142})));
+        origin={152,-142})));
   TRANSFORM.Fluid.Sensors.TemperatureTwoPort T_chiller_before(redeclare package
       Medium =
         TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C,
@@ -382,7 +385,23 @@ model TEDSloop_allmodes_test
         2.0e4)
     annotation (Placement(transformation(extent={{-54,-180},{-32,-158}})));
 equation
-  chargingIndex = 1;
+  avgTemp       = (thermocline_Insulation.simpleWall[1].port_a.T +
+                   thermocline_Insulation.simpleWall[15].port_a.T +
+                   thermocline_Insulation.simpleWall[30].port_a.T +
+                   thermocline_Insulation.simpleWall[45].port_a.T +
+                   thermocline_Insulation.simpleWall[60].port_a.T +
+                   thermocline_Insulation.simpleWall[75].port_a.T +
+                   thermocline_Insulation.simpleWall[90].port_a.T +
+                   thermocline_Insulation.simpleWall[105].port_a.T +
+                   thermocline_Insulation.simpleWall[120].port_a.T +
+                   thermocline_Insulation.simpleWall[135].port_a.T +
+                   thermocline_Insulation.simpleWall[150].port_a.T +
+                   thermocline_Insulation.simpleWall[165].port_a.T +
+                   thermocline_Insulation.simpleWall[180].port_a.T +
+                   thermocline_Insulation.simpleWall[200].port_a.T)
+                    /14;
+  chargingIndex = (avgTemp - minTemp)/(maxTemp-minTemp);
+
   connect(pipe4.port_b, sensor_T.port_a)
     annotation (Line(points={{-95,-38},{-95,45},{-80,45}},
                                                          color={0,127,255}));
@@ -403,12 +422,8 @@ equation
   connect(Valve5.port_a, sensor_m_flow4.port_b)
     annotation (Line(points={{80,-110},{80,-110}},
                                                  color={0,127,255}));
-  connect(valve4.port_a, sensor_m_flow6.port_b) annotation (Line(points={{182,
-          -122},{182,-118},{154,-118},{154,-112}},
-                                          color={0,127,255}));
-  connect(valve4.port_b, pipe3.port_a) annotation (Line(points={{182,-134},{182,
-          -142},{176,-142}},
-                      color={0,127,255}));
+  connect(valve4.port_a, sensor_m_flow6.port_b) annotation (Line(points={{182,-102},
+          {182,-98}},                     color={0,127,255}));
   connect(Valve5.port_b, Valve6.port_b) annotation (Line(points={{80,-122},{80,
           -126},{-18,-126},{-18,-146},{-32,-146}},
                                       color={0,127,255}));
@@ -458,7 +473,7 @@ equation
       extent={{6,3},{6,3}},
       horizontalAlignment=TextAlignment.Left));
   connect(sensorSubBus.Valve_4_Opening, valve4.opening) annotation (Line(
-      points={{1,106},{202,106},{202,-128},{186.8,-128}},
+      points={{1,106},{202,106},{202,-108},{186.8,-108}},
       color={111,216,99},
       pattern=LinePattern.Dash,
       thickness=0.5), Text(
@@ -489,25 +504,17 @@ equation
   connect(const1.y,MassFlow_Control. u_s)
     annotation (Line(points={{-33.4,-206},{-19.2,-206}},
                                                      color={0,0,127}));
-  connect(Chiller_Mass_Flow.ports[1], Glycol_HX.port_a_tube) annotation (Line(
-        points={{50,-214},{56,-214},{56,-149},{61,-149}}, color={0,127,255}));
-  connect(Glycol_HX.port_b_tube, Ethylene_glycol_exit_temperature.port_a)
-    annotation (Line(points={{92,-149},{104,-149},{104,-188},{128,-188}}, color=
-         {0,127,255}));
   connect(Ethylene_glycol_exit_temperature.port_b, boundary1.ports[1])
     annotation (Line(points={{158,-188},{180,-188}}, color={0,127,255}));
   connect(MassFlow_Control.y, Chiller_Mass_Flow.m_flow_in) annotation (Line(
         points={{-5.4,-206},{30,-206}},                        color={0,0,127}));
-  connect(Chiller_Mass_flow_T66.port_b, Glycol_HX.port_a_shell) annotation (
-      Line(points={{106,-142},{92,-142},{92,-142.1}}, color={0,127,255}));
-  connect(Glycol_HX.port_b_shell, HX_exit_temperature_T66.port_b) annotation (
-      Line(points={{61,-142.1},{44,-142.1},{44,-142}}, color={0,127,255}));
   connect(MassFlow_Control.u_m, HX_exit_temperature_T66.T) annotation (Line(
-        points={{-12,-198.8},{-12,-196},{35,-196},{35,-145.6}},  color={0,0,127}));
+        points={{-12,-198.8},{-12,-196},{25,-196},{25,-145.6}},  color={0,0,127}));
   connect(realExpression.y, boundary3.Q_flow_ext)
-    annotation (Line(points={{-73,64},{-62,64}}, color={0,0,127}));
+    annotation (Line(points={{-73,64},{-44,64}}, color={0,0,127}));
   connect(boundary3.port, Chromolox_Heater.heatPorts[:, 1])
-    annotation (Line(points={{-48,64},{-40,64},{-40,50}}, color={191,0,0}));
+    annotation (Line(points={{-30,64},{-22,64},{-22,54},{-40,54},{-40,50}},
+                                                          color={191,0,0}));
   connect(const.y, Chromolox_Heater_Control.u_s) annotation (Line(points={{-139.4,
           46},{-123.2,46}},                     color={0,0,127}));
   connect(Chromolox_exit_temperature.T, Chromolox_Heater_Control.u_m)
@@ -531,9 +538,9 @@ equation
   connect(T_Charge_Inlet.port_b, thermocline_Insulation.port_a)
     annotation (Line(points={{84,-5},{84,-6},{118,-6}},   color={0,127,255}));
   connect(sensor_m_flow6.port_a, T_charge_outlet.port_a)
-    annotation (Line(points={{154,-90},{154,-75}}, color={0,127,255}));
+    annotation (Line(points={{182,-76},{182,-70}}, color={0,127,255}));
   connect(T_charge_outlet.port_b, thermocline_Insulation.port_b) annotation (
-      Line(points={{154,-51},{154,-50},{118,-50}}, color={0,127,255}));
+      Line(points={{182,-50},{118,-50}},           color={0,127,255}));
   connect(sensor_m_flow4.port_a, T_discharge_Inlet.port_a)
     annotation (Line(points={{80,-86},{80,-75}}, color={0,127,255}));
   connect(T_discharge_Inlet.port_b, thermocline_Insulation.port_b)
@@ -551,7 +558,7 @@ equation
       pattern=LinePattern.Dash,
       thickness=0.5));
   connect(actuatorSubBus.T_charge_outlet, T_charge_outlet.T) annotation (Line(
-      points={{-31,106},{202,106},{202,-63},{158.68,-63}},
+      points={{-31,106},{202,106},{202,-60},{185.6,-60}},
       color={239,82,82},
       pattern=LinePattern.Dash,
       thickness=0.5));
@@ -562,7 +569,7 @@ equation
       thickness=0.5));
   connect(actuatorSubBus.Charging_flowrate, sensor_m_flow6.m_flow) annotation (
       Line(
-      points={{-31,106},{202,106},{202,-101},{157.6,-101}},
+      points={{-31,106},{202,106},{202,-87},{185.6,-87}},
       color={239,82,82},
       pattern=LinePattern.Dash,
       thickness=0.5));
@@ -574,7 +581,7 @@ equation
       thickness=0.5));
   connect(actuatorSubBus.Total_Mass_Flow_System, Chiller_Mass_flow_T66.m_flow)
     annotation (Line(
-      points={{-31,106},{240,106},{240,-160},{119,-160},{119,-145.6}},
+      points={{-31,106},{240,106},{240,-160},{128,-160},{128,-145.6}},
       color={239,82,82},
       pattern=LinePattern.Dash,
       thickness=0.5));
@@ -595,28 +602,41 @@ equation
       pattern=LinePattern.Dash,
       thickness=0.5));
   connect(pipe3.port_b, T_inlet_HX.port_b)
-    annotation (Line(points={{164,-142},{156,-142}}, color={0,127,255}));
+    annotation (Line(points={{166,-142},{162,-142}}, color={0,127,255}));
   connect(T_inlet_HX.port_a, Chiller_Mass_flow_T66.port_a)
-    annotation (Line(points={{136,-142},{132,-142}}, color={0,127,255}));
+    annotation (Line(points={{142,-142},{138,-142}}, color={0,127,255}));
   connect(sensor_m_flow2.port_b, T_chiller_before.port_a)
     annotation (Line(points={{228,38},{228,28}}, color={0,127,255}));
   connect(T_chiller_before.port_b, pipe7.port_a)
     annotation (Line(points={{228,2},{228,-10}}, color={0,127,255}));
   connect(pipe7.port_b, T_chiller_after.port_a) annotation (Line(points={{228,
           -26},{228,-52},{227,-52}}, color={0,127,255}));
-  connect(T_chiller_after.port_b, pipe3.port_a) annotation (Line(points={{227,
-          -78},{227,-142},{176,-142}}, color={0,127,255}));
   connect(tank1.port_b, sensor_after_tank.port_a)
     annotation (Line(points={{7.6,75.2},{7.6,76},{18,76}}, color={0,127,255}));
   connect(sensor_after_tank.port_b, pipe2.port_a)
     annotation (Line(points={{42,76},{46,76}}, color={0,127,255}));
-  connect(HX_exit_temperature_T66.port_a, pump.port_a) annotation (Line(points={{26,-142},
+  connect(HX_exit_temperature_T66.port_a, pump.port_a) annotation (Line(points={{16,-142},
           {12,-142}},                                color={0,127,255}));
   connect(Valve6.port_b, pump.port_b)
     annotation (Line(points={{-32,-146},{-18,-146},{-18,-142},{-4,-142}},
                                                     color={0,127,255}));
   connect(Heater_BOP_Demand.y, pump.in_p) annotation (Line(points={{-30.9,-169},
           {4,-169},{4,-147.84}}, color={0,0,127}));
+  connect(T_chiller_after.port_b, pipe3.port_a) annotation (Line(points={{227,-78},
+          {227,-142},{178,-142}}, color={0,127,255}));
+  connect(valve4.port_b, pipe3.port_a) annotation (Line(points={{182,-114},{182,
+          -142},{178,-142}}, color={0,127,255}));
+  connect(Chiller_Mass_Flow.ports[1], Glycol_HX.port_a_tube) annotation (Line(
+        points={{50,-214},{58,-214},{58,-170},{56,-170},{56,-149},{61,-149}},
+        color={0,127,255}));
+  connect(Glycol_HX.port_b_tube, Ethylene_glycol_exit_temperature.port_a)
+    annotation (Line(points={{92,-149},{92,-188},{128,-188}}, color={0,127,255}));
+  connect(Chiller_Mass_flow_T66.port_b, Glycol_HX.port_a_shell) annotation (
+      Line(points={{118,-142},{105,-142},{105,-142.1},{92,-142.1}}, color={0,127,
+          255}));
+  connect(Glycol_HX.port_b_shell, HX_exit_temperature_T66.port_b) annotation (
+      Line(points={{61,-142.1},{47.5,-142.1},{47.5,-142},{34,-142}}, color={0,127,
+          255}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-160,-220},{240,
             140}}), graphics={
@@ -637,4 +657,4 @@ equation
       __Dymola_Algorithm="Esdirk45a"),
     __Dymola_Commands(file="../../TEDS/Basic_TEDS_setup.mos" "Basic_TEDS_setup",
         file="../../TEDS/M3_TEDS.mos" "M3_TEDS"));
-end TEDSloop_allmodes_test;
+end TEDSloop_allmodes_test_v2;
