@@ -43,14 +43,14 @@ model TEDS_initial_expdata_w_pipe_insulation_test_porosity
   TRANSFORM.Fluid.Sensors.TemperatureTwoPort TC003(redeclare package Medium =
         TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
        3) annotation (Placement(transformation(extent={{-22,34},{2,58}})));
-  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium
-      = TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
+  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium =
+        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
        3) annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={84,42})));
-  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow2(redeclare package Medium
-      = TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
+  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow2(redeclare package Medium =
+        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
        3) annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=-90,
@@ -141,8 +141,8 @@ model TEDS_initial_expdata_w_pipe_insulation_test_porosity
     annotation (Placement(transformation(extent={{-44,92},{-22,116}})));
   BaseClasses.SignalSubBus_SensorOutput sensorSubBus
     annotation (Placement(transformation(extent={{-10,94},{12,118}})));
-  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow3(redeclare package Medium
-      = TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
+  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow3(redeclare package Medium =
+        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
        3) annotation (Placement(transformation(
         extent={{10,-10},{-10,10}},
         rotation=-90,
@@ -157,7 +157,8 @@ model TEDS_initial_expdata_w_pipe_insulation_test_porosity
       dr=0.00317,
       Insulation_thickness=3*0.051,
       Wall_Thickness=0.019,
-      Height_Tank=4.435))
+      Height_Tank=4.435),
+    thermocline_fluidprops_heaters_newHC_70C(Porosity=0.9, fs=3.5))
     annotation (Placement(transformation(extent={{102,-50},{134,-6}})));
   TRANSFORM.Controls.LimPID MassFlow_Control(
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
@@ -290,8 +291,8 @@ model TEDS_initial_expdata_w_pipe_insulation_test_porosity
         extent={{-12,-13},{12,13}},
         rotation=90,
         origin={80,-63})));
-  TRANSFORM.Fluid.Sensors.MassFlowRate BOP_Mass_flow(redeclare package Medium
-      = TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
+  TRANSFORM.Fluid.Sensors.MassFlowRate BOP_Mass_flow(redeclare package Medium =
+        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
        3) annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
@@ -327,8 +328,8 @@ model TEDS_initial_expdata_w_pipe_insulation_test_porosity
   Modelica.Blocks.Sources.RealExpression Heater_BOP_Demand(y=pump.port_a.p +
         2.0e4)
     annotation (Placement(transformation(extent={{-54,-180},{-32,-158}})));
-  Modelica.Fluid.Sensors.VolumeFlowRate volumeFlowRate(redeclare package Medium
-      = TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C,
+  Modelica.Fluid.Sensors.VolumeFlowRate volumeFlowRate(redeclare package Medium =
+        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C,
       allowFlowReversal=true) annotation (Placement(transformation(
         extent={{-7,-7},{7,7}},
         rotation=-90,
