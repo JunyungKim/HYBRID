@@ -2,7 +2,8 @@ within NHES.ExperimentalSystems.TEDS.Examples;
 model TEDSloop_allmodes_test_3WV_exp2023TTAdjTime3FV2
   "Test designed to ensure the TEDS loop can operate in all modes."
 
-  parameter Real FV_opening=0.250;
+  parameter Real FV_opening=0.60;
+  Modelica.Units.SI.Time TimeVariable;
 
 
   TRANSFORM.Fluid.Pipes.GenericPipe_MultiTransferSurface Chromolox_Heater(
@@ -442,8 +443,8 @@ model TEDSloop_allmodes_test_3WV_exp2023TTAdjTime3FV2
         9280,0; 10980,0; 11080,1; 14640,1; 14740,0; 15740,0],  startTime=0)
     annotation (Placement(transformation(extent={{134,158},{148,172}})));
   TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow1(redeclare package Medium =
-        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision
-      =3) annotation (Placement(transformation(extent={{-24,-154},{-42,-138}})));
+        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
+       3) annotation (Placement(transformation(extent={{-24,-154},{-42,-138}})));
   TRANSFORM.Fluid.Valves.ValveLinear ValveFl(
     redeclare package Medium =
         TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C,
@@ -543,7 +544,10 @@ model TEDSloop_allmodes_test_3WV_exp2023TTAdjTime3FV2
         Modelica.Fluid.Pipes.BaseClasses.FlowModels.NominalLaminarFlow (
           dp_nominal=600, m_flow_nominal=0.689))
     annotation (Placement(transformation(extent={{90,48},{106,64}})));
+  Modelica.Blocks.Sources.ContinuousClock continuousClock
+    annotation (Placement(transformation(extent={{-118,122},{-98,142}})));
 equation
+  TimeVariable = continuousClock.y;
   connect(pipe4.port_b, sensor_T.port_a)
     annotation (Line(points={{-95,-38},{-95,45},{-80,45}},
                                                          color={0,127,255}));
