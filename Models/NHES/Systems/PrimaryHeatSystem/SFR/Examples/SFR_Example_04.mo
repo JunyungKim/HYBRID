@@ -13,16 +13,16 @@ model SFR_Example_04
   TRANSFORM.Electrical.Sources.FrequencySource
                                      sinkElec(f=60)
     annotation (Placement(transformation(extent={{108,6},{88,26}})));
-  BalanceOfPlant.Turbine.SteamTurbine_L2_ClosedFeedHeat              BOP(
+  BalanceOfPlant.RankineCycle.Models.SteamTurbine_L2_ClosedFeedHeat BOP(
     redeclare
-      BalanceOfPlant.Turbine.ControlSystems.CS_SteamTurbine_L2_PressurePowerFeedtemp
+      BalanceOfPlant.RankineCycle.ControlSystems.CS_SteamTurbine_L2_PressurePowerFeedtemp
       CS(data(
         p_steam=2500000,
         T_Steam_Ref=553.15,
         Q_Nom=45e6,
         T_Feedwater=393.15,
         p_steam_vent=11000000)),
-    redeclare replaceable BalanceOfPlant.Turbine.Data.Turbine_2 data(
+    redeclare replaceable BalanceOfPlant.RankineCycle.Data.Turbine_2 data(
       p_steam_vent=15000000,
       T_Steam_Ref=543.15,
       Q_Nom=100e3,

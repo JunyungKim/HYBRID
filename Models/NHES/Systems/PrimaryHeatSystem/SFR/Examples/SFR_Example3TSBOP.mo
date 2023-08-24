@@ -13,8 +13,9 @@ model SFR_Example3TSBOP
         rho_CR_Init=-1.0),             redeclare package Medium_IHX_Loop =
         IL_Medium)
     annotation (Placement(transformation(extent={{-140,-24},{-60,42}})));
-  BalanceOfPlant.Turbine.SteamTurbine_L3_HPOFWHsimplified BOP(
-    redeclare replaceable BalanceOfPlant.Turbine.ControlSystems.CS_L3_SMR CS(
+  BalanceOfPlant.RankineCycle.Models.SteamTurbine_L3_HPOFWHsimplified BOP(
+    redeclare replaceable BalanceOfPlant.RankineCycle.ControlSystems.CS_L3_SMR
+      CS(
       data(
         Power_nom=80e6,
         HPT_p_in=12500000,
@@ -37,7 +38,7 @@ model SFR_Example3TSBOP
       ramp(duration=1e3, startTime=4e4),
       FeedPump_PID(k=-1e-3, yMin=15),
       hysteresis(uLow=135)),
-    redeclare replaceable BalanceOfPlant.Turbine.Data.Data_L3 data(
+    redeclare replaceable BalanceOfPlant.RankineCycle.Data.Data_L3 data(
       Power_nom=80e6,
       HPT_p_in=12500000,
       p_dump=14500000,

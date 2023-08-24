@@ -2703,8 +2703,7 @@ package MEE "Multi Effect Evaporators"
         PID_k=-1,
         m_flow_nominal=4) if not data.use_flowrates
         annotation (Placement(transformation(extent={{66,56},{46,76}})));
-      Modelica.Blocks.Sources.RealExpression X[data.nE](y=Effect.Evaporator.Cs_out)
-                                                                                    if not data.use_flowrates
+      Modelica.Blocks.Sources.RealExpression X[data.nE](y=Effect.Evaporator.Cs_out) if not data.use_flowrates
         annotation (Placement(transformation(extent={{100,78},{80,98}})));
       Components.PreHeater preHeater(redeclare package Medium_1 =
             Modelica.Media.Water.StandardWater, redeclare package Medium_2 =
@@ -3154,7 +3153,7 @@ package MEE "Multi Effect Evaporators"
 
     model ED_Dummy
 
-      extends Systems.BalanceOfPlant.Turbine.BaseClasses.Partial_EventDriver;
+      extends Systems.BalanceOfPlant.RankineCycle.BaseClasses.Partial_EventDriver;
 
       extends NHES.Icons.DummyIcon;
 

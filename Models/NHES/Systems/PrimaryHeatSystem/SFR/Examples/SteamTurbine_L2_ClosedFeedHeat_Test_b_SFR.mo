@@ -3,9 +3,10 @@ model SteamTurbine_L2_ClosedFeedHeat_Test_b_SFR
   import NHES;
 
   extends Modelica.Icons.Example;
-  NHES.Systems.BalanceOfPlant.Turbine.SteamTurbine_L2_ClosedFeedHeat BOP(
+  NHES.Systems.BalanceOfPlant.RankineCycle.Models.SteamTurbine_L2_ClosedFeedHeat
+    BOP(
     redeclare
-      NHES.Systems.BalanceOfPlant.Turbine.ControlSystems.CS_SteamTurbine_L2_PressurePowerFeedtemp
+      NHES.Systems.BalanceOfPlant.RankineCycle.ControlSystems.CS_SteamTurbine_L2_PressurePowerFeedtemp
       CS(data(
         p_steam=11000000,
         T_Steam_Ref=648.15,
@@ -13,8 +14,8 @@ model SteamTurbine_L2_ClosedFeedHeat_Test_b_SFR
         T_Feedwater=548.15,
         p_steam_vent=15000000,
         m_flow_feed_nom=50)),
-    redeclare replaceable NHES.Systems.BalanceOfPlant.Turbine.Data.Turbine_2
-      data(
+    redeclare replaceable
+      NHES.Systems.BalanceOfPlant.RankineCycle.Data.Turbine_2 data(
       p_steam_vent=15000000,
       T_Steam_Ref=648.15,
       Q_Nom=100e6,

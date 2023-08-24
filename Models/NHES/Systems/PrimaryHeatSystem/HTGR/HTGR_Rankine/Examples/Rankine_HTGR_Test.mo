@@ -1,9 +1,9 @@
 within NHES.Systems.PrimaryHeatSystem.HTGR.HTGR_Rankine.Examples;
 model Rankine_HTGR_Test
   extends Modelica.Icons.Example;
-  BalanceOfPlant.Turbine.HTGR_RankineCycles.HTGR_Rankine_Cycle
+  BalanceOfPlant.RankineCycle.HTGR_RankineCycles.HTGR_Rankine_Cycle
     hTGR_Rankine_Cycle(redeclare
-      NHES.Systems.BalanceOfPlant.Turbine.ControlSystems.CS_Rankine_Xe100_Based_Secondary_TransientControl
+      NHES.Systems.BalanceOfPlant.RankineCycle.ControlSystems.CS_Rankine_Xe100_Based_Secondary_TransientControl
       CS) annotation (Placement(transformation(extent={{-28,-18},{32,42}})));
   TRANSFORM.Electrical.Sources.FrequencySource
                                      sinkElec(f=60)

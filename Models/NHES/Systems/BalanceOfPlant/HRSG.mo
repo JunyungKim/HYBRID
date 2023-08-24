@@ -737,10 +737,10 @@ package HRSG "Heat Recovery Steam Generators"
       TRANSFORM.Fluid.Sensors.Temperature sensor_T1(redeclare package Medium =
             NHES.Media.FlueGas)
         annotation (Placement(transformation(extent={{14,10},{34,30}})));
-      NHES.Systems.BalanceOfPlant.Turbine.SteamTurbine_L3_HPOFWH_HRSG BOP(
-          redeclare replaceable
-          NHES.Systems.BalanceOfPlant.Turbine.ControlSystems.CS_L3 CS(
-          redeclare NHES.Systems.BalanceOfPlant.Turbine.Data.Data_L3 data(
+      NHES.Systems.BalanceOfPlant.RankineCycle.Models.SteamTurbine_L3_HPOFWH_HRSG
+        BOP(redeclare replaceable
+          NHES.Systems.BalanceOfPlant.RankineCycle.ControlSystems.CS_L3 CS(
+          redeclare NHES.Systems.BalanceOfPlant.RankineCycle.Data.Data_L3 data(
             Power_nom=10e6,
             HPT_p_in=850000,
             p_dump=1200000,
@@ -760,7 +760,7 @@ package HRSG "Heat Recovery Steam Generators"
           booleanStep(startTime=0),
           ramp(duration=10, startTime=10),
           FeedPump_PID(yMax=20)), redeclare replaceable
-          NHES.Systems.BalanceOfPlant.Turbine.Data.Data_L3 data(
+          NHES.Systems.BalanceOfPlant.RankineCycle.Data.Data_L3 data(
           Power_nom=10e6,
           HPT_p_in=850000,
           p_dump=1200000,
@@ -871,10 +871,10 @@ package HRSG "Heat Recovery Steam Generators"
       TRANSFORM.Fluid.Sensors.Temperature sensor_T1(redeclare package Medium =
             NHES.Media.FlueGas)
         annotation (Placement(transformation(extent={{40,0},{60,20}})));
-      NHES.Systems.BalanceOfPlant.Turbine.SteamTurbine_L3_HPOFWH_HRSG_MEE BOP(
-          redeclare replaceable
-          NHES.Systems.BalanceOfPlant.Turbine.ControlSystems.CS_L3 CS(
-          redeclare NHES.Systems.BalanceOfPlant.Turbine.Data.Data_L3 data(
+      NHES.Systems.BalanceOfPlant.RankineCycle.Models.SteamTurbine_L3_HPOFWH_HRSG_MEE
+        BOP(redeclare replaceable
+          NHES.Systems.BalanceOfPlant.RankineCycle.ControlSystems.CS_L3 CS(
+          redeclare NHES.Systems.BalanceOfPlant.RankineCycle.Data.Data_L3 data(
             Power_nom=10e6,
             HPT_p_in=850000,
             p_dump=1200000,
@@ -894,7 +894,7 @@ package HRSG "Heat Recovery Steam Generators"
           booleanStep(startTime=0),
           ramp(duration=10, startTime=10),
           FeedPump_PID(yMax=20)), redeclare replaceable
-          NHES.Systems.BalanceOfPlant.Turbine.Data.Data_L3 data(
+          NHES.Systems.BalanceOfPlant.RankineCycle.Data.Data_L3 data(
           Power_nom=10e6,
           HPT_p_in=850000,
           p_dump=1200000,
@@ -1037,10 +1037,10 @@ package HRSG "Heat Recovery Steam Generators"
       TRANSFORM.Fluid.Sensors.Temperature sensor_T1(redeclare package Medium =
             NHES.Media.FlueGas)
         annotation (Placement(transformation(extent={{40,0},{60,20}})));
-      NHES.Systems.BalanceOfPlant.Turbine.SteamTurbine_L3_HPOFWH_HRSG_MEE BOP(
-          redeclare replaceable
-          NHES.Systems.BalanceOfPlant.Turbine.ControlSystems.CS_L3 CS(
-          redeclare NHES.Systems.BalanceOfPlant.Turbine.Data.Data_L3 data(
+      NHES.Systems.BalanceOfPlant.RankineCycle.Models.SteamTurbine_L3_HPOFWH_HRSG_MEE
+        BOP(redeclare replaceable
+          NHES.Systems.BalanceOfPlant.RankineCycle.ControlSystems.CS_L3 CS(
+          redeclare NHES.Systems.BalanceOfPlant.RankineCycle.Data.Data_L3 data(
             Power_nom=10e6,
             HPT_p_in=850000,
             p_dump=1200000,
@@ -1060,7 +1060,7 @@ package HRSG "Heat Recovery Steam Generators"
           booleanStep(startTime=0),
           ramp(duration=10, startTime=10),
           FeedPump_PID(yMax=20)), redeclare replaceable
-          NHES.Systems.BalanceOfPlant.Turbine.Data.Data_L3 data(
+          NHES.Systems.BalanceOfPlant.RankineCycle.Data.Data_L3 data(
           Power_nom=10e6,
           HPT_p_in=850000,
           p_dump=1200000,

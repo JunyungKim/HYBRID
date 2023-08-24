@@ -24,9 +24,9 @@ model Rankine_HTGR_ThreeStageTurbine_OFWHextraction
     annotation (Placement(transformation(extent={{-42,34},{-2,64}})));
   NHES.Fluid.Sensors.stateDisplay stateDisplay1
     annotation (Placement(transformation(extent={{-42,-10},{-2,-40}})));
-  NHES.Systems.BalanceOfPlant.Turbine.SteamTurbine_L3_HPOFWH BOP(
+  NHES.Systems.BalanceOfPlant.RankineCycle.Models.SteamTurbine_L3_HPOFWH BOP(
     redeclare replaceable
-      NHES.Systems.BalanceOfPlant.Turbine.ControlSystems.CS_L3_HTGR_extraction_logan
+      NHES.Systems.BalanceOfPlant.RankineCycle.ControlSystems.CS_L3_HTGR_extraction_logan
       CS(
       data(
         Power_nom=data.Power_nom,
@@ -53,7 +53,8 @@ model Rankine_HTGR_ThreeStageTurbine_OFWHextraction
       Steam_Extraction(y=data.m_ext),
       booleanStep2(startTime=100000),
       LPT1_BV_PID(k=5e-11, Ti=300)),
-    redeclare replaceable NHES.Systems.BalanceOfPlant.Turbine.Data.Data_L3 data(
+    redeclare replaceable NHES.Systems.BalanceOfPlant.RankineCycle.Data.Data_L3
+      data(
       Power_nom=data.Power_nom,
       HPT_p_in=data.HPT_p_in,
       p_dump=data.p_dump,
@@ -91,7 +92,7 @@ model Rankine_HTGR_ThreeStageTurbine_OFWHextraction
     annotation (Placement(transformation(extent={{0,74},{20,94}})));
   TRANSFORM.Electrical.Sources.FrequencySource boundary
     annotation (Placement(transformation(extent={{194,22},{174,42}})));
-  NHES.Systems.BalanceOfPlant.Turbine.Data.Data_L3_master data(
+  NHES.Systems.BalanceOfPlant.RankineCycle.Data.Data_L3_master data(
     Power_nom=80e6,
     HPT_p_in=14000000,
     p_dump=16000000,
@@ -120,8 +121,8 @@ model Rankine_HTGR_ThreeStageTurbine_OFWHextraction
     h=192e3,
     nPorts=1)
     annotation (Placement(transformation(extent={{180,-12},{160,8}})));
-  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium
-      = Modelica.Media.Water.StandardWater) annotation (Placement(
+  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium =
+        Modelica.Media.Water.StandardWater) annotation (Placement(
         transformation(
         extent={{10,10},{-10,-10}},
         rotation=90,

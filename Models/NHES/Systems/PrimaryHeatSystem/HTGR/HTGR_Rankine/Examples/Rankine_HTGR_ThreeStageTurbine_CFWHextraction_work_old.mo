@@ -22,14 +22,14 @@ model Rankine_HTGR_ThreeStageTurbine_CFWHextraction_work_old
     annotation (Placement(transformation(extent={{-42,34},{-2,64}})));
   Fluid.Sensors.stateDisplay stateDisplay1
     annotation (Placement(transformation(extent={{-42,-10},{-2,-40}})));
-  BalanceOfPlant.Turbine.SteamTurbine_L3_HPCFWH_HTGR BOP(
+  BalanceOfPlant.RankineCycle.Models.SteamTurbine_L3_HPCFWH_HTGR BOP(
     redeclare replaceable
-      NHES.Systems.BalanceOfPlant.Turbine.ControlSystems.CS_L3_HTGR_extraction_v2
+      NHES.Systems.BalanceOfPlant.RankineCycle.ControlSystems.CS_L3_HTGR_extraction_v2
       CS(
       booleanStep1(startTime=0),
       booleanStep(startTime=0),
       booleanStep2(startTime=0),
-      redeclare BalanceOfPlant.Turbine.Data.Data_L3 data(
+      redeclare BalanceOfPlant.RankineCycle.Data.Data_L3 data(
         Power_nom=data.Power_nom,
         HPT_p_in=data.HPT_p_in,
         p_dump=data.p_dump,
@@ -51,7 +51,7 @@ model Rankine_HTGR_ThreeStageTurbine_CFWHextraction_work_old
         eta_t=data.eta_t,
         eta_mech=data.eta_mech,
         eta_p=data.eta_p)),
-    redeclare replaceable BalanceOfPlant.Turbine.Data.Data_L3_CFWH data(
+    redeclare replaceable BalanceOfPlant.RankineCycle.Data.Data_L3_CFWH data(
       Power_nom=data.Power_nom,
       HPT_p_in=data.HPT_p_in,
       p_dump=data.p_dump,
@@ -91,8 +91,7 @@ model Rankine_HTGR_ThreeStageTurbine_CFWHextraction_work_old
     annotation (Placement(transformation(extent={{0,74},{20,94}})));
   TRANSFORM.Electrical.Sources.FrequencySource boundary
     annotation (Placement(transformation(extent={{180,28},{160,48}})));
-  BalanceOfPlant.Turbine.Data.Data_L3_CFWH_master
-                                             data(
+  BalanceOfPlant.RankineCycle.Data.Data_L3_CFWH_master data(
     Power_nom=80e6,
     HPT_p_in=14000000,
     p_dump=16000000,

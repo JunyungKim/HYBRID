@@ -3,9 +3,9 @@ model Rankine_HTGR_ThreeStageTurbine_Transient
   extends Modelica.Icons.Example;
 
   Real Thermal_Power_Norm;
-  BalanceOfPlant.Turbine.SteamTurbine_L3_HTGR
+  BalanceOfPlant.RankineCycle.Models.SteamTurbine_L3_HTGR
     hTGR_Rankine_Cycle_Transient_JY_v1_step10_TCV_Control_comp(redeclare
-      NHES.Systems.BalanceOfPlant.Turbine.ControlSystems.CS_threeStagedTurbine_HTGR
+      NHES.Systems.BalanceOfPlant.RankineCycle.ControlSystems.CS_threeStagedTurbine_HTGR
       CS) annotation (Placement(transformation(extent={{-6,-10},{62,38}})));
   TRANSFORM.Electrical.Sources.FrequencySource
                                      sinkElec(f=60)

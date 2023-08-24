@@ -2,9 +2,10 @@ within NHES.Systems.PrimaryHeatSystem.SMR_Generic.Examples;
 model SMR_Test_3ST_CFWH_test4 "two Data Package BOP model is used."
   extends Modelica.Icons.Example;
 
-  BalanceOfPlant.Turbine.SteamTurbine_L3_HPCFWH_v4_biggerBVarea BOP(
+  BalanceOfPlant.RankineCycle.Models.SteamTurbine_L3_HPCFWH_v4_biggerBVarea BOP(
     redeclare replaceable
-      NHES.Systems.BalanceOfPlant.Turbine.ControlSystems.CS_L3_SMR3 CS(data(
+      NHES.Systems.BalanceOfPlant.RankineCycle.ControlSystems.CS_L3_SMR3 CS(
+        data(
         Power_nom=80e6,
         HPT_p_in=3450000,
         Tin=579.25,
@@ -16,7 +17,7 @@ model SMR_Test_3ST_CFWH_test4 "two Data Package BOP model is used."
         mdot_lpt1=65,
         mdot_lpt2=59.5)),
     redeclare replaceable
-      NHES.Systems.BalanceOfPlant.Turbine.Data.Data_L3_CFWH_Old data(
+      NHES.Systems.BalanceOfPlant.RankineCycle.Data.Data_L3_CFWH_Old data(
       Power_nom=80e6,
       HPT_p_in=3450000,
       Tin=579.25,
