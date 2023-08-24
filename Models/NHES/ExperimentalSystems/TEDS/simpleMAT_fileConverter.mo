@@ -17,10 +17,10 @@ input String varOrigNames[:]={"Time",
                               "thermocline_Insulation.thermocline_fluidprops_heaters_newHC_120C.Tf[28]",
                               "thermocline_Insulation.thermocline_fluidprops_heaters_newHC_120C.Tf[100]",
                               "thermocline_Insulation.thermocline_fluidprops_heaters_newHC_120C.Tf[172]",
-                              "T_discharge_Inlet.T",
-                              "T_Charge_Inlet.T",
-                              "HX_exit_temperature_T66.T",+
-                              "T_inlet_HX.T"} "Variable names/headers in the file in modelica syntax";
+                              "TC_202.T",
+                              "TC_201.T",
+                              "TC_006.T",+
+                              "TC_004.T"} "Variable names/headers in the file in modelica syntax";
 
 input String varReNames[:]={"Time",
                             "Simul_TN_1_2",
