@@ -45,7 +45,7 @@ model HTGR_Open_Turbine
   Fluid.Sensors.stateSensor stateSensor3(redeclare package Medium =
         Modelica.Media.Water.StandardWater)
     annotation (Placement(transformation(extent={{-44,-14},{-58,2}})));
-  PrimaryHeatSystem.HTGR.RankineCycle.Models.PebbleBed_Primary_Loop_STHX
+  PrimaryHeatSystem.HTGR.RankineCycle.Models.PebbleBed_PrimaryLoop_STHX
     hTGR_PebbleBed_Primary_Loop_TESUC(redeclare
       PrimaryHeatSystem.HTGR.RankineCycle.ControlSystems.CS_Rankine_Primary_SS_ClosedFeedheat
       CS(data(P_Steam_Ref=14000000)))

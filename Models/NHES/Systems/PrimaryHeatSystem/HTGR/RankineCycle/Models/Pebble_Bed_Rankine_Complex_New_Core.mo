@@ -78,8 +78,8 @@ model Pebble_Bed_Rankine_Complex_New_Core
     PR0=1.05,
     w0nom=300)
     annotation (Placement(transformation(extent={{-48,-60},{-68,-40}})));
-  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium
-      = Coolant_Medium) annotation (Placement(transformation(
+  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium =
+        Coolant_Medium) annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=180,
         origin={-82,-38})));
@@ -143,8 +143,8 @@ model Pebble_Bed_Rankine_Complex_New_Core
     annotation (Placement(transformation(extent={{64,-28},{44,-8}})));
   TRANSFORM.Blocks.RealExpression CR_reactivity
     annotation (Placement(transformation(extent={{68,94},{80,108}})));
-  TRANSFORM.Fluid.Sensors.TemperatureTwoPort sensor_T(redeclare package Medium
-      = Coolant_Medium) annotation (Placement(transformation(
+  TRANSFORM.Fluid.Sensors.TemperatureTwoPort sensor_T(redeclare package Medium =
+        Coolant_Medium) annotation (Placement(transformation(
         extent={{-5,-7},{5,7}},
         rotation=270,
         origin={-43,27})));
@@ -162,8 +162,8 @@ model Pebble_Bed_Rankine_Complex_New_Core
     controlType="RPM",
     use_port=true)
     annotation (Placement(transformation(extent={{8,-50},{-12,-70}})));
-  TRANSFORM.Fluid.Sensors.TemperatureTwoPort sensor_T1(redeclare package Medium
-      = Modelica.Media.Water.StandardWater) annotation (Placement(
+  TRANSFORM.Fluid.Sensors.TemperatureTwoPort sensor_T1(redeclare package Medium =
+        Modelica.Media.Water.StandardWater) annotation (Placement(
         transformation(
         extent={{6,6},{-6,-6}},
         rotation=180,
@@ -237,8 +237,8 @@ model Pebble_Bed_Rankine_Complex_New_Core
         extent={{10,10},{-10,-10}},
         rotation=90,
         origin={100,2})));
-  TRANSFORM.Fluid.Sensors.TemperatureTwoPort sensor_T2(redeclare package Medium
-      = Modelica.Media.Water.StandardWater) annotation (Placement(
+  TRANSFORM.Fluid.Sensors.TemperatureTwoPort sensor_T2(redeclare package Medium =
+        Modelica.Media.Water.StandardWater) annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=180,
@@ -250,8 +250,8 @@ model Pebble_Bed_Rankine_Complex_New_Core
     p_nominal=3000000,
     allowFlowReversal=false)
     annotation (Placement(transformation(extent={{60,-50},{40,-70}})));
-  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow1(redeclare package Medium
-      = Modelica.Media.Water.StandardWater) annotation (Placement(
+  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow1(redeclare package Medium =
+        Modelica.Media.Water.StandardWater) annotation (Placement(
         transformation(
         extent={{8,-6},{-8,6}},
         rotation=90,
@@ -353,8 +353,8 @@ model Pebble_Bed_Rankine_Complex_New_Core
     annotation (Placement(transformation(extent={{230,-104},{210,-84}})));
   Modelica.Blocks.Sources.RealExpression Pump_Pressure1(y=Condenser.V_liquid)
     annotation (Placement(transformation(extent={{254,-78},{242,-64}})));
-  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow2(redeclare package Medium
-      = Modelica.Media.Water.StandardWater) annotation (Placement(
+  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow2(redeclare package Medium =
+        Modelica.Media.Water.StandardWater) annotation (Placement(
         transformation(
         extent={{10,10},{-10,-10}},
         rotation=180,

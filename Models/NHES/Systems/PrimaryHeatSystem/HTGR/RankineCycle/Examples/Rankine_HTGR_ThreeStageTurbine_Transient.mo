@@ -10,7 +10,7 @@ model Rankine_HTGR_ThreeStageTurbine_Transient
   TRANSFORM.Electrical.Sources.FrequencySource
                                      sinkElec(f=60)
     annotation (Placement(transformation(extent={{98,6},{84,22}})));
-  Models.PebbleBed_Primary_Loop_STHX hTGR_PebbleBed_Primary_Loop(redeclare
+  Models.PebbleBed_PrimaryLoop_STHX hTGR_PebbleBed_Primary_Loop(redeclare
       NHES.Systems.PrimaryHeatSystem.HTGR.RankineCycle.ControlSystems.CS_Rankine_Primary_SS
       CS) annotation (Placement(transformation(extent={{-98,-18},{-40,40}})));
   Fluid.Sensors.stateSensor stateSensor1(redeclare package Medium =

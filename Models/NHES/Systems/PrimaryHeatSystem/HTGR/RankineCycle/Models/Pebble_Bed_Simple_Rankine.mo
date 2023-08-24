@@ -111,8 +111,8 @@ model Pebble_Bed_Simple_Rankine
       redeclare package Medium = Coolant_Medium,
       R=1000)
     annotation (Placement(transformation(extent={{50,-50},{30,-30}})));
-  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium
-      = Coolant_Medium) annotation (Placement(transformation(
+  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium =
+        Coolant_Medium) annotation (Placement(transformation(
         extent={{10,10},{-10,-10}},
         rotation=90,
         origin={88,-8})));
@@ -135,8 +135,8 @@ model Pebble_Bed_Simple_Rankine
     annotation (Placement(transformation(extent={{-76,-80},{-96,-60}})));
   TRANSFORM.Blocks.RealExpression CR_reactivity
     annotation (Placement(transformation(extent={{84,76},{96,90}})));
-  TRANSFORM.Fluid.Sensors.TemperatureTwoPort sensor_T(redeclare package Medium
-      = Coolant_Medium) annotation (Placement(transformation(
+  TRANSFORM.Fluid.Sensors.TemperatureTwoPort sensor_T(redeclare package Medium =
+        Coolant_Medium) annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=180,
         origin={14,-42})));

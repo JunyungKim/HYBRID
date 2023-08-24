@@ -8,7 +8,7 @@ model Rankine_HTGR_Test
   TRANSFORM.Electrical.Sources.FrequencySource
                                      sinkElec(f=60)
     annotation (Placement(transformation(extent={{78,2},{58,22}})));
-  Models.PebbleBed_Primary_Loop_STHX hTGR_PebbleBed_Primary_Loop(redeclare
+  Models.PebbleBed_PrimaryLoop_STHX hTGR_PebbleBed_Primary_Loop(redeclare
       NHES.Systems.PrimaryHeatSystem.HTGR.RankineCycle.ControlSystems.CS_Rankine_Primary
       CS) annotation (Placement(transformation(extent={{-110,-18},{-40,40}})));
 equation
