@@ -24,7 +24,7 @@ model HTGR_BOP_L3_Transient_CFWHextraction
     annotation (Placement(transformation(extent={{-42,34},{-2,64}})));
   NHES.Fluid.Sensors.stateDisplay stateDisplay1
     annotation (Placement(transformation(extent={{-42,-10},{-2,-40}})));
-  BalanceOfPlant.RankineCycle.Models.SteamTurbine_L3_HPCFWH_HTGR BOP(
+  BalanceOfPlant.RankineCycle.Models.SteamTurbine_L3_HPCFWH BOP(
     redeclare replaceable
       NHES.Systems.BalanceOfPlant.RankineCycle.ControlSystems.CS_L3_HTGR_extraction_logan
       CS(
@@ -105,8 +105,8 @@ model HTGR_BOP_L3_Transient_CFWHextraction
     h=192e3,
     nPorts=1)
     annotation (Placement(transformation(extent={{180,-12},{160,8}})));
-  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium
-      = Modelica.Media.Water.StandardWater) annotation (Placement(
+  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium =
+        Modelica.Media.Water.StandardWater) annotation (Placement(
         transformation(
         extent={{10,10},{-10,-10}},
         rotation=90,
