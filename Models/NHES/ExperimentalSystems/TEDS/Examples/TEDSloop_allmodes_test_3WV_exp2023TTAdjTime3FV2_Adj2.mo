@@ -2,7 +2,7 @@ within NHES.ExperimentalSystems.TEDS.Examples;
 model TEDSloop_allmodes_test_3WV_exp2023TTAdjTime3FV2_Adj2
   "Test designed to ensure the TEDS loop can operate in all modes."
 
-  parameter Real FV_opening=0.250;
+  parameter Real FV_opening=0.9;
 
   TRANSFORM.Fluid.Pipes.GenericPipe_MultiTransferSurface Chromolox_Heater(
     redeclare package Medium =
@@ -73,11 +73,11 @@ model TEDSloop_allmodes_test_3WV_exp2023TTAdjTime3FV2_Adj2
     annotation (Placement(transformation(extent={{-142,124},{-122,144}})));
 
   TRANSFORM.Fluid.Sensors.TemperatureTwoPort TC_002(redeclare package Medium =
-        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision
-      =3) annotation (Placement(transformation(extent={{-80,34},{-56,56}})));
+        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
+       3) annotation (Placement(transformation(extent={{-80,34},{-56,56}})));
   TRANSFORM.Fluid.Sensors.TemperatureTwoPort TC_003(redeclare package Medium =
-        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision
-      =3) annotation (Placement(transformation(extent={{-22,34},{2,58}})));
+        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
+       3) annotation (Placement(transformation(extent={{-22,34},{2,58}})));
   Modelica.Fluid.Pipes.DynamicPipe pipe3(
     redeclare package Medium =
         TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C,
@@ -91,13 +91,13 @@ model TEDSloop_allmodes_test_3WV_exp2023TTAdjTime3FV2_Adj2
         rotation=0,
         origin={170,-142})));
   TRANSFORM.Fluid.Sensors.MassFlowRate m_thot(redeclare package Medium =
-        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision
-      =3) annotation (Placement(transformation(
+        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
+       3) annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={84,32})));
-  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow2(redeclare package Medium
-      = TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
+  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow2(redeclare package Medium =
+        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
        3) annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=-90,
@@ -159,14 +159,14 @@ model TEDSloop_allmodes_test_3WV_exp2023TTAdjTime3FV2_Adj2
         rotation=0,
         origin={132,76})));
   TRANSFORM.Fluid.Sensors.MassFlowRate FM_201(redeclare package Medium =
-        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision
-      =3) annotation (Placement(transformation(
+        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
+       3) annotation (Placement(transformation(
         extent={{-12,-10},{12,10}},
         rotation=0,
         origin={52,-122})));
   TRANSFORM.Fluid.Sensors.MassFlowRate FM_202(redeclare package Medium =
-        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision
-      =3) annotation (Placement(transformation(
+        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
+       3) annotation (Placement(transformation(
         extent={{-11,-10},{11,10}},
         rotation=-90,
         origin={154,-101})));
@@ -181,8 +181,8 @@ model TEDSloop_allmodes_test_3WV_exp2023TTAdjTime3FV2_Adj2
         rotation=0,
         origin={-90,-146})));
   TRANSFORM.Fluid.Sensors.MassFlowRate FM_003(redeclare package Medium =
-        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision
-      =3) annotation (Placement(transformation(
+        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
+       3) annotation (Placement(transformation(
         extent={{9,-8},{-9,8}},
         rotation=270,
         origin={-103,-128})));
@@ -204,8 +204,8 @@ model TEDSloop_allmodes_test_3WV_exp2023TTAdjTime3FV2_Adj2
     annotation (Placement(transformation(extent={{-42,94},{-20,118}})));
   BaseClasses.SignalSubBus_SensorOutput sensorSubBus
     annotation (Placement(transformation(extent={{-10,94},{12,118}})));
-  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow3(redeclare package Medium
-      = TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
+  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow3(redeclare package Medium =
+        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
        3) annotation (Placement(transformation(
         extent={{10,-10},{-10,10}},
         rotation=-90,
@@ -282,8 +282,8 @@ model TEDSloop_allmodes_test_3WV_exp2023TTAdjTime3FV2_Adj2
       precision=3)
     annotation (Placement(transformation(extent={{140,-222},{170,-198}})));
   TRANSFORM.Fluid.Sensors.TemperatureTwoPort TC_006(redeclare package Medium =
-        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision
-      =3) annotation (Placement(transformation(extent={{28,-132},{52,-158}})));
+        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
+       3) annotation (Placement(transformation(extent={{28,-132},{52,-158}})));
   Modelica.Blocks.Sources.Constant const(k=
         control_System_Therminol_4_element_all_modes_ExpTest.T_hot_design)
     annotation (Placement(transformation(
@@ -311,14 +311,14 @@ model TEDSloop_allmodes_test_3WV_exp2023TTAdjTime3FV2_Adj2
   Modelica.Blocks.Math.Sum chromoloxHeater_Power(nin=Chromolox_Heater.geometry.nV)
     annotation (Placement(transformation(extent={{-72,86},{-60,98}})));
   TRANSFORM.Fluid.Sensors.TemperatureTwoPort T_ch_o(redeclare package Medium =
-        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision
-      =3) annotation (Placement(transformation(
+        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
+       3) annotation (Placement(transformation(
         extent={{-12,13},{12,-13}},
         rotation=90,
         origin={154,-63})));
   TRANSFORM.Fluid.Sensors.TemperatureTwoPort TC_201(redeclare package Medium =
-        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision
-      =3) annotation (Placement(transformation(
+        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
+       3) annotation (Placement(transformation(
         extent={{-12,13},{12,-13}},
         rotation=-90,
         origin={84,7})));
@@ -330,20 +330,20 @@ model TEDSloop_allmodes_test_3WV_exp2023TTAdjTime3FV2_Adj2
         rotation=90,
         origin={154,9})));
   TRANSFORM.Fluid.Sensors.TemperatureTwoPort TC_202(redeclare package Medium =
-        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision
-      =3) annotation (Placement(transformation(
+        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
+       3) annotation (Placement(transformation(
         extent={{-12,-13},{12,13}},
         rotation=90,
         origin={80,-63})));
-  TRANSFORM.Fluid.Sensors.MassFlowRate BOP_Mass_flow(redeclare package Medium
-      = TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
+  TRANSFORM.Fluid.Sensors.MassFlowRate BOP_Mass_flow(redeclare package Medium =
+        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
        3) annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
         origin={106,76})));
   TRANSFORM.Fluid.Sensors.TemperatureTwoPort TC_004(redeclare package Medium =
-        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision
-      =3) annotation (Placement(transformation(
+        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
+       3) annotation (Placement(transformation(
         extent={{-10,12},{10,-12}},
         rotation=90,
         origin={124,-192})));
@@ -361,9 +361,9 @@ model TEDSloop_allmodes_test_3WV_exp2023TTAdjTime3FV2_Adj2
         extent={{-13,13},{13,-13}},
         rotation=270,
         origin={227,-65})));
-  TRANSFORM.Fluid.Sensors.TemperatureTwoPort TC_003a(redeclare package Medium
-      = TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision
-      =3) annotation (Placement(transformation(extent={{18,64},{42,88}})));
+  TRANSFORM.Fluid.Sensors.TemperatureTwoPort TC_003a(redeclare package Medium =
+        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
+       3) annotation (Placement(transformation(extent={{18,64},{42,88}})));
   TRANSFORM.Fluid.Machines.Pump_PressureBooster pump(
     redeclare package Medium =
         TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C,
@@ -434,8 +434,8 @@ model TEDSloop_allmodes_test_3WV_exp2023TTAdjTime3FV2_Adj2
         9280,0; 10980,0; 11080,1; 14640,1; 14740,0; 15740,0],  startTime=0)
     annotation (Placement(transformation(extent={{134,158},{148,172}})));
   TRANSFORM.Fluid.Sensors.MassFlowRate FM_001(redeclare package Medium =
-        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision
-      =3) annotation (Placement(transformation(extent={{-24,-154},{-42,-138}})));
+        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
+       3) annotation (Placement(transformation(extent={{-24,-154},{-42,-138}})));
   TRANSFORM.Fluid.Valves.ValveLinear ValveFl(
     redeclare package Medium =
         TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C,
@@ -506,8 +506,8 @@ model TEDSloop_allmodes_test_3WV_exp2023TTAdjTime3FV2_Adj2
         (Chiller_Mass_flow_T66.port_b.h_outflow - Glycol_HX.port_b_shell.h_outflow))
     annotation (Placement(transformation(extent={{72,-250},{94,-228}})));
   TRANSFORM.Fluid.Sensors.TemperatureTwoPort TC_005(redeclare package Medium =
-        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision
-      =3) annotation (Placement(transformation(
+        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
+       3) annotation (Placement(transformation(
         extent={{-10,12},{10,-12}},
         rotation=270,
         origin={56,-160})));
