@@ -1,5 +1,9 @@
 within NHES.Systems.Examples.Nominal_Reactor.HTGR_BOP;
+<<<<<<<< HEAD:Models/NHES/Systems/Examples/Nominal_Reactor/HTGR_BOP/HTGR_BOP_L3_OFWH_extraction.mo
 model HTGR_BOP_L3_OFWH_extraction
+========
+model HTGR_BOP_L3_Transient_OFWHextraction
+>>>>>>>> 04272bfc5298da49192356e976152eb83d4d9cd3:Models/NHES/Systems/Examples/Nominal_Reactor/HTGR_BOP/HTGR_BOP_L3_Transient_OFWHextraction.mo
   extends Modelica.Icons.Example;
   parameter Real P_ext=138;
   parameter Real P_demand=1;
@@ -211,4 +215,8 @@ equation
             tolerance=0.0001,
             fixedStepSize=0)))),
     __Dymola_experimentSetupOutput(events=false));
+<<<<<<<< HEAD:Models/NHES/Systems/Examples/Nominal_Reactor/HTGR_BOP/HTGR_BOP_L3_OFWH_extraction.mo
 end HTGR_BOP_L3_OFWH_extraction;
+========
+end HTGR_BOP_L3_Transient_OFWHextraction;
+>>>>>>>> 04272bfc5298da49192356e976152eb83d4d9cd3:Models/NHES/Systems/Examples/Nominal_Reactor/HTGR_BOP/HTGR_BOP_L3_Transient_OFWHextraction.mo
