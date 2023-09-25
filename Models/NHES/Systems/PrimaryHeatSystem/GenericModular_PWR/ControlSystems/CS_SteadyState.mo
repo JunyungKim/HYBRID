@@ -1,9 +1,7 @@
-within NHES.Systems.PrimaryHeatSystem.GenericModular_PWR;
-model CS_LoadFollow
+within NHES.Systems.PrimaryHeatSystem.GenericModular_PWR.ControlSystems;
+model CS_SteadyState
 
   extends BaseClasses.Partial_ControlSystem;
-
-  input SI.Power Q_total_setpoint "Setpoint reactor power" annotation(Dialog(group="Inputs"));
 
   TRANSFORM.Controls.LimPID PID_Q(
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
@@ -13,7 +11,7 @@ model CS_LoadFollow
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
   Data.Data_GenericModule data
     annotation (Placement(transformation(extent={{-10,-88},{10,-68}})));
-  Modelica.Blocks.Sources.RealExpression realExpression(y=Q_total_setpoint)
+  Modelica.Blocks.Sources.RealExpression realExpression(y=data.Q_total)
     annotation (Placement(transformation(extent={{-50,-10},{-30,10}})));
   TRANSFORM.Controls.LimPID PID_steam(
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
@@ -59,4 +57,4 @@ annotation(defaultComponentName="PHS_CS", Icon(graphics={
           fillColor={255,255,237},
           fillPattern=FillPattern.Solid,
           textString="Change Me")}));
-end CS_LoadFollow;
+end CS_SteadyState;

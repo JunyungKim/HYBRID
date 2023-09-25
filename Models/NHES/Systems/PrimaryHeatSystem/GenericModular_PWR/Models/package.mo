@@ -1,4 +1,4 @@
 within NHES.Systems.PrimaryHeatSystem.GenericModular_PWR;
-package Components
+package Models
 
-end Components;
+end Models;

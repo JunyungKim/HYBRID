@@ -1,7 +1,7 @@
-within NHES.Systems.PrimaryHeatSystem.SFR;
-model CS_Dummy
+within NHES.Systems.PrimaryHeatSystem.SFR.ControlSystems;
+model ED_Dummy
 
-  extends BaseClasses.Partial_ControlSystem;
+  extends BaseClasses.Partial_EventDriver;
 
 equation
 
@@ -13,4 +13,4 @@ annotation(defaultComponentName="changeMe_CS", Icon(graphics={
           fillColor={255,255,237},
           fillPattern=FillPattern.Solid,
           textString="Change Me")}));
-end CS_Dummy;
+end ED_Dummy;

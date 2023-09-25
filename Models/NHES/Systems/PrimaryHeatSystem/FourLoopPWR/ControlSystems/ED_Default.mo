@@ -1,16 +1,16 @@
-within NHES.Systems.PrimaryHeatSystem.SFR;
-model ED_Dummy
+within NHES.Systems.PrimaryHeatSystem.FourLoopPWR.ControlSystems;
+model ED_Default
 
   extends BaseClasses.Partial_EventDriver;
 
 equation
 
-annotation(defaultComponentName="changeMe_CS", Icon(graphics={
+annotation(defaultComponentName="PHS_CS", Icon(graphics={
         Text(
           extent={{-94,82},{94,74}},
           lineColor={0,0,0},
           lineThickness=1,
           fillColor={255,255,237},
           fillPattern=FillPattern.Solid,
-          textString="Change Me")}));
-end ED_Dummy;
+          textString="ED: Basic/Default")}));
+end ED_Default;

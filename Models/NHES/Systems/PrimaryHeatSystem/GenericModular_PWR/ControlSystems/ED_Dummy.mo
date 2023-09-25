@@ -1,5 +1,5 @@
-within NHES.Systems.PrimaryHeatSystem.FourLoopPWR;
-model ED_Default
+within NHES.Systems.PrimaryHeatSystem.GenericModular_PWR.ControlSystems;
+model ED_Dummy
 
   extends BaseClasses.Partial_EventDriver;
 
@@ -12,5 +12,5 @@ annotation(defaultComponentName="PHS_CS", Icon(graphics={
           lineThickness=1,
           fillColor={255,255,237},
           fillPattern=FillPattern.Solid,
-          textString="ED: Basic/Default")}));
-end ED_Default;
+          textString="Change Me")}));
+end ED_Dummy;

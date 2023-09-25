@@ -1,5 +1,5 @@
-within NHES.Systems.PrimaryHeatSystem.HTGR.RankineCycle.Examples;
-model Rankine_HTGR_ThreeStageTurbine_CFWHextraction
+within NHES.Systems.Examples.Nominal_Reactor.HTGR_BOP;
+model HTGR_BOP_L3_CFWH_extraction
   extends Modelica.Icons.Example;
   parameter Real P_ext=138;
   parameter Real P_demand=1;
@@ -10,8 +10,8 @@ model Rankine_HTGR_ThreeStageTurbine_CFWHextraction
 
   Real eta_th "Thermal Cycle Efficiency";
 
-  Models.PebbleBed_PrimaryLoop_STHX
-    hTGR_PebbleBed_Primary_Loop(redeclare
+  PrimaryHeatSystem.HTGR.RankineCycle.Models.PebbleBed_PrimaryLoop_STHX hTGR_PebbleBed_Primary_Loop(
+      redeclare
       NHES.Systems.PrimaryHeatSystem.HTGR.RankineCycle.ControlSystems.CS_Rankine_Primary_SS_RX
       CS) annotation (Placement(transformation(extent={{-100,-20},{-40,40}})));
   NHES.Fluid.Sensors.stateSensor stateSensor1(redeclare package Medium =
@@ -105,8 +105,8 @@ model Rankine_HTGR_ThreeStageTurbine_CFWHextraction
     h=192e3,
     nPorts=1)
     annotation (Placement(transformation(extent={{180,-12},{160,8}})));
-  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium =
-        Modelica.Media.Water.StandardWater) annotation (Placement(
+  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium
+      = Modelica.Media.Water.StandardWater) annotation (Placement(
         transformation(
         extent={{10,10},{-10,-10}},
         rotation=90,
@@ -216,4 +216,4 @@ equation
             tolerance=0.0001,
             fixedStepSize=0)))),
     __Dymola_experimentSetupOutput(events=false));
-end Rankine_HTGR_ThreeStageTurbine_CFWHextraction;
+end HTGR_BOP_L3_CFWH_extraction;

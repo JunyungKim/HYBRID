@@ -1,4 +1,4 @@
-within NHES.Systems.PrimaryHeatSystem.GenericModular_PWR;
+within NHES.Systems.PrimaryHeatSystem.GenericModular_PWR.ControlSystems;
 model CS_Dummy
 
   extends BaseClasses.Partial_ControlSystem;

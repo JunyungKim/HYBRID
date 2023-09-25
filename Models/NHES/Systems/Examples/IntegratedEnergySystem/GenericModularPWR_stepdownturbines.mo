@@ -4,7 +4,7 @@ model GenericModularPWR_stepdownturbines
 //  parameter Real fracNominal_BOP = abs(EM.port_b2_nominal.m_flow)/EM.port_a1_nominal.m_flow;
 //  parameter Real fracNominal_Other = sum(abs(EM.port_b3_nominal_m_flow))/EM.port_a1_nominal.m_flow;
 
-  PrimaryHeatSystem.GenericModular_PWR.GenericModule PHS[3]
+  PrimaryHeatSystem.GenericModular_PWR.Models.GenericModule PHS[3]
     annotation (Placement(transformation(extent={{-198,82},{-142,138}})));
      SupervisoryControl.InputSetpointData SC(
                                 W_nominal_IP(displayUnit="MW") = 53303300,

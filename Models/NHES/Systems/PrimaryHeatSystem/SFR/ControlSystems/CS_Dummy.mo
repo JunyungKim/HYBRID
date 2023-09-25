@@ -1,11 +1,11 @@
-within NHES.Systems.PrimaryHeatSystem.GenericModular_PWR;
-model ED_Dummy
+within NHES.Systems.PrimaryHeatSystem.SFR.ControlSystems;
+model CS_Dummy
 
-  extends BaseClasses.Partial_EventDriver;
+  extends BaseClasses.Partial_ControlSystem;
 
 equation
 
-annotation(defaultComponentName="PHS_CS", Icon(graphics={
+annotation(defaultComponentName="changeMe_CS", Icon(graphics={
         Text(
           extent={{-94,82},{94,74}},
           lineColor={0,0,0},
@@ -13,4 +13,4 @@ annotation(defaultComponentName="PHS_CS", Icon(graphics={
           fillColor={255,255,237},
           fillPattern=FillPattern.Solid,
           textString="Change Me")}));
-end ED_Dummy;
+end CS_Dummy;

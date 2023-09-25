@@ -4,7 +4,7 @@ model SteamTurbine_L3_HPCFWH_HTGR
   extends
     NHES.Systems.BalanceOfPlant.RankineCycle.BaseClasses.Partial_SubSystem(
     redeclare replaceable
-      NHES.Systems.BalanceOfPlant.RankineCycle.ControlSystems.CS_L3 CS,
+      ControlSystems.CS_L3_HTGR_extraction_logan                    CS,
     redeclare replaceable
       NHES.Systems.BalanceOfPlant.RankineCycle.ControlSystems.ED_Dummy ED,
     redeclare replaceable Data.Data_L3_CFWH data);

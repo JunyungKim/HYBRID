@@ -1,4 +1,4 @@
-within NHES.Systems.PrimaryHeatSystem.FourLoopPWR;
+within NHES.Systems.PrimaryHeatSystem.FourLoopPWR.ControlSystems;
 model CS_LoadFollow "Core: Tavg | Boiler Level: dT_avg"
 
   extends BaseClasses.Partial_ControlSystem;

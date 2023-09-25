@@ -1,4 +1,4 @@
-within NHES.Systems.PrimaryHeatSystem.SFR;
+within NHES.Systems.PrimaryHeatSystem.SFR.ControlSystems;
 model CS_01
 
   extends BaseClasses.Partial_ControlSystem;

@@ -1,4 +1,4 @@
-within NHES.Systems.PrimaryHeatSystem.FourLoopPWR;
+within NHES.Systems.PrimaryHeatSystem.FourLoopPWR.ControlSystems;
 model CS_Default
 
   extends BaseClasses.Partial_ControlSystem;

@@ -1,4 +1,3 @@
 within NHES.Systems.PrimaryHeatSystem.FourLoopPWR;
-package Components
-
-end Components;
+package SupportComponent
+end SupportComponent;

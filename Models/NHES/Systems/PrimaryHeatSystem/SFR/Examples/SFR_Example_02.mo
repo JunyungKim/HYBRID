@@ -17,7 +17,7 @@ model SFR_Example_02
     nPorts=1) annotation (Placement(transformation(extent={{86,24},{66,44}})));
   Modelica.Blocks.Sources.Constant const(k=270 + 273.15)
     annotation (Placement(transformation(extent={{126,-4},{106,16}})));
-  Components.SFR_02_NTUHX sFR_02_NTUHX(redeclare package Medium_IHX_Loop =
+  Models.SFR_02_NTUHX sFR_02_NTUHX(redeclare package Medium_IHX_Loop =
         IL_Medium)
     annotation (Placement(transformation(extent={{-108,-22},{-30,56}})));
   TRANSFORM.Fluid.Sensors.TemperatureTwoPort sensor_T(redeclare package Medium = IL_Medium)

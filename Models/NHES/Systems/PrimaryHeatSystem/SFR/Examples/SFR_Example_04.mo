@@ -3,10 +3,10 @@ model SFR_Example_04
   package Coolant = TRANSFORM.Media.Fluids.Sodium.LinearSodium_pT;
   package IL_Medium = NHES.Media.SolarSalt.ConstantPropertyLiquidSolarSalt;
 
-  Components.SFR_Intermediate_Loop sFR_Intermediate_Loop(redeclare package
+  Models.SFR_Intermediate_Loop sFR_Intermediate_Loop(redeclare package
       Medium_IHX_Loop = IL_Medium)
     annotation (Placement(transformation(extent={{-22,-26},{66,44}})));
-  Components.SFR_02_NTUHX sFR_02_NTUHX(redeclare package Medium_IHX_Loop =
+  Models.SFR_02_NTUHX sFR_02_NTUHX(redeclare package Medium_IHX_Loop =
         IL_Medium)
     annotation (Placement(transformation(extent={{-122,-26},{-38,44}})));
   BalanceOfPlant.RankineCycle.SFR_Power_Conversion sFR_Power_Conversion_02_1
