@@ -148,95 +148,103 @@ package HeatTransport
         S_T_a_start=523.15,
         S_T_b_start=523.15,
         Supply(p_a_start=4200000, p_b_start=4200000))
-        annotation (Placement(transformation(extent={{-42,-16},{38,64}})));
+        annotation (Placement(transformation(extent={{-22,-38},{40,30}})));
       TRANSFORM.Fluid.BoundaryConditions.MassFlowSource_T Source(
         redeclare package Medium = Modelica.Media.Water.StandardWater,
         use_T_in=true,
         m_flow=41.659,
         T=585.75,
         nPorts=3)
-        annotation (Placement(transformation(extent={{-166,14},{-146,34}})));
+        annotation (Placement(transformation(extent={{-100,-14},{-80,6}})));
       TRANSFORM.Fluid.BoundaryConditions.Boundary_ph Sink(
         redeclare package Medium = Modelica.Media.Water.StandardWater,
         p=4200000,
         nPorts=2)
-        annotation (Placement(transformation(extent={{102,14},{82,34}})));
+        annotation (Placement(transformation(extent={{104,-14},{84,6}})));
       parameter Modelica.Media.Interfaces.Types.Temperature T=573.15
         "Fixed value of temperature";
       TRANSFORM.Fluid.Sensors.Temperature sensor_T(redeclare package Medium =
             Modelica.Media.Water.StandardWater)
-        annotation (Placement(transformation(extent={{42,24},{62,44}})));
+        annotation (Placement(transformation(extent={{42,2},{62,22}})));
       Controls.LimOffsetPID PID(
         k=0.01,
         yMax=605,
         yMin=0,
         offset=583,
         init_output=583)
-        annotation (Placement(transformation(extent={{10,98},{-10,118}})));
+        annotation (Placement(transformation(extent={{14,58},{0,72}})));
       Modelica.Blocks.Sources.RealExpression realExpression(y=300 + 273.15)
-        annotation (Placement(transformation(extent={{62,96},{42,116}})));
+        annotation (Placement(transformation(extent={{50,54},{30,76}})));
       TRANSFORM.Fluid.Sensors.Temperature sensor_T1(redeclare package Medium =
             Modelica.Media.Water.StandardWater)
-        annotation (Placement(transformation(extent={{-126,42},{-106,62}})));
+        annotation (Placement(transformation(extent={{-7.5,-6.5},{7.5,6.5}},
+            rotation=90,
+            origin={-57.5,10.5})));
       TRANSFORM.Fluid.Sensors.SpecificEnthalpy sensor_h(redeclare package
           Medium = Modelica.Media.Water.StandardWater)
-        annotation (Placement(transformation(extent={{-144,44},{-124,64}})));
+        annotation (Placement(transformation(extent={{-8,-7},{8,7}},
+            rotation=90,
+            origin={-75,10})));
       TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package
           Medium = Modelica.Media.Water.StandardWater)
-        annotation (Placement(transformation(extent={{-78,14},{-58,34}})));
+        annotation (Placement(transformation(extent={{-52,-12},{-36,4}})));
       TRANSFORM.Fluid.Sensors.SpecificEnthalpy sensor_h1(redeclare package
           Medium = Modelica.Media.Water.StandardWater)
-        annotation (Placement(transformation(extent={{66,30},{86,50}})));
+        annotation (Placement(transformation(extent={{66,2},{86,22}})));
       Modelica.Blocks.Math.Add add(k1=1e-6, k2=-1e-6)
-        annotation (Placement(transformation(extent={{-60,134},{-40,154}})));
+        annotation (Placement(transformation(extent={{-70,90},{-56,76}})));
       Modelica.Blocks.Math.Product product1
-        annotation (Placement(transformation(extent={{-2,130},{18,150}})));
+        annotation (Placement(transformation(extent={{0,76},{14,90}})));
       TRANSFORM.Blocks.RealExpression realExpression1
-        annotation (Placement(transformation(extent={{42,128},{62,148}})));
+        annotation (Placement(transformation(extent={{30,74},{50,92}})));
       TRANSFORM.Fluid.Sensors.RelativePressure relativePressure(
         redeclare package Medium = Modelica.Media.Water.StandardWater,
         precision=2,
         redeclare function iconUnit =
             TRANSFORM.Units.Conversions.Functions.Pressure_Pa.to_bar)
-        annotation (Placement(transformation(extent={{-42,-58},{4,-36}})));
+        annotation (Placement(transformation(extent={{-2,-82},{20,-64}})));
     equation
       connect(oneWayTransport.port_b_supply, Sink.ports[1])
-        annotation (Line(points={{38,24},{60,24},{60,23},{82,23}},
+        annotation (Line(points={{40,-4},{84,-4},{84,-5}},
                                                    color={0,127,255}));
       connect(oneWayTransport.port_b_supply, sensor_T.port)
-        annotation (Line(points={{38,24},{52,24}}, color={0,127,255}));
-      connect(PID.u_m, sensor_T.T) annotation (Line(points={{0,96},{0,76},{68,
-              76},{68,34},{58,34}}, color={0,0,127}));
-      connect(realExpression.y, PID.u_s) annotation (Line(points={{41,106},{20,
-              106},{20,108},{12,108}}, color={0,0,127}));
-      connect(PID.y, Source.T_in) annotation (Line(points={{-11,108},{-154,108},
-              {-154,38},{-176,38},{-176,28},{-168,28}}, color={0,0,127}));
-      connect(Source.ports[1], sensor_T1.port) annotation (Line(points={{-146,
-              23.6667},{-116,23.6667},{-116,42}}, color={0,127,255}));
-      connect(Source.ports[2], sensor_h.port) annotation (Line(points={{-146,24},
-              {-134,24},{-134,44}}, color={0,127,255}));
-      connect(Source.ports[3], sensor_m_flow.port_a) annotation (Line(points={{-146,
-              24.3333},{-84,24.3333},{-84,24},{-78,24}},      color={0,127,255}));
+        annotation (Line(points={{40,-4},{52,-4},{52,2}},
+                                                   color={0,127,255}));
+      connect(PID.u_m, sensor_T.T) annotation (Line(points={{7,56.6},{7,40},{62,
+              40},{62,12},{58,12}}, color={0,0,127}));
+      connect(realExpression.y, PID.u_s) annotation (Line(points={{29,65},{15.4,
+              65}},                    color={0,0,127}));
+      connect(PID.y, Source.T_in) annotation (Line(points={{-0.7,65},{-108,65},
+              {-108,0},{-102,0}},                       color={0,0,127}));
+      connect(Source.ports[1], sensor_T1.port) annotation (Line(points={{-80,
+              -4.33333},{-68,-4.33333},{-68,-4},{-52,-4},{-52,10.5},{-51,10.5}},
+                                                  color={0,127,255}));
+      connect(Source.ports[2], sensor_h.port) annotation (Line(points={{-80,-4},
+              {-68,-4},{-68,10}},   color={0,127,255}));
+      connect(Source.ports[3], sensor_m_flow.port_a) annotation (Line(points={{-80,
+              -3.66667},{-68,-3.66667},{-68,-4},{-52,-4}},    color={0,127,255}));
       connect(sensor_m_flow.port_b, oneWayTransport.port_a_supply)
-        annotation (Line(points={{-58,24},{-42,24}}, color={0,127,255}));
+        annotation (Line(points={{-36,-4},{-22,-4}}, color={0,127,255}));
       connect(oneWayTransport.port_b_supply, sensor_h1.port) annotation (Line(
-            points={{38,24},{56,24},{56,30},{76,30}}, color={0,127,255}));
-      connect(sensor_h.h_out, add.u1) annotation (Line(points={{-128,54},{-128,
-              150},{-62,150}}, color={0,0,127}));
-      connect(add.u2, sensor_h1.h_out) annotation (Line(points={{-62,138},{-62,
-              122},{92,122},{92,40},{82,40}}, color={0,0,127}));
-      connect(add.y, product1.u1) annotation (Line(points={{-39,144},{-39,146},
-              {-4,146}}, color={0,0,127}));
-      connect(sensor_m_flow.m_flow, product1.u2) annotation (Line(points={{-68,
-              27.6},{-68,126},{-4,126},{-4,134}}, color={0,0,127}));
+            points={{40,-4},{76,-4},{76,2}},          color={0,127,255}));
+      connect(sensor_h.h_out, add.u1) annotation (Line(points={{-75,14.8},{-75,
+              78.8},{-71.4,78.8}},
+                               color={0,0,127}));
+      connect(add.u2, sensor_h1.h_out) annotation (Line(points={{-71.4,87.2},{
+              -72,87.2},{-72,88},{-74,88},{-74,98},{94,98},{94,12},{82,12}},
+                                              color={0,0,127}));
+      connect(add.y, product1.u1) annotation (Line(points={{-55.3,83},{-55.3,
+              87.2},{-1.4,87.2}},
+                         color={0,0,127}));
+      connect(sensor_m_flow.m_flow, product1.u2) annotation (Line(points={{-44,
+              -1.12},{-44,78.8},{-1.4,78.8}},     color={0,0,127}));
       connect(realExpression1.u, product1.y)
-        annotation (Line(points={{40,138},{30,138},{30,140},{19,140}},
-                                                     color={0,0,127}));
+        annotation (Line(points={{28,83},{14.7,83}}, color={0,0,127}));
       connect(oneWayTransport.port_a_supply, relativePressure.port_a)
-        annotation (Line(points={{-42,24},{-50,24},{-50,-47},{-42,-47}}, color=
+        annotation (Line(points={{-22,-4},{-30,-4},{-30,-73},{-2,-73}},  color=
               {0,127,255}));
-      connect(Sink.ports[2], relativePressure.port_b) annotation (Line(points={
-              {82,25},{66,25},{66,-47},{4,-47}}, color={0,127,255}));
+      connect(Sink.ports[2], relativePressure.port_b) annotation (Line(points={{84,-3},
+              {84,-4},{68,-4},{68,-73},{20,-73}},color={0,127,255}));
       annotation (experiment(
           StopTime=1000,
           Interval=10,
