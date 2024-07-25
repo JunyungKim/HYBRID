@@ -173,18 +173,18 @@ model TEDSloop_full_heatsink
         (CF=5))
     annotation (Placement(transformation(extent={{57,-72},{88,-42}})));
 
-  TRANSFORM.Fluid.Sensors.TemperatureTwoPort sensor_T(redeclare package Medium
-      = TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
+  TRANSFORM.Fluid.Sensors.TemperatureTwoPort sensor_T(redeclare package Medium =
+        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
        3)
     annotation (Placement(transformation(extent={{-78,36},{-54,58}})));
-  TRANSFORM.Fluid.Sensors.TemperatureTwoPort sensor_T1(redeclare package Medium
-      = TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
+  TRANSFORM.Fluid.Sensors.TemperatureTwoPort sensor_T1(redeclare package Medium =
+        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C, precision=
        3)
     annotation (Placement(transformation(extent={{-20,38},{4,62}})));
   Modelica.Blocks.Math.Feedback feedback
     annotation (Placement(transformation(extent={{-54,86},{-74,106}})));
-  TRANSFORM.Fluid.Sensors.TemperatureTwoPort sensor_T2(redeclare package Medium
-      = TRANSFORM.Media.Fluids.Ethylene_Glycol_50_Water.Linear_Ethylene_Glycol,
+  TRANSFORM.Fluid.Sensors.TemperatureTwoPort sensor_T2(redeclare package Medium =
+        TRANSFORM.Media.Fluids.Ethylene_Glycol_50_Water.Linear_Ethylene_Glycol,
       precision=3)
     annotation (Placement(transformation(extent={{102,-92},{126,-72}})));
   TRANSFORM.HeatAndMassTransfer.BoundaryConditions.Heat.HeatFlow_multi

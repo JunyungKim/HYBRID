@@ -28,8 +28,8 @@ model TEDSloop
       Medium =
         TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C)
     annotation (Placement(transformation(extent={{-36,-14},{-16,-34}})));
-  Modelica.Fluid.Sensors.Temperature temperature_exit(redeclare package Medium
-      = TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C)
+  Modelica.Fluid.Sensors.Temperature temperature_exit(redeclare package Medium =
+        TRANSFORM.Media.Fluids.Therminol_66.LinearTherminol66_A_250C)
     annotation (Placement(transformation(extent={{10,-14},{30,-34}})));
   Modelica.Fluid.Sources.Boundary_pT boundary1(
     redeclare package Medium =

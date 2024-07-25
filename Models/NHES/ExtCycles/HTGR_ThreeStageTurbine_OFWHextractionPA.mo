@@ -141,8 +141,8 @@ model HTGR_ThreeStageTurbine_OFWHextractionPA
     h=192e3,
     nPorts=1)
     annotation (Placement(transformation(extent={{178,-12},{158,8}})));
-  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium
-      = Modelica.Media.Water.StandardWater) annotation (Placement(
+  TRANSFORM.Fluid.Sensors.MassFlowRate sensor_m_flow(redeclare package Medium =
+        Modelica.Media.Water.StandardWater) annotation (Placement(
         transformation(
         extent={{10,10},{-10,-10}},
         rotation=90,

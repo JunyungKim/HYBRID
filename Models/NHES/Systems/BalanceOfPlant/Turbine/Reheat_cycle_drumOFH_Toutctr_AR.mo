@@ -304,7 +304,6 @@ replaceable package Medium = Modelica.Media.Water.StandardWater annotation (__Dy
     annotation (Placement(transformation(extent={{-92,-106},{-72,-86}})));
   TRANSFORM.Fluid.Valves.ValveLinear valveLinear(
     redeclare package Medium = Media.SolarSalt.ConstantPropertyLiquidSolarSalt,
-
     dp_nominal=50000,
     m_flow_nominal=70)
     annotation (Placement(transformation(extent={{10,-10},{-10,10}},
